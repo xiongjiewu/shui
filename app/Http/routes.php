@@ -12,4 +12,7 @@
 */
 
 Route::get('/', ['uses' => 'HomeController@home']);
-Route::get('/login', ['uses' => 'LoginController@login']);
+Route::any('/login', ['uses' => 'LoginController@login']);
+Route::any('/register', ['uses' => 'RegisterController@register']);
+Route::any('/activeDetail', ['uses' => 'ActivityController@activeDetail']);
+Route::any('/activeList', ['uses' => 'ActivityController@activeList']);
