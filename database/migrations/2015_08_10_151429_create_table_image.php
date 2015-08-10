@@ -16,6 +16,7 @@ class CreateTableImage extends Migration
             $table->integer('user_id')->comment('用户自增ID');
             $table->string('image_url')->default('')->comment('图片路径');
             $table->tinyInteger('type')->default(1)->comment('1-头像2-营业执照3-店铺招牌');
+            $table->index(['user_id'],'user_index');
         });
     }
 

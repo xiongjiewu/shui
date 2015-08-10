@@ -14,7 +14,7 @@ class CreateTableUserThirdParty extends Migration
     {
         Schema::create('user_third_party', function ($table) {
             $table->integer('user_id')->comment('用户自增ID');
-            $table->string('user_other_id')->default('')->comment('第三方登入id');
+            $table->string('user_other_id')->unique()->default('')->comment('第三方登入id');
             $table->tinyInteger('type')->default(1)->comment('1-微博2-微信');
         });
     }
