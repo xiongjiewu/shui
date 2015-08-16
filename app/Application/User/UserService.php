@@ -44,7 +44,7 @@ class UserService
         } else {
             $user['user_head'] = UserImage::defaultImage();
         }
-        return $this->outputFormat(true, 'success', $user);
+        return $this->outputFormat(true, 'success', $this->formatUser($user));
     }
 
     /**
@@ -95,7 +95,7 @@ class UserService
                 $image_url = $user_image->url();
             }
             $user['user_head'] = $image_url;
-            return $this->outputFormat(true, 'success', $user);
+            return $this->outputFormat(true, 'success', $this->formatUser($user));
         }
         return $this->outputFormat(false, '注册失败，请重新尝试', []);
     }
@@ -144,6 +144,20 @@ class UserService
     public function encryptPassword($password)
     {
         return base64_encode(md5($password));
+    }
+
+    /**
+     * @param $user
+     * @return mixed
+     */
+    private function formatUser($user)
+    {
+        unset($user['password']);
+        unset($user['created_at']);
+        unset($user['updated_at']);
+        unset($user['type']);
+        unset($user['status']);
+        return $user;
     }
 
 }
