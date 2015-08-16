@@ -40,7 +40,7 @@ class UserService
         }
 
         $image = UserImage::where('user_id', $info->user_id)
-            ->scopeHead()
+            ->head()
             ->first();
         $user = $info->toArray();
         if ($image) {
