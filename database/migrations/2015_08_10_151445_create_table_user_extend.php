@@ -20,7 +20,8 @@ class CreateTableUserExtend extends Migration
             $table->string('user_http')->default('')->comment('用户公司网站');
             $table->string('user_company_lat')->default('')->comment('公司经度');
             $table->string('user_company_lng')->default('')->comment('公司纬度');
-            $table->index(['user_id'],'user_index');
+            $table->index(['user_id'], 'user_index');
+            $table->timestamps();
         });
     }
 

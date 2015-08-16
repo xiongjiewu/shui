@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-use App\Application\UserService;
+use App\Application\User\UserService;
 use App\Model\UserBase;
 use App\Model\UserImage;
 use Input;
@@ -47,7 +47,7 @@ class RegisterController extends Controller
             ];
         }
 
-        if ($verify) {
+        if (!$this->checkVerify($verify)) {
             return [
                 'status' => 'error',
                 'message' => '验证码不正确',
@@ -73,5 +73,10 @@ class RegisterController extends Controller
             'message' => $register['msg'],
             'userInfo' => [],
         ];
+    }
+
+    private function checkVerify($verify)
+    {
+        return true;
     }
 }

@@ -1,4 +1,4 @@
-<?php namespace App\Application;
+<?php namespace App\Application\User;
 
 use App\Model\UserBase;
 use App\Model\UserImage;

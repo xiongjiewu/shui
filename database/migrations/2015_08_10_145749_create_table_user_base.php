@@ -19,6 +19,7 @@ class CreateTableUserBase extends Migration
             $table->string('user_name')->default('')->comment('用户名或者商户名');
             $table->tinyInteger('type')->default(1)->comment('1-用户2-商户');
             $table->tinyInteger('status')->default(1)->comment('1-正常2-关闭');
+            $table->timestamps();
         });
     }
 

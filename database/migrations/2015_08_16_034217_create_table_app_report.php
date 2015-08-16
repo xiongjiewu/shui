@@ -17,6 +17,7 @@ class CreateTableAppReport extends Migration
             $table->integer('user_id')->comment('用户ID');
             $table->string('report')->default('')->comment('反馈');
             $table->tinyInteger('type')->default('1')->comment('1-用户反馈 2-商户反馈');
+            $table->timestamps();
         });
     }
 

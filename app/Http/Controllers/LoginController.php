@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-use App\Application\UserService;
+use App\Application\User\UserService;
 use Input;
 
 class LoginController extends Controller
