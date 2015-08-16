@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Application\UserService;
 use Input;
 
 class LoginController extends Controller
@@ -18,7 +19,7 @@ class LoginController extends Controller
                 [
                     'code' => 0,
                     'message' => '登录成功！',
-                    'userInfo' => $check['user_info'],
+                    'userInfo' => $check['userInfo'],
                 ]
             );
         }
@@ -27,11 +28,17 @@ class LoginController extends Controller
 
     private function check($cellphone, $password)
     {
-        return [
-            'status' => 'ok',
-            'user_info' => [
-
-            ],
-        ];
+        $check = (new UserService())->login($cellphone, $password);
+        if ($check['status']) {
+            return [
+                'status' => 'ok',
+                'userInfo' => $check['info'],
+            ];
+        } else {
+            return [
+                'status' => 'error',
+                'message' => $check['msg'],
+            ];
+        }
     }
 }
