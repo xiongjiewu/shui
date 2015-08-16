@@ -11,33 +11,28 @@ class UserService
 
     }
 
+    /**
+     * 登录接口
+     * @param $cellphone
+     * @param $password
+     * @return array
+     */
     public function login($cellphone, $password)
     {
         if (!$cellphone) {
-            return [
-                'status' => false,
-                'msg' => '手机号码不能为空',
-                'info' => [],
-            ];
+            return $this->outputFormat(false, '手机号码不能为空');
         }
 
         if (!$password) {
-            return [
-                'status' => false,
-                'msg' => '密码不能为空',
-                'info' => [],
-            ];
+            return $this->outputFormat(false, '密码不能为空');
         }
-        $password = base64_encode(md5($password));
+        $password = $this->encryptPassword($password);
         $info = UserBase::where('user_cellphone', $cellphone)
             ->where('password', $password)
+            ->isOpen()
             ->first();
         if (!$info) {
-            return [
-                'status' => false,
-                'msg' => '手机号码或者密码错误',
-                'info' => [],
-            ];
+            return $this->outputFormat(false, '手机号码或者密码错误');
         }
 
         $image = UserImage::where('user_id', $info->user_id)
@@ -47,12 +42,77 @@ class UserService
         if ($image) {
             $user['user_head'] = $image->url();
         } else {
-            $user['user_head'] = '';
+            $user['user_head'] = UserImage::defaultImage();
         }
+        return $this->outputFormat(true, 'success', $user);
+    }
+
+    /**
+     * 注册接口
+     * @param $user_cellphone
+     * @param $password
+     * @param $type
+     * @param array $image 图片数组，['url' => '','type' => '']
+     * @param null $user_name
+     * @param int $status
+     * @return array
+     */
+    public function register($user_cellphone, $password, $type, $image = [], $user_name = null, $status = 1)
+    {
+        if (!$user_cellphone) {
+            return $this->outputFormat(false, '手机号码不能为空', []);
+        }
+
+        if (!$password) {
+            return $this->outputFormat(false, '密码不能为空', []);
+        }
+
+        if (!$type) {
+            return $this->outputFormat(false, '注册的用户类型不能为空', []);
+        }
+
+        $user = UserBase::where('user_cellphone', $user_cellphone)
+            ->first();
+        if ($user) {
+            return $this->outputFormat(false, '用户已存在', []);
+        }
+
+        $user_base = new UserBase();
+        $user_base->user_cellphone = $user_cellphone;
+        $user_base->password = $this->encryptPassword($password);
+        $user_base->user_name = $user_name ?: '';
+        $user_base->type = $type;
+        $user_base->status = $status;
+        if ($user_base->save()) {
+            $user = $user_base->toArray();
+            $image_url = UserImage::defaultImage();
+            if (!empty($image['url']) && !empty($image['type'])) {
+                $user_image = new UserImage();
+                $user_image->user_id = $user_base->user_id;
+                $user_image->image_url = $image['url'];
+                $user_image->type = $image['type'];
+                $user_image->save();
+                $image_url = $user_image->url();
+            }
+            $user['user_head'] = $image_url;
+            return $this->outputFormat(true, 'success', $user);
+        }
+        return $this->outputFormat(false, '注册失败，请重新尝试', []);
+    }
+
+    /**
+     * 格式化输出
+     * @param $status
+     * @param $msg
+     * @param array $info
+     * @return array
+     */
+    private function outputFormat($status, $msg, $info = [])
+    {
         return [
-            'status' => true,
-            'msg' => 'success',
-            'info' => $user,
+            'status' => $status,
+            'msg' => $msg,
+            'info' => $info,
         ];
     }
 
@@ -75,4 +135,15 @@ class UserService
             'info' => [],
         ];
     }
+
+    /**
+     * 加密密码
+     * @param $password
+     * @return string
+     */
+    public function encryptPassword($password)
+    {
+        return base64_encode(md5($password));
+    }
+
 }

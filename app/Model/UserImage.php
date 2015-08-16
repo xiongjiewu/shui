@@ -12,9 +12,13 @@ class UserImage extends Model
     const TYPE_BUSINESS = 2;//类型-营业执照
     const TYPE_SHOP = 3;//类型-店铺招牌
 
+    /**
+     * 图片Url
+     * @return string
+     */
     public function url()
     {
-
+        return '';
     }
 
     /**
@@ -45,5 +49,10 @@ class UserImage extends Model
     public function scopeShop($query)
     {
         return $query->where('type', self::TYPE_SHOP);
+    }
+
+    public static function defaultImage()
+    {
+        return '';
     }
 }
