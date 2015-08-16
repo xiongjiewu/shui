@@ -1,11 +1,24 @@
 <?php namespace App\Http\Controllers;
 
 use Input;
-use App\Application\UserService;
+use App\Application\User\UserService;
 use \Response;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        if (Input::has('userID')) {
+            return $this->fail('用户ID不存在!');
+        }
+    }
+
+    /**
+     * 反馈
+     * @params $user_id
+     * @params $report
+     * @return mixed
+     */
     public function report()
     {
         $params = Input::All();
@@ -15,6 +28,41 @@ class UserController extends Controller
                 [
                     'code' => 0,
                     'message' => '反馈成功！',
+                    'userInfo' => [],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
+
+    /**
+     * 设置头像
+     * @params $user_id
+     * @params $user_head
+     * @return mixed
+     */
+    public function newHead()
+    {
+        $user_id = Input::get('userID');
+        if (Input::hasFile('head')) {
+            $head = Input::file('head');
+
+        }
+        $result = (new UserService())->updateUserHead($user_id, $head);
+    }
+
+    /**
+     * 设置新密码
+     */
+    public function newPassword()
+    {
+        $params = Input::All();
+        $check = (new UserService())->setNewPassword($params);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '修改成功！',
                     'userInfo' => [],
                 ]
             );

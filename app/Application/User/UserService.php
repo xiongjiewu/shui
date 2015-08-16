@@ -116,6 +116,11 @@ class UserService
         ];
     }
 
+    /**
+     * 用户反馈
+     * @param $params
+     * @return array
+     */
     public function report($params)
     {
         if (trim($params['report']) == '') {
@@ -126,7 +131,7 @@ class UserService
             ];
         }
         $report = new Report();
-        $report->user_id = $params['user_id'];
+        $report->user_id = $params['userID'];
         $report->report = trim($params['report']);
         $report->save();
         return [
@@ -160,4 +165,38 @@ class UserService
         return $user;
     }
 
+    /**
+     * 上传头像
+     * @param $user_id
+     * @param $head
+     * @return array
+     */
+    public function updateUserHead($user_id, $head)
+    {
+
+    }
+
+    /**
+     * 设置新密码
+     * @param $params
+     * @return array
+     */
+    public function setNewPassword($params)
+    {
+        $result = UserBase::where('user_id', $params['userID'])
+            ->update(['password' => $this->encryptPassword($params['newPassword'])]);
+        if ($result) {
+            return [
+                'status' => true,
+                'msg' => 'success',
+                'info' => [],
+            ];
+        } else {
+            return [
+                'status' => false,
+                'msg' => '修改密码失败!',
+                'info' => [],
+            ];
+        }
+    }
 }

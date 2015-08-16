@@ -18,5 +18,6 @@ Route::any('/activeDetail', ['uses' => 'ActivityController@activeDetail']);
 Route::any('/activeList', ['uses' => 'ActivityController@activeList']);
 
 
-//反馈
-Route::any('/newHead', ['uses' => 'UserController@report']);
+Route::any('/newReport', ['uses' => 'UserController@report']);
+Route::post('/newHead', ['uses' => 'UserController@newHead']);
+Route::post('/newPassword', ['uses' => 'UserController@newPassword']);
