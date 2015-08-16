@@ -2,6 +2,7 @@
 
 use App\Model\UserBase;
 use App\Model\UserImage;
+use App\Model\Report;
 
 class UserService
 {
@@ -52,6 +53,26 @@ class UserService
             'status' => true,
             'msg' => 'success',
             'info' => $user,
+        ];
+    }
+
+    public function report($params)
+    {
+        if (trim($params['report']) == '') {
+            return [
+                'status' => false,
+                'msg' => '反馈内容不能为空!',
+                'info' => [],
+            ];
+        }
+        $report = new Report();
+        $report->user_id = $params['user_id'];
+        $report->report = trim($params['report']);
+        $report->save();
+        return [
+            'status' => true,
+            'msg' => 'success',
+            'info' => [],
         ];
     }
 }
