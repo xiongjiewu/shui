@@ -16,3 +16,7 @@ Route::any('/login', ['uses' => 'LoginController@login']);
 Route::any('/register', ['uses' => 'RegisterController@register']);
 Route::any('/activeDetail', ['uses' => 'ActivityController@activeDetail']);
 Route::any('/activeList', ['uses' => 'ActivityController@activeList']);
+
+
+//反馈
+Route::any('/newHead', ['uses' => 'UserController@report']);
