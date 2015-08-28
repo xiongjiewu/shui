@@ -13,6 +13,7 @@ class CreateTableUserSendWater extends Migration
     public function up()
     {
         Schema::create('user_send_water', function ($table) {
+            $table->increments('id')->comment('自增ID');
             $table->integer('user_id')->default('0')->comment('用户ID');
             $table->integer('water_count')->default('0')->comment('送出的亲水值');
             $table->integer('accept_user_id')->default('0')->comment('接受的用户ID');

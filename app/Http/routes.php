@@ -21,3 +21,5 @@ Route::any('/activeList', ['uses' => 'ActivityController@activeList']);
 Route::any('/newReport', ['uses' => 'UserController@report']);
 Route::post('/newHead', ['uses' => 'UserController@newHead']);
 Route::post('/newPassword', ['uses' => 'UserController@newPassword']);
+Route::post('/bagSend', ['uses' => 'UserController@bagSend']);
+Route::post('/bagSend', ['uses' => 'UserController@bagGet']);

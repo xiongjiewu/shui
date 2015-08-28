@@ -69,4 +69,42 @@ class UserController extends Controller
         }
         return $this->fail($check['message']);
     }
+
+    /**
+     * 亲水包发送
+     */
+    public function bagSend()
+    {
+        $params = Input::All();
+        $check = (new UserService())->bagSend($params);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '发送成功！',
+                    'userInfo' => [],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
+
+    /**
+     * 亲水包领取
+     */
+    public function bagGet()
+    {
+        $params = Input::All();
+        $check = (new UserService())->bagSend($params);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '领取成功！',
+                    'userInfo' => [],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
 }
