@@ -20,6 +20,8 @@ Route::any('/activeList', ['uses' => 'ActivityController@activeList']);
 
 Route::any('/newReport', ['uses' => 'UserController@report']);
 Route::post('/newHead', ['uses' => 'UserController@newHead']);
-Route::post('/newPassword', ['uses' => 'UserController@newPassword']);
-Route::post('/bagSend', ['uses' => 'UserController@bagSend']);
-Route::post('/bagSend', ['uses' => 'UserController@bagGet']);
+Route::any('/newPassword', ['uses' => 'UserController@newPassword']);
+Route::any('/bagSend', ['uses' => 'UserController@bagSend']);
+Route::any('/bagSend', ['uses' => 'UserController@bagGet']);
+Route::any('/bagList', ['uses' => 'UserController@bagList']);
+Route::any('/search', ['uses' => 'UserController@search']);

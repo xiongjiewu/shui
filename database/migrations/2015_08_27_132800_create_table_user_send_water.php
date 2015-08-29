@@ -21,6 +21,8 @@ class CreateTableUserSendWater extends Migration
             $table->tinyInteger('status')->default('0')->comment('0-未领取 1-已领取');
             $table->tinyInteger('is_active')->default('1')->comment('1-有效 0无效');
             $table->timestamps();
+            $table->index(['user_id']);
+            $table->index(['accept_user_id']);
         });
     }
 

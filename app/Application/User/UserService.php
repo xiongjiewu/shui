@@ -243,6 +243,11 @@ class UserService
         ];
     }
 
+    /**
+     * 亲水包领取
+     * @param $params
+     * @return array
+     */
     public function bagGet($params)
     {
         if (!isset($params['bagID'])) {
@@ -287,5 +292,72 @@ class UserService
             'msg' => 'success',
             'info' => [],
         ];
+    }
+
+    /**
+     * 亲水列表
+     * @param $params
+     * @return array
+     */
+    public function bagList($params)
+    {
+        $where['status'] = isset($params['status']) ?: UserSendWater::STATUS_IS_FALSE;
+        $where['accept_user_id'] = $params['userID'];
+        $result = UserSendWater::where($where)->get()->toArray();
+        if (empty($result)) {
+            return [
+                'status' => true,
+                'msg' => 'success',
+                'info' => [],
+            ];
+        }
+        $user_ids = [];
+        foreach ($result as $value) {
+            $user_ids[] = $value['user_id'];
+        }
+        $user_result = UserBase::whereIn('id', $user_ids)->get()->toArray();
+        $user_list = [];
+        foreach ($user_result as $user_result_val) {
+            $user_list[$user_result_val['id']] = $user_result_val['user_name'];
+        }
+        $list = [];
+        foreach ($result as $value) {
+            $list[] = [
+                'bag_id' => $value['id'],
+                'water_num' => $value['water_count'],
+                'from_id' => $value['user_id'],
+                'from_name' => isset($user_list[$value['user_id']]) ? $user_list[$value['user_id']] : '',
+                'create_time' => $value['created_at'],
+                'get_time' => $value['updated_at'],
+                'status' => $value['status'],
+            ];
+        }
+        return [
+            'status' => true,
+            'msg' => 'success',
+            'info' => $list,
+        ];
+    }
+
+    /**
+     * 搜索用户或者店铺
+     * @param $params
+     * @return array
+     */
+    public function search($params)
+    {
+        $result = UserBase::where('user_name', 'like', $params['searchContent'] . '%')
+            ->where('type', (isset($params['type']) ? $params['type'] : UserBase::TYPE_BUSINESS))->get()->toArray();
+        if (empty($result)) {
+            return [];
+        }
+        $list = [];
+        foreach ($result as $value) {
+            $list[] = [
+                'id' => $value['id'],
+                'name' => $value['user_name'],
+            ];
+        }
+        return $list;
     }
 }

@@ -107,4 +107,42 @@ class UserController extends Controller
         }
         return $this->fail($check['message']);
     }
+
+    /**
+     * 亲水包列表
+     */
+    public function bagList()
+    {
+        $params = Input::All();
+        $check = (new UserService())->bagList($params);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '搜索成功！',
+                    'bagList' => $check['info'],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
+
+    /**
+     * 搜索用户或者店铺名
+     */
+    public function search()
+    {
+        $params = Input::All();
+        $check = (new UserService())->search($params);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '搜索成功！',
+                    'searchList' => $check['info'],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
 }

@@ -14,7 +14,7 @@ class UserBase extends Model
     const STATUS_CLOSE = 2;
 
     const TYPE_USER = 1;//用户
-    const TYPE_BUSINESS = 2;//用户
+    const TYPE_BUSINESS = 2;//商户
 
     public function scopeIsOpen($query)
     {
