@@ -194,7 +194,7 @@ class UserService
             ];
         }
     }
-    
+
     /**
      * 搜索用户或者店铺
      * @param $params
@@ -222,6 +222,45 @@ class UserService
             'status' => true,
             'msg' => 'success',
             'info' => $list,
+        ];
+    }
+
+    /**
+     * @param $user_name
+     * @param $password
+     * @return array
+     */
+    public function adminLogin($user_name, $password)
+    {
+        if (!$user_name) {
+            return [
+                'status' => false,
+                'msg' => '登录账户不能为空',
+            ];
+        }
+        if (!$password) {
+            return [
+                'status' => false,
+                'msg' => '密码不能为空',
+            ];
+        }
+
+        $real_password = $this->encryptPassword($password);
+        if ((UserBase::where('password', $real_password)//账户名或者手机都可以登录
+            ->where('user_name')->first()) ||
+            (
+            UserBase::where('password', $real_password)
+                ->where('user_cellphone')->first()
+            )
+        ) {
+            return [
+                'status' => true,
+                'msg' => '登录成功',
+            ];
+        }
+        return [
+            'status' => false,
+            'msg' => '账户或密码错误',
         ];
     }
 }

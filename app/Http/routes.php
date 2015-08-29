@@ -25,3 +25,9 @@ Route::any('/bagList', ['uses' => 'UserController@bagList']);
 Route::any('/search', ['uses' => 'UserController@search']);
 Route::any('/bankOrder', ['uses' => 'UserController@bankOrder']);
 Route::any('/bankSure', ['uses' => 'UserController@bankSure']);
+//管理后台
+Route::group(['as' => 'admin::', 'prefix' => 'admin'], function () {
+    Route::get('login', ['as' => 'login', 'uses' => 'Admin\LoginController@login']);
+    Route::post('login', 'Admin\LoginController@loginAction');
+    Route::get('/', ['as' => 'home', 'uses' => 'Admin\AdminController@home']);
+});
