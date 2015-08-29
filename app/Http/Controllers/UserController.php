@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Application\User\OrderService;
 use Input;
 use App\Application\User\UserService;
 use \Response;
@@ -53,6 +54,7 @@ class UserController extends Controller
 
     /**
      * 设置新密码
+     * @return mixed
      */
     public function newPassword()
     {
@@ -72,6 +74,7 @@ class UserController extends Controller
 
     /**
      * 亲水包发送
+     * @return mixed
      */
     public function bagSend()
     {
@@ -91,6 +94,7 @@ class UserController extends Controller
 
     /**
      * 亲水包领取
+     * @return mixed
      */
     public function bagGet()
     {
@@ -110,6 +114,7 @@ class UserController extends Controller
 
     /**
      * 亲水包列表
+     * @return mixed
      */
     public function bagList()
     {
@@ -129,6 +134,7 @@ class UserController extends Controller
 
     /**
      * 搜索用户或者店铺名
+     * @return mixed
      */
     public function search()
     {
@@ -140,6 +146,46 @@ class UserController extends Controller
                     'code' => 0,
                     'message' => '搜索成功！',
                     'searchList' => $check['info'],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
+
+    /**
+     * 创建订单
+     * @return mixed
+     */
+    public function bankOrder()
+    {
+        $params = Input::All();
+        $check = (new OrderService())->bankOrder($params);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '提交成功！',
+                    'order' => $check['info'],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
+
+    /**
+     * 确认订单
+     * @return mixed
+     */
+    public function bankSure()
+    {
+        $params = Input::All();
+        $check = (new OrderService())->bankSure($params);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '提交成功！',
+                    'order' => [],
                 ]
             );
         }

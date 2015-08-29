@@ -5,6 +5,7 @@ use App\Model\UserImage;
 use App\Model\Report;
 use App\Model\UserFinancial;
 use App\Model\UserSendWater;
+use App\Model\OrderLog;
 use Illuminate\Support\Facades\DB;
 
 class UserService
@@ -349,7 +350,11 @@ class UserService
         $result = UserBase::where('user_name', 'like', $params['searchContent'] . '%')
             ->where('type', (isset($params['type']) ? $params['type'] : UserBase::TYPE_BUSINESS))->get()->toArray();
         if (empty($result)) {
-            return [];
+            return [
+                'status' => true,
+                'msg' => 'success',
+                'info' => [],
+            ];
         }
         $list = [];
         foreach ($result as $value) {
@@ -358,6 +363,10 @@ class UserService
                 'name' => $value['user_name'],
             ];
         }
-        return $list;
+        return [
+            'status' => true,
+            'msg' => 'success',
+            'info' => $list,
+        ];
     }
 }
