@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Application\User\OrderService;
+use App\Application\User\WaterService;
 use Input;
 use App\Application\User\UserService;
 use \Response;
@@ -79,7 +80,7 @@ class UserController extends Controller
     public function bagSend()
     {
         $params = Input::All();
-        $check = (new UserService())->bagSend($params);
+        $check = (new WaterService())->bagSend($params);
         if ($check['status']) {
             return Response::json(
                 [
@@ -99,7 +100,7 @@ class UserController extends Controller
     public function bagGet()
     {
         $params = Input::All();
-        $check = (new UserService())->bagSend($params);
+        $check = (new WaterService())->bagSend($params);
         if ($check['status']) {
             return Response::json(
                 [
@@ -119,7 +120,7 @@ class UserController extends Controller
     public function bagList()
     {
         $params = Input::All();
-        $check = (new UserService())->bagList($params);
+        $check = (new WaterService())->bagList($params);
         if ($check['status']) {
             return Response::json(
                 [
