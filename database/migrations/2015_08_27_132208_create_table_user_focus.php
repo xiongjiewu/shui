@@ -17,6 +17,7 @@ class CreateTableUserFocus extends Migration
             $table->integer('user_id')->comment('用户ID');
             $table->tinyInteger('is_active')->default('1')->comment('1-有效0-无效');
             $table->timestamps();
+            $table->unique(['activity_id', 'user_id']);
         });
     }
 

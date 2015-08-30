@@ -25,6 +25,12 @@ Route::any('/bagList', ['uses' => 'UserController@bagList']);
 Route::any('/search', ['uses' => 'UserController@search']);
 Route::any('/bankOrder', ['uses' => 'UserController@bankOrder']);
 Route::any('/bankSure', ['uses' => 'UserController@bankSure']);
+Route::any('/mapDetail', ['uses' => 'WaterController@mapDetail']);
+Route::any('/mapList', ['uses' => 'WaterController@mapList']);
+Route::any('/activeFocusCancel', ['uses' => 'UserController@activeFocusCancel']);
+Route::any('/activeFocus', ['uses' => 'UserController@activeFocus']);
+
+
 //管理后台
 Route::group(['as' => 'admin::', 'prefix' => 'admin'], function () {
     Route::get('login', ['as' => 'login', 'uses' => 'Admin\LoginController@login']);

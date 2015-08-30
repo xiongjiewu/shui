@@ -1,4 +1,4 @@
-<?php namespace App\Application\User;
+<?php namespace App\Application;
 
 use App\Model\OrderLog;
 

@@ -16,6 +16,7 @@ class CreateTableUserFinancial extends Migration
             $table->integer('user_id')->unique()->comment('用户自增ID');
             $table->decimal('water_count')->comment('亲水值');
             $table->decimal('price')->comment('用户充值金额');
+            $table->decimal('send_water')->default('0')->comment('已发亲水量');
             $table->timestamps();
         });
     }

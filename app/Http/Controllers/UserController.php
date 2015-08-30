@@ -1,20 +1,15 @@
 <?php namespace App\Http\Controllers;
 
-use App\Application\User\OrderService;
-use App\Application\User\WaterService;
+use App\Application\ActivityService;
+use App\Application\OrderService;
+use App\Application\WaterService;
+use App\Model\UserFocus;
 use Input;
 use App\Application\User\UserService;
 use \Response;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
-    public function __construct()
-    {
-        if (Input::has('userID')) {
-            return $this->fail('用户ID不存在!');
-        }
-    }
-
     /**
      * 反馈
      * @params $user_id
@@ -186,6 +181,46 @@ class UserController extends Controller
                 [
                     'code' => 0,
                     'message' => '提交成功！',
+                    'order' => [],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
+
+    /**
+     * 取消关注
+     * @return mixed
+     */
+    public function activeFocusCancel()
+    {
+        $params = Input::All();
+        $check = (new ActivityService())->activeFocus($params, UserFocus::IS_ACTIVE_FALSE);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '取消关注成功！',
+                    'order' => [],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
+
+    /**
+     * 获得关注
+     * @return mixed
+     */
+    public function activeFocus()
+    {
+        $params = Input::All();
+        $check = (new ActivityService())->activeFocus($params, UserFocus::IS_ACTIVE_TRUE);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '关注成功！',
                     'order' => [],
                 ]
             );
