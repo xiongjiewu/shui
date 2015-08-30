@@ -1,5 +1,6 @@
 <?php namespace App\Application\User;
 
+use App\Model\UserBase;
 use App\Model\UserFinancial;
 use App\Model\UserSendWater;
 use Illuminate\Support\Facades\DB;
