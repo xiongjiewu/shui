@@ -15,9 +15,15 @@ class UserBase extends Model
 
     const TYPE_USER = 1;//用户
     const TYPE_BUSINESS = 2;//商户
+    const TYPE_ADMIN = 3;//管理员
 
     public function scopeIsOpen($query)
     {
         return $query->where('status', self::STATUS_OPEN);
+    }
+
+    public function scopeAdmin($query)
+    {
+        return $query->where('type', self::TYPE_ADMIN);
     }
 }

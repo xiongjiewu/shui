@@ -247,10 +247,10 @@ class UserService
 
         $real_password = $this->encryptPassword($password);
         if ((UserBase::where('password', $real_password)//账户名或者手机都可以登录
-            ->where('user_name')->first()) ||
+            ->where('user_name')->isOpen()->admin()->first()) ||
             (
             UserBase::where('password', $real_password)
-                ->where('user_cellphone')->first()
+                ->where('user_cellphone')->isOpen()->admin()->first()
             )
         ) {
             return [
