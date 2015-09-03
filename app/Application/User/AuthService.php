@@ -48,7 +48,7 @@ class AuthService
 
     public static function check()
     {
-        if (self::getUserId() && self::getUserName() && self::getUserType()) {
+        if (self::getUserId() && self::getUserType()) {
             return true;
         }
         return false;
