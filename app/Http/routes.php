@@ -30,10 +30,9 @@ Route::any('/mapList', ['uses' => 'WaterController@mapList']);
 Route::any('/activeFocusCancel', ['uses' => 'UserController@activeFocusCancel']);
 Route::any('/activeFocus', ['uses' => 'UserController@activeFocus']);
 
-
 //管理后台
-Route::group(['as' => 'admin::', 'prefix' => 'admin'], function () {
-    Route::get('login', ['as' => 'login', 'uses' => 'Admin\LoginController@login']);
-    Route::post('login', 'Admin\LoginController@loginAction');
+Route::get('admin/login', ['as' => 'admin::login', 'uses' => 'Admin\LoginController@login']);
+Route::post('admin/login', ['as' => 'admin::login::action', 'uses' => 'Admin\LoginController@loginAction']);
+Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.check'], function () {
     Route::get('/', ['as' => 'home', 'uses' => 'Admin\AdminController@home']);
 });

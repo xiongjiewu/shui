@@ -6,6 +6,8 @@ use App\Model\Report;
 
 class UserService
 {
+    const TOKEN_COOKIE_NAME = 'admin_token';
+
     /**
      * 登录接口
      * @param $cellphone
@@ -246,13 +248,17 @@ class UserService
         }
 
         $real_password = $this->encryptPassword($password);
-        if ((UserBase::where('password', $real_password)//账户名或者手机都可以登录
-            ->where('user_name')->isOpen()->admin()->first()) ||
+        if (($user = UserBase::where('password', $real_password)//账户名或者手机都可以登录
+            ->where('user_name', $user_name)->isOpen()->admin()->first()) ||
             (
-            UserBase::where('password', $real_password)
-                ->where('user_cellphone')->isOpen()->admin()->first()
+            $user = UserBase::where('password', $real_password)
+                ->where('user_cellphone', $user_name)->isOpen()->admin()->first()
             )
         ) {
+            //加密token
+            $token = TokenService::create($user->user_name, $user->user_id, $user->type);
+            $cookie = \Cookie::forever(self::TOKEN_COOKIE_NAME, $token);
+            \Cookie::queue($cookie);
             return [
                 'status' => true,
                 'msg' => '登录成功',
