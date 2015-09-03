@@ -60,7 +60,7 @@ class RegisterController extends Controller
             'type' => UserImage::TYPE_HEAD,
         ];
 
-        $register = (new UserService())->register($cellphone, $password, UserBase::TYPE_BUSINESS, $image);
+        $register = (new UserService())->register($cellphone, $password, UserBase::TYPE_USER, $image);
         if ($register['status']) {
             return [
                 'status' => 'ok',
