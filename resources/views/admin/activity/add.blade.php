@@ -11,7 +11,7 @@
         </div>
         <div class="form-group">
             <label for="statement">声明</label>
-            <input type="text" class="form-control" id="statement" name="statement" placeholder="description">
+            <input type="text" class="form-control" id="statement" name="statement" placeholder="statement">
         </div>
         <div class="form-group">
             <label for="state">视频</label>
