@@ -1,7 +1,9 @@
 <?php namespace App\Http\Controllers\Admin;
 
+use App\Application\User\AuthService;
 use App\Application\User\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends BaseController
 {
@@ -25,6 +27,7 @@ class LoginController extends BaseController
 
     public function logout()
     {
-
+        \Cookie::queue(UserService::TOKEN_COOKIE_NAME, '', -1);
+        return redirect(route('admin::login'));
     }
 }

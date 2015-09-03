@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.background')
 @section('content')
     <div class="jumbotron">
         <h1>欢迎回来, {{$user_name}}!</h1>
