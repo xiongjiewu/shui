@@ -18,9 +18,10 @@ admin_login.prototype.login = function (user_name, password) {
         data: {'user_name': user_name, 'password': password},
         dataType: 'json',
         success: function (res) {
-            alert(res.msg)
             if (res.status) {
                 window.location.href = that.to_url;
+            } else {
+                alert(res.msg);
             }
         }
     });

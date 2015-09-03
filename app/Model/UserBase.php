@@ -26,4 +26,9 @@ class UserBase extends Model
     {
         return $query->where('type', self::TYPE_ADMIN);
     }
+
+    public function isOpen()
+    {
+        return ($this->status == self::STATUS_OPEN);
+    }
 }

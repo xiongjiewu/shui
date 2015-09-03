@@ -269,4 +269,51 @@ class UserService
             'msg' => '账户或密码错误',
         ];
     }
+
+    /**
+     * 获取用户列表
+     * @param int $page
+     * @param int $per_page
+     * @return array
+     */
+    public function getList($page = 1, $per_page = 10)
+    {
+        $users = UserBase::offset(($page - 1) * $per_page)
+            ->limit($per_page)
+            ->get();
+        if ($users->isEmpty()) {
+            return [];
+        }
+
+        $user_list = [];
+        foreach ($users as $user) {
+            if ($user->type == UserBase::TYPE_ADMIN) {
+                $type_text = '管理员';
+            } elseif ($user->type == UserBase::TYPE_BUSINESS) {
+                $type_text = '商家';
+            } else {
+                $type_text = '用户';
+            }
+
+            $user_list[] = array_merge(
+                $user->toArray(),
+                [
+                    'type_text' => $type_text,
+                    'status_text' => $user->isOpen() ? '已激活' : '未激活',
+                    'is_active' => $user->isOpen(),
+                ]
+            );
+        }
+        return $user_list;
+    }
+
+    public function updateStatus($user_id, $status)
+    {
+        return UserBase::where('user_id', $user_id)
+            ->update(
+                [
+                    'status' => $status
+                ]
+            );
+    }
 }

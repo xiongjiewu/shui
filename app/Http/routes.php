@@ -35,6 +35,9 @@ Route::get('admin/login', ['as' => 'admin::login', 'uses' => 'Admin\LoginControl
 Route::post('admin/login', ['as' => 'admin::login::action', 'uses' => 'Admin\LoginController@loginAction']);
 Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.check'], function () {
     Route::get('/', ['as' => 'home', 'uses' => 'Admin\AdminController@home']);
-    Route::get('/users', ['as' => 'users', 'uses' => 'Admin\UserController@index']);
-    Route::get('/logout', ['as' => 'logout', 'uses' => 'Admin\LoginController@logout']);
+    Route::get('users', ['as' => 'users', 'uses' => 'Admin\UserController@index']);
+    Route::get('logout', ['as' => 'logout', 'uses' => 'Admin\LoginController@logout']);
+    Route::post('users/action/status/change', ['as' => 'user.status.change', 'uses' => 'Admin\UserController@statusChange']);
+    Route::get('activity/add', ['as' => 'activity.add', 'uses' => 'Admin\ActivityController@add']);
+    Route::post('activity/add', ['as' => 'activity.add.submit', 'uses' => 'Admin\ActivityController@addSubmit']);
 });

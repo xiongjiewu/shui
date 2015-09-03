@@ -15,8 +15,8 @@ class BaseController extends Controller
             $data,
             [
                 'title' => $this->title,
-                'file_css' => '/css/' . $this->file_css,
-                'file_js' => '/js/' . $this->file_css,
+                'file_css' => $this->file_css ? '/css/' . $this->file_css : null,
+                'file_js' => $this->file_js ? '/js/' . $this->file_js : null,
                 'user_id' => $this->getUserId(),
                 'user_name' => $this->getUserName(),
             ]

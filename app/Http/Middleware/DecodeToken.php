@@ -35,7 +35,9 @@ class DecodeToken
      */
     public function handle($request, Closure $next)
     {
-        AuthService::setUserByToken($request->cookie('admin_token'));
+        if (($token = $request->header('token')) || ($token = $request->cookie('admin_token'))) {
+            AuthService::setUserByToken($token);
+        }
         return $next($request);
     }
 }
