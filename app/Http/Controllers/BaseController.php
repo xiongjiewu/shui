@@ -1,11 +1,17 @@
 <?php namespace App\Http\Controllers;
 
+use App\Application\User\TokenService;
+use \Illuminate\Http\Request;
+
 class BaseController extends Controller
 {
-    public function __construct()
+    protected $user_id = '';
+
+    public function __construct(Request $request)
     {
-        if (Input::has('userID')) {
+        if ($request->get('token')) {
             return $this->fail('用户ID不存在!');
         }
+        $this->user_id = TokenService::tokenDecrypt($request->get('token'));
     }
 }

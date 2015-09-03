@@ -9,22 +9,24 @@ class ActivityService
 {
     /**
      * 取消关注或者关注
-     * @param $params
      * @param $is_active 1-开启 0-关闭
-     * @return bool
+     * @param $params
+     * @param $user_id
+     * @param $is_active
+     * @return array
      */
-    public function activeFocus($params, $is_active)
+    public function activeFocus($params, $user_id, $is_active)
     {
         /** @var $user_focus \App\Model\UserFocus */
         $user_focus = new UserFocus();
-        $result = $user_focus->where('activity_id', $params['activeID'])->where('user_id', $params['userID'])->first();
+        $result = $user_focus->where('activity_id', $params->get('activeID'))->where('user_id', $user_id)->first();
         if (empty($result)) {
-            $user_focus->user_id = $params['userID'];
-            $user_focus->activity_id = $params['activeID'];
+            $user_focus->user_id = $user_id;
+            $user_focus->activity_id = $params->get('activeID');
             $user_focus->is_active = $is_active;
             $bool = $user_focus->save();
         } else {
-            $bool = $user_focus->where('activity_id', $params['activeID'])->where('user_id', $params['userID'])
+            $bool = $user_focus->where('activity_id', $params->get('activeID'))->where('user_id', $user_id)
                 ->update(['is_active' => $is_active]);
         }
         if ($bool) {
@@ -117,11 +119,12 @@ class ActivityService
     /**
      * 公益活动详情
      * @param $params
+     * @param $user_id
      * @return array
      */
-    public function showDetail($params)
+    public function showDetail($params, $user_id)
     {
-        if (empty($params['activeID'])) {
+        if (!$params->get('activeID')) {
             return [
                 'status' => false,
                 'msg' => '活动ID不能为空!',
@@ -130,7 +133,7 @@ class ActivityService
         }
         /** @var $activity \App\Model\Activity */
         $activity = new Activity();
-        $activity_result = $activity->where('activity_id', $params['activeID'])->StatusOk()->first();
+        $activity_result = $activity->where('activity_id', $params->get('activeID'))->StatusOk()->first();
         if (empty($activity_result)) {
             return [
                 'status' => false,
@@ -143,12 +146,12 @@ class ActivityService
         $data['title'] = $activity_result->title;
         $data['content'] = $activity_result->desc;
         $data['create_time'] = $activity_result->created_at;
-        $data['is_focus'] = UserFocus::userIsFocus($params['activeID'], $params['userID']);
+        $data['is_focus'] = UserFocus::userIsFocus($params->get('activeID'), $user_id);
         $data['support'] = $activity_result->focus_count;
-        $data['image_url'] = ActivityImage::getImages($params['activeID']);
-        $data['vedio_url'] = ActivityImage::getImages($params['activeID'], ActivityImage::TYPE_IMAGE_IS_GIF);
+        $data['image_url'] = ActivityImage::getImages($params->get('activeID'));
+        $data['vedio_url'] = ActivityImage::getImages($params->get('activeID'), ActivityImage::TYPE_IMAGE_IS_GIF);
         $data['like_url'] = $activity_result->url;
-        $fundraising = ActivityFundraising::where('activity_id', $params['activeID'])->first();
+        $fundraising = ActivityFundraising::where('activity_id', $params->get('activeID'))->first();
         $data['left_money'] = $fundraising->total_amount_price;
         $data['now_money'] = $fundraising->existing_price;
         $data['people_num'] = $fundraising->fundraising_count;

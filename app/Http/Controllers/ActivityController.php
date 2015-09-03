@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Application\ActivityService;
+use Illuminate\Http\Request;
 use \Response;
 use \Input;
 
@@ -8,12 +9,12 @@ class ActivityController extends BaseController
 {
     /**
      * 公益活动列表
+     * @param Request $request
      * @return mixed
      */
-    public function activeList()
+    public function activeList(Request $request)
     {
-        $params = Input::All();
-        $check = (new ActivityService())->showList($params);
+        $check = (new ActivityService())->showList($request, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [
@@ -29,12 +30,12 @@ class ActivityController extends BaseController
 
     /**
      * 公益详情
+     * @param Request $request
      * @return mixed
      */
-    public function activeDetail()
+    public function activeDetail(Request $request)
     {
-        $params = Input::All();
-        $check = (new ActivityService())->showDetail($params);
+        $check = (new ActivityService())->showDetail($request, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [

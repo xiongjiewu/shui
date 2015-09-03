@@ -4,6 +4,7 @@ use App\Application\ActivityService;
 use App\Application\OrderService;
 use App\Application\WaterService;
 use App\Model\UserFocus;
+use \Illuminate\Http\Request;
 use Input;
 use App\Application\User\UserService;
 use \Response;
@@ -12,14 +13,12 @@ class UserController extends BaseController
 {
     /**
      * 反馈
-     * @params $user_id
-     * @params $report
+     * @param Request $request
      * @return mixed
      */
-    public function report()
+    public function report(Request $request)
     {
-        $params = Input::All();
-        $check = (new UserService())->report($params);
+        $check = (new UserService())->report($request, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [
@@ -50,12 +49,12 @@ class UserController extends BaseController
 
     /**
      * 设置新密码
+     * @param Request $request
      * @return mixed
      */
-    public function newPassword()
+    public function newPassword(Request $request)
     {
-        $params = Input::All();
-        $check = (new UserService())->setNewPassword($params);
+        $check = (new UserService())->setNewPassword($request, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [
@@ -70,12 +69,12 @@ class UserController extends BaseController
 
     /**
      * 亲水包发送
+     * @param Request $request
      * @return mixed
      */
-    public function bagSend()
+    public function bagSend(Request $request)
     {
-        $params = Input::All();
-        $check = (new WaterService())->bagSend($params);
+        $check = (new WaterService())->bagSend($request, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [
@@ -90,12 +89,12 @@ class UserController extends BaseController
 
     /**
      * 亲水包领取
+     * @param Request $request
      * @return mixed
      */
-    public function bagGet()
+    public function bagGet(Request $request)
     {
-        $params = Input::All();
-        $check = (new WaterService())->bagSend($params);
+        $check = (new WaterService())->bagGet($request, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [
@@ -110,12 +109,12 @@ class UserController extends BaseController
 
     /**
      * 亲水包列表
+     * @param Request $request
      * @return mixed
      */
-    public function bagList()
+    public function bagList(Request $request)
     {
-        $params = Input::All();
-        $check = (new WaterService())->bagList($params);
+        $check = (new WaterService())->bagList($request, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [
@@ -130,12 +129,12 @@ class UserController extends BaseController
 
     /**
      * 搜索用户或者店铺名
+     * @param Request $request
      * @return mixed
      */
-    public function search()
+    public function search(Request $request)
     {
-        $params = Input::All();
-        $check = (new UserService())->search($params);
+        $check = (new UserService())->search($request, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [
@@ -150,12 +149,12 @@ class UserController extends BaseController
 
     /**
      * 创建订单
+     * @param Request $request
      * @return mixed
      */
-    public function bankOrder()
+    public function bankOrder(Request $request)
     {
-        $params = Input::All();
-        $check = (new OrderService())->bankOrder($params);
+        $check = (new OrderService())->bankOrder($request, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [
@@ -170,12 +169,12 @@ class UserController extends BaseController
 
     /**
      * 确认订单
+     * @param Request $request
      * @return mixed
      */
-    public function bankSure()
+    public function bankSure(Request $request)
     {
-        $params = Input::All();
-        $check = (new OrderService())->bankSure($params);
+        $check = (new OrderService())->bankSure($request, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [
@@ -190,12 +189,12 @@ class UserController extends BaseController
 
     /**
      * 取消关注
+     * @param Request $request
      * @return mixed
      */
-    public function activeFocusCancel()
+    public function activeFocusCancel(Request $request)
     {
-        $params = Input::All();
-        $check = (new ActivityService())->activeFocus($params, UserFocus::IS_ACTIVE_FALSE);
+        $check = (new ActivityService())->activeFocus($request, $this->user_id, UserFocus::IS_ACTIVE_FALSE);
         if ($check['status']) {
             return Response::json(
                 [
@@ -210,12 +209,12 @@ class UserController extends BaseController
 
     /**
      * 获得关注
+     * @param Request $request
      * @return mixed
      */
-    public function activeFocus()
+    public function activeFocus(Request $request)
     {
-        $params = Input::All();
-        $check = (new ActivityService())->activeFocus($params, UserFocus::IS_ACTIVE_TRUE);
+        $check = (new ActivityService())->activeFocus($request, $this->user_id, UserFocus::IS_ACTIVE_TRUE);
         if ($check['status']) {
             return Response::json(
                 [

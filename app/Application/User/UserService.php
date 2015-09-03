@@ -26,7 +26,7 @@ class UserService
         $password = $this->encryptPassword($password);
         $info = UserBase::where('user_cellphone', $cellphone)
             ->where('password', $password)
-            ->isOpen()
+            ->IsOpen()
             ->first();
         if (!$info) {
             return $this->outputFormat(false, '手机号码或者密码错误');
@@ -41,6 +41,7 @@ class UserService
         } else {
             $user['user_head'] = UserImage::defaultImage();
         }
+        $user['token'] = TokenService::tokenEncode($info->user_id);
         return $this->outputFormat(true, 'success', $this->formatUser($user));
     }
 
@@ -92,6 +93,7 @@ class UserService
                 $image_url = $user_image->url();
             }
             $user['user_head'] = $image_url;
+            $user['token'] = TokenService::tokenEncode($user_base->user_id);
             return $this->outputFormat(true, 'success', $this->formatUser($user));
         }
         return $this->outputFormat(false, '注册失败，请重新尝试', []);
@@ -116,11 +118,12 @@ class UserService
     /**
      * 用户反馈
      * @param $params
+     * @param $user_id
      * @return array
      */
-    public function report($params)
+    public function report($params, $user_id)
     {
-        if (trim($params['report']) == '') {
+        if (trim($params->get('report')) == '') {
             return [
                 'status' => false,
                 'msg' => '反馈内容不能为空!',
@@ -128,8 +131,8 @@ class UserService
             ];
         }
         $report = new Report();
-        $report->user_id = $params['userID'];
-        $report->report = trim($params['report']);
+        $report->user_id = $user_id;
+        $report->report = trim($params->get('report'));
         $report->save();
         return [
             'status' => true,
@@ -176,12 +179,13 @@ class UserService
     /**
      * 设置新密码
      * @param $params
+     * @param $user_id
      * @return array
      */
-    public function setNewPassword($params)
+    public function setNewPassword($params, $user_id)
     {
-        $result = UserBase::where('user_id', $params['userID'])
-            ->update(['password' => $this->encryptPassword($params['newPassword'])]);
+        $result = UserBase::where('user_id', $user_id)
+            ->update(['password' => $this->encryptPassword($params->get('newPassword'))]);
         if ($result) {
             return [
                 'status' => true,
@@ -200,12 +204,14 @@ class UserService
     /**
      * 搜索用户或者店铺
      * @param $params
+     * @param $user_id
      * @return array
      */
-    public function search($params)
+    public function search($params, $user_id)
     {
-        $result = UserBase::where('user_name', 'like', $params['searchContent'] . '%')
-            ->where('type', (isset($params['type']) ? $params['type'] : UserBase::TYPE_BUSINESS))->get()->toArray();
+        $result = UserBase::where('user_name', 'like', $params->get('searchContent') . '%')
+            ->where('type', ($params->get('type') ?: UserBase::TYPE_BUSINESS))->where('user_id', '!=', $user_id)
+            ->get()->toArray();
         if (empty($result)) {
             return [
                 'status' => true,

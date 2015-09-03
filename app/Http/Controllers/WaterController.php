@@ -1,19 +1,19 @@
 <?php namespace App\Http\Controllers;
 
 use App\Application\WaterService;
-use Input;
+use \Illuminate\Http\Request;
 use \Response;
 
 class WaterController extends BaseController
 {
     /**
      * 水地图详情
-     * @return array
+     * @param Request $request
+     * @return mixed
      */
-    public function mapDetail()
+    public function mapDetail(Request $request)
     {
-        $params = Input::All();
-        $check = (new WaterService())->mapDetail($params);
+        $check = (new WaterService())->mapDetail($request, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [
@@ -28,12 +28,12 @@ class WaterController extends BaseController
 
     /**
      * 水地图列表
+     * @param Request $request
      * @return mixed
      */
-    public function mapList()
+    public function mapList(Request $request)
     {
-        $params = Input::All();
-        $check = (new WaterService())->mapList($params);
+        $check = (new WaterService())->mapList($request, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [

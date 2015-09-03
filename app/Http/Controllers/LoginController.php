@@ -1,14 +1,14 @@
 <?php namespace App\Http\Controllers;
 
 use App\Application\User\UserService;
-use Input;
+use \Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    public function login()
+    public function login(Request $request)
     {
-        $cellphone = \Input::get('cellphone', null);
-        $password = \Input::get('password', null);
+        $cellphone = $request->get('cellphone');
+        $password = $request->get('password');
         if (!$cellphone || !$password) {
             return $this->fail('参数错误');
         }
