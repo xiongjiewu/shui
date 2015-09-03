@@ -35,7 +35,7 @@ class AdminCheck
      */
     public function handle($request, Closure $next)
     {
-        if (!AuthService::check()) {
+        if (!AuthService::check() || !AuthService::isAdmin()) {
             return redirect(route('admin::login'));
         }
         return $next($request);

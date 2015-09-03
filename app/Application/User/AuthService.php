@@ -1,5 +1,7 @@
 <?php namespace App\Application\User;
 
+use App\Model\UserBase;
+
 class AuthService
 {
     private static $user_id;
@@ -50,5 +52,10 @@ class AuthService
             return true;
         }
         return false;
+    }
+
+    public static function isAdmin()
+    {
+        return (self::$user_type == UserBase::TYPE_ADMIN);
     }
 }

@@ -17,6 +17,7 @@
 </head>
 <body>
 <div class="container">
+    @include('layouts.background')
     @yield('content')
 </div>
 </body>

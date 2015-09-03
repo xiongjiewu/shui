@@ -35,4 +35,6 @@ Route::get('admin/login', ['as' => 'admin::login', 'uses' => 'Admin\LoginControl
 Route::post('admin/login', ['as' => 'admin::login::action', 'uses' => 'Admin\LoginController@loginAction']);
 Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.check'], function () {
     Route::get('/', ['as' => 'home', 'uses' => 'Admin\AdminController@home']);
+    Route::get('/users', ['as' => 'users', 'uses' => 'Admin\UserController@index']);
+    Route::get('/logout', ['as' => 'logout', 'uses' => 'Admin\LoginController@logout']);
 });

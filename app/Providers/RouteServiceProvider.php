@@ -25,8 +25,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        \Route::filter('admin::check', function () {
-        });
+        //
         parent::boot($router);
     }
 
