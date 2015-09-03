@@ -32,32 +32,36 @@ class WaterService
             ];
         }
         if ($result->status == UserSendWater::STATUS_IS_FALSE && strtotime($result->overdue_date) > time() && $result->is_active == UserSendWater::STATUS_IS_FALSE) {
-            DB::transaction(function ($params, $result) {
-                try {
-                    $financial_result = UserFinancial::where('user_id', $params['userID'])->first();
-                    if (empty($financial_result)) {
-                        $user_financiel = new UserFinancial();
-                        $user_financiel->user_id = $params['userID'];
-                        $user_financiel->water_count = $result->water_count;
-                        $user_financiel->save();
-                    } else {
-                        UserFinancial::where('user_id', $params['userID'])->update(['water_count' => ($financial_result->water_count + $result->water_count)]);
-                    }
-                    UserSendWater::where('id', $params['bagID'])->update(['status' => UserSendWater::STATUS_IS_TRUE]);
-                } catch (\Exception $e) {
-                    return [
-                        'status' => false,
-                        'msg' => '领取失败!',
-                        'info' => [],
-                    ];
-                }
-            });
+            $financial_result = UserFinancial::where('user_id', $params['userID'])->first();
+            if (empty($financial_result)) {
+                $user_financiel = new UserFinancial();
+                $user_financiel->user_id = $params['userID'];
+                $user_financiel->water_count = $result->water_count;
+                $user_financiel->save();
+            } else {
+                UserFinancial::where('user_id', $params['userID'])->update(['water_count' => ($financial_result->water_count + $result->water_count)]);
+            }
+            $bool = UserSendWater::where('id', $params['bagID'])->update(['status' => UserSendWater::STATUS_IS_TRUE]);
+            if ($bool) {
+                return [
+                    'status' => true,
+                    'msg' => 'success',
+                    'info' => [],
+                ];
+            } else {
+                return [
+                    'status' => false,
+                    'msg' => '领取失败!',
+                    'info' => [],
+                ];
+            }
         }
         return [
-            'status' => true,
-            'msg' => 'success',
+            'status' => false,
+            'msg' => '该亲水包已经飞走了!',
             'info' => [],
         ];
+
     }
 
     /**
@@ -75,27 +79,30 @@ class WaterService
                 'info' => [],
             ];
         }
-        try {
-            //开启事务
-            DB::transaction(function ($params, $water_result) {
-                UserFinancial::where('user_id', $params['userID'])->update(['water_count' => ($water_result->water_count - $params['money'])]);
-                $user_send_water = new UserSendWater();
-                $user_send_water->user_id = $params['userID'];
-                $user_send_water->water_count = $params['money'];
-                $user_send_water->accept_user_id = $params['getID'];
-                $user_send_water->overdue_date = UserSendWater::getOverdueDate();
-                $user_send_water->save();
-            });
-        } catch (\Exception $e) {
-            return [
-                'status' => false,
-                'msg' => '发送亲水包失败!',
-                'info' => [],
-            ];
+        $financial_bool = UserFinancial::where('user_id', $params['userID'])->update(
+            [
+                'water_count' => ($water_result->water_count - $params['money'])
+            ]
+        );
+        if ($financial_bool) {
+            $user_send_water = new UserSendWater();
+            $user_send_water->user_id = $params['userID'];
+            $user_send_water->water_count = $params['money'];
+            $user_send_water->accept_user_id = $params['getID'];
+            $user_send_water->overdue_date = UserSendWater::getOverdueDate();
+            $bool = $user_send_water->save();
+            if ($bool) {
+                //TODO 队列
+                return [
+                    'status' => true,
+                    'msg' => 'success',
+                    'info' => [],
+                ];
+            }
         }
         return [
-            'status' => true,
-            'msg' => 'success',
+            'status' => false,
+            'msg' => '发送亲水包失败!',
             'info' => [],
         ];
     }
