@@ -2,12 +2,9 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class OrderLog extends Model
+class ActivityDonationsLog extends Model
 {
-    const STATUS_IS_TRUE = 1;
-    const STATUS_IS_FALSE = 0;
-
-    protected $table = 'order_log';
+    protected $table = 'activity_donations_log';
 
     //比率
     public static function getRate()

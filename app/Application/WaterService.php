@@ -5,7 +5,7 @@ use App\Model\UserCompanyExtend;
 use App\Model\UserFinancial;
 use App\Model\UserImage;
 use App\Model\UserSendWater;
-use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class WaterService
 {
@@ -32,7 +32,7 @@ class WaterService
                 'info' => [],
             ];
         }
-        if ($result->status == UserSendWater::STATUS_IS_FALSE && strtotime($result->overdue_date) > time() && $result->is_active == UserSendWater::STATUS_IS_FALSE) {
+        if ($result->status == UserSendWater::STATUS_IS_FALSE && strtotime($result->overdue_date) > time()) {
             $financial_result = UserFinancial::where('user_id', $params['userID'])->first();
             if (empty($financial_result)) {
                 $user_financiel = new UserFinancial();
@@ -83,7 +83,8 @@ class WaterService
         }
         $financial_bool = UserFinancial::where('user_id', $user_id)->update(
             [
-                'water_count' => ($water_result->water_count - $params->get('money'))
+                'water_count' => ($water_result->water_count - $params->get('money')),
+                'send_water' => ($water_result->send_water + $params->get('money')),
             ]
         );
         if ($financial_bool) {
@@ -94,7 +95,8 @@ class WaterService
             $user_send_water->overdue_date = UserSendWater::getOverdueDate();
             $bool = $user_send_water->save();
             if ($bool) {
-                //TODO 队列
+                $time_out = Carbon::now()->addHour(getenv('TIMEOUT_HOUR'));
+                \Queue::later($time_out, '\App\Jobs\Recycling', ['send_id' => $bool->id]);
                 return [
                     'status' => true,
                     'msg' => 'success',

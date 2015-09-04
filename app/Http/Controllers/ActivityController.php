@@ -3,7 +3,6 @@
 use App\Application\ActivityService;
 use Illuminate\Http\Request;
 use \Response;
-use \Input;
 
 class ActivityController extends BaseController
 {
@@ -42,6 +41,26 @@ class ActivityController extends BaseController
                     'code' => 0,
                     'message' => '反馈成功！',
                     'active_list' => $check['info'],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
+
+    /**
+     * 公益捐款
+     * @param Request $request
+     * @return mixed
+     */
+    public function activeDonations(Request $request)
+    {
+        $check = (new ActivityService())->activeDonations($request, $this->user_id);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '捐款成功！',
+                    'active_list' => [],
                 ]
             );
         }

@@ -8,10 +8,7 @@ class UserSendWater extends Model
 {
     const STATUS_IS_TRUE = 1;
     const STATUS_IS_FALSE = 0;
-
-
-    const IS_ACTIVE_TRUE = 1;
-    const IS_ACTIVE_FALSE = 0;
+    const STATUS_IS_ACTIVE_FALSE = 2;
 
     protected $table = 'user_send_water';
 

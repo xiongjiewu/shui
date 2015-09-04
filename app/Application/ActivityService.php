@@ -1,8 +1,10 @@
 <?php namespace App\Application;
 
 use App\Model\Activity;
+use App\Model\ActivityDonationsLog;
 use App\Model\ActivityFundraising;
 use App\Model\ActivityImage;
+use App\Model\UserFinancial;
 use App\Model\UserFocus;
 
 class ActivityService
@@ -142,14 +144,14 @@ class ActivityService
             ];
         }
         $data = [];
-        $data['active_id'] = $params['activeID'];
+        $data['active_id'] = $params->get('activeID');
         $data['title'] = $activity_result->title;
         $data['content'] = $activity_result->desc;
         $data['create_time'] = $activity_result->created_at;
         $data['is_focus'] = UserFocus::userIsFocus($params->get('activeID'), $user_id);
         $data['support'] = $activity_result->focus_count;
         $data['image_url'] = ActivityImage::getImages($params->get('activeID'));
-        $data['vedio_url'] = ActivityImage::getImages($params->get('activeID'), ActivityImage::TYPE_IMAGE_IS_GIF);
+        $data['video_url'] = ActivityImage::getImages($params->get('activeID'), ActivityImage::TYPE_IMAGE_IS_GIF);
         $data['like_url'] = $activity_result->url;
         $fundraising = ActivityFundraising::where('activity_id', $params->get('activeID'))->first();
         $data['left_money'] = $fundraising->total_amount_price;
@@ -159,6 +161,68 @@ class ActivityService
             'status' => true,
             'msg' => '获取成功!',
             'info' => $data,
+        ];
+    }
+
+    /**
+     * 公益捐款
+     * @param $params
+     * @param $user_id
+     * @return array
+     */
+    public function activeDonations($params, $user_id)
+    {
+        if (!$params->get('activeID')) {
+            return [
+                'status' => false,
+                'msg' => '活动ID不能为空!',
+                'info' => [],
+            ];
+        }
+        //金额转换亲水值
+        $money_to_water = ($params->get('money') * ActivityDonationsLog::getRate());
+        $user_financial = new UserFinancial();
+        $user_financial_result = $user_financial->where('user_id', $user_id)->first();
+        if ($user_financial_result->water_count < $money_to_water) {
+            return [
+                'status' => false,
+                'msg' => '你的亲水值不够!',
+                'info' => [],
+            ];
+        }
+        $bool = $user_financial->where('user_id', $user_id)->update(
+            [
+                'water_count' => ($user_financial_result->water_count - $money_to_water),
+                'send_water' => ($user_financial_result->send_water + $money_to_water),
+            ]
+        );
+        if ($bool) {
+            $activity_fundraising = new ActivityFundraising();
+            $activity_fundraising_result = $activity_fundraising->where('activity_id', $params->get('activeID'))->first();
+            $activity_fundraising->where('activity_id', $params->get('activeID'))->update(
+                [
+                    'fundraising_count' => ($activity_fundraising_result->fundraising_count + 1),
+                    'existing_price' => ($activity_fundraising_result->existing_price + $params->get('money')),
+                ]
+            );
+            //记录日志
+            $activity_donations_log = new ActivityDonationsLog();
+            $activity_donations_log->active_id = $params->get('activeID');
+            $activity_donations_log->user_id = $user_id;
+            $activity_donations_log->water_count = $money_to_water;
+            $activity_donations_log->price = $params->get('money');
+            $activity_donations_log->rate = ActivityDonationsLog::getRate();
+            $activity_donations_log->save();
+            return [
+                'status' => true,
+                'msg' => '捐款成功!',
+                'info' => [],
+            ];
+        }
+        return [
+            'status' => false,
+            'msg' => '系统错误!',
+            'info' => [],
         ];
     }
 }
