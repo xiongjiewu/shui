@@ -3,18 +3,19 @@
 use App\Application\User\UserService;
 use App\Model\UserBase;
 use App\Model\UserImage;
+use Illuminate\Http\Request;
 use Input;
 
 class RegisterController extends Controller
 {
-    public function register()
+    public function register(Request $request)
     {
-        $cellphone = \Input::get('cellphone', null);
-        $password = \Input::get('password', null);
-        $password2 = \Input::get('password2', null);
-        $verify = \Input::get('verify', null);
-        $head = \Input::file('head', null);
-        if (!$cellphone || !$password || !$password2 || !$verify || !$head) {
+        $cellphone = $request->get('cellphone');
+        $password = $request->get('password');
+        $password2 = $request->get('password2');
+        $verify = $request->get('verify');
+        $head = \Input::file('head');
+        if (!$cellphone || !$password || !$password2 || !$verify) {
             return $this->fail('参数错误');
         }
         //检查登录信息
@@ -54,9 +55,8 @@ class RegisterController extends Controller
                 'userInfo' => [],
             ];
         }
-
         $path = '';
-        if (!$head->isValid()) {
+        if (!empty($head) && !$head->isValid()) {
             $client_name = $head->getClientOriginalName();
             $extension = $head->getClientOriginalExtension();
             $new_name = md5(date('ymdhis') . $client_name) . "." . $extension;
