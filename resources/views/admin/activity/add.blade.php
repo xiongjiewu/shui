@@ -1,6 +1,6 @@
 @extends('layouts.background')
 @section('content')
-    <form action="" id="activity_add" method="post">
+    <form action="" id="activity_add" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">标题</label>
             <input type="text" class="form-control" id="title" name="title" placeholder="title">
@@ -22,7 +22,7 @@
             <input type="number" class="form-control" id="price" name="price" placeholder="price/单位：元">
         </div>
         <div class="form-group">
-            <label for="state">视频</label>
+            <label for="video">视频</label>
             <input type="file" id="video" name="video">
         </div>
         <div class="form-group">

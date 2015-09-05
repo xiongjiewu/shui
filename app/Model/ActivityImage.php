@@ -9,15 +9,13 @@ class ActivityImage extends Model
     const TYPE_IMAGE_IS_PIC = 1;
     const TYPE_IMAGE_IS_GIF = 2;
 
-    const IMAGE_PATH = '/data/activity_image';//图片/视频存放路径
-
     /**
      * 获取文件完整路径
      * @return string
      */
     public function path()
     {
-        return self::IMAGE_PATH . '/' . $this->image_url;
+        return getenv('FILE_PATH') . '/' . $this->image_url;
     }
 
     public function scopePIC($query)
