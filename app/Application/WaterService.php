@@ -1,6 +1,7 @@
 <?php namespace App\Application;
 
 use App\Model\UserBase;
+use App\Model\UserBlackWater;
 use App\Model\UserCompanyExtend;
 use App\Model\UserFinancial;
 use App\Model\UserImage;
@@ -319,12 +320,22 @@ class WaterService
 
     /**
      * 水银行信息
-     * @param $params
      * @param $user_id
      * @return array
      */
-    public function bankInfo($params, $user_id)
+    public function bankInfo($user_id)
     {
-
+        $data = [];
+        $user_black_water = UserBlackWater::where('user_id', $user_id)->first();
+        $data['water_num'] = empty($user_black_water) ? 0 : $user_black_water->black_water;
+        $user_financial = new UserFinancial();
+        $data['person_water'] = $user_financial->sum('water_count');
+        $user_financial_result = $user_financial->where('user_id', $user_id)->first();
+        $data['protect_num'] = $user_financial_result->water_count();
+        return [
+            'status' => true,
+            'msg' => 'success',
+            'info' => $data,
+        ];
     }
 }

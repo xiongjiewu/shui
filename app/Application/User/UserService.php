@@ -3,6 +3,7 @@
 use App\Model\UserBase;
 use App\Model\UserImage;
 use App\Model\Report;
+use App\Model\UserLoginLog;
 
 class UserService
 {
@@ -42,6 +43,7 @@ class UserService
             $user['user_head'] = UserImage::defaultImage();
         }
         $user['token'] = TokenService::tokenEncode($info->user_id);
+        UserLoginLog::insert_login_log($info->user_id);
         return $this->outputFormat(true, 'success', $this->formatUser($user));
     }
 

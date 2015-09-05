@@ -233,12 +233,11 @@ class UserController extends BaseController
 
     /**
      * 水银行信息
-     * @param Request $request
      * @return mixed
      */
-    public function bankInfo(Request $request)
+    public function bankInfo()
     {
-        $check = (new WaterService())->bankInfo($request, $this->user_id);
+        $check = (new WaterService())->bankInfo($this->user_id);
         if ($check['status']) {
             return Response::json(
                 [
