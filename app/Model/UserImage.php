@@ -11,14 +11,14 @@ class UserImage extends Model
     const TYPE_HEAD = 1;//类型-头像
     const TYPE_BUSINESS = 2;//类型-营业执照
     const TYPE_SHOP = 3;//类型-店铺招牌
-
+    
     /**
-     * 图片Url
+     * 获取文件完整路径
      * @return string
      */
-    public function url()
+    public function path()
     {
-        return '';
+        return getenv('FILE_PATH') . '/' . $this->image_url;
     }
 
     /**

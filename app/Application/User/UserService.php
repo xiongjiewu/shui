@@ -38,7 +38,7 @@ class UserService
             ->first();
         $user = $info->toArray();
         if ($image) {
-            $user['user_head'] = $image->url();
+            $user['user_head'] = $image->path();
         } else {
             $user['user_head'] = UserImage::defaultImage();
         }
@@ -169,23 +169,19 @@ class UserService
 
     /**
      * 上传头像
+     * @param $path
      * @param $user_id
-     * @param $head
      * @return array
      */
-    public function updateUserHead($head, $user_id)
+    public function updateUserHead($path, $user_id)
     {
-        if (!$head->isValid()) {
+        if (empty($path)) {
             return [
                 'status' => false,
-                'msg' => '请上传头像!',
+                'msg' => '没有上传头像!',
                 'info' => [],
             ];
         }
-        $client_name = $head->getClientOriginalName();
-        $extension = $head->getClientOriginalExtension();
-        $new_name = md5(date('ymdhis') . $client_name) . "." . $extension;
-        $path = $head->move('storage/uploads', $new_name);
         $user_image = new UserImage();
         $result = $user_image->where('user_id', $user_id)->where('type', UserImage::TYPE_HEAD)->first();
         if (empty($result)) {

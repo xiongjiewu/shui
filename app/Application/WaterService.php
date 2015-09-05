@@ -235,7 +235,7 @@ class WaterService
             $user_images_result = UserImage::whereIn('user_id', $user_ids)->where('type', UserImage::TYPE_SHOP)->first();
             $images = [];
             foreach ($user_images_result as $user_images_result_val) {
-                $images[$user_images_result_val->user_id] = $user_images_result_val->image_url;
+                $images[$user_images_result_val->user_id] = $user_images_result_val->path();
             }
             $user_financial_result = UserFinancial::whereIn('user_id', $user_ids)->first();
             $financial = [];

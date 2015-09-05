@@ -14,7 +14,7 @@ class RegisterController extends Controller
         $password = $request->get('password');
         $password2 = $request->get('password2');
         $verify = $request->get('verify');
-        $head = \Input::file('head');
+        $head = $request->file('head');
         if (!$cellphone || !$password || !$password2 || !$verify) {
             return $this->fail('参数错误');
         }
@@ -56,11 +56,11 @@ class RegisterController extends Controller
             ];
         }
         $path = '';
-        if (!empty($head) && !$head->isValid()) {
-            $client_name = $head->getClientOriginalName();
-            $extension = $head->getClientOriginalExtension();
-            $new_name = md5(date('ymdhis') . $client_name) . "." . $extension;
-            $path = $head->move('storage/uploads', $new_name);
+        if (!empty($head) && $head->isValid()) {
+            $new_name = $this->updateFile($head);
+            if ($new_name) {
+                $path = $new_name;
+            }
         }
 
         $image = [

@@ -33,12 +33,17 @@ class UserController extends BaseController
 
     /**
      * 设置头像
+     * @param Request $request
      * @return mixed
      */
-    public function newHead()
+    public function newHead(Request $request)
     {
-        $head = Input::file('head');
-        $check = (new UserService())->updateUserHead($head, $this->user_id);
+        $head = $request->file('head');
+        $path = '';
+        if (!empty($head) && $head->isValid()) {
+            $path = $this->updateFile($head);
+        }
+        $check = (new UserService())->updateUserHead($path, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [

@@ -123,19 +123,6 @@ class ActivityController extends BaseController
     }
 
     /**
-     * @param $file \Symfony\Component\HttpFoundation\File\UploadedFile|array
-     * @return bool
-     */
-    private function updateFile($file)
-    {
-        $file_name = md5(microtime(true) . $file->getFileName()) . '.' . $file->getClientOriginalExtension();
-        if ($file->move(getenv('FILE_PATH'), $file_name)) {
-            return $file_name;
-        }
-        return false;
-    }
-
-    /**
      * @param $msg
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
