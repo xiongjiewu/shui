@@ -6,6 +6,8 @@ class Activity extends Model
 {
     protected $table = 'activity';
 
+    protected $primaryKey = 'activity_id';
+
     const STATUS_OK = 1;
     const STATUS_NO = 2;
 

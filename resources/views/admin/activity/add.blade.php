@@ -1,9 +1,13 @@
 @extends('layouts.background')
 @section('content')
-    <form action="" id="activity_add" method="post" onsubmit="return false;">
+    <form action="" id="activity_add" method="post">
         <div class="form-group">
             <label for="title">标题</label>
             <input type="text" class="form-control" id="title" name="title" placeholder="title">
+        </div>
+        <div class="form-group">
+            <label for="url">活动链接</label>
+            <input type="text" class="form-control" id="url" name="url" placeholder="url">
         </div>
         <div class="form-group">
             <label for="description">描述</label>
@@ -12,6 +16,10 @@
         <div class="form-group">
             <label for="statement">声明</label>
             <input type="text" class="form-control" id="statement" name="statement" placeholder="statement">
+        </div>
+        <div class="form-group">
+            <label for="price">捐赠额度</label>
+            <input type="number" class="form-control" id="price" name="price" placeholder="price/单位：元">
         </div>
         <div class="form-group">
             <label for="state">视频</label>
