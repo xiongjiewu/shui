@@ -316,4 +316,15 @@ class WaterService
         $calculatedDistance = $earthRadius * $stepTwo;
         return round($calculatedDistance);
     }
+
+    /**
+     * 水银行信息
+     * @param $params
+     * @param $user_id
+     * @return array
+     */
+    public function bankInfo($params, $user_id)
+    {
+
+    }
 }

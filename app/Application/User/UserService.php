@@ -171,9 +171,38 @@ class UserService
      * @param $head
      * @return array
      */
-    public function updateUserHead($user_id, $head)
+    public function updateUserHead($head, $user_id)
     {
-
+        if (!$head->isValid()) {
+            return [
+                'status' => false,
+                'msg' => '请上传头像!',
+                'info' => [],
+            ];
+        }
+        $client_name = $head->getClientOriginalName();
+        $extension = $head->getClientOriginalExtension();
+        $new_name = md5(date('ymdhis') . $client_name) . "." . $extension;
+        $path = $head->move('storage/uploads', $new_name);
+        $user_image = new UserImage();
+        $result = $user_image->where('user_id', $user_id)->where('type', UserImage::TYPE_HEAD)->first();
+        if (empty($result)) {
+            $user_image->user_id = $user_id;
+            $user_image->type = UserImage::TYPE_HEAD;
+            $user_image->image_url = $path;
+            $user_image->save();
+        } else {
+            $user_image->where('user_id', $user_id)->where('type', UserImage::TYPE_HEAD)->update(
+                [
+                    'image_url' => $path
+                ]
+            );
+        }
+        return [
+            'status' => true,
+            'msg' => 'success',
+            'info' => [],
+        ];
     }
 
     /**

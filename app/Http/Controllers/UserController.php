@@ -37,16 +37,13 @@ class UserController extends BaseController
      */
     public function newHead()
     {
-        if (Input::hasFile('head')) {
-            $head = Input::file('head');
-
-        }
-        $check = (new UserService())->updateUserHead($this->user_id, $head);
+        $head = Input::file('head');
+        $check = (new UserService())->updateUserHead($head, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [
                     'code' => 0,
-                    'message' => '反馈成功！',
+                    'message' => '修改成功！',
                     'userInfo' => [],
                 ]
             );
@@ -222,6 +219,26 @@ class UserController extends BaseController
     public function activeFocus(Request $request)
     {
         $check = (new ActivityService())->activeFocus($request, $this->user_id, UserFocus::IS_ACTIVE_TRUE);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '关注成功！',
+                    'order' => [],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
+
+    /**
+     * 水银行信息
+     * @param Request $request
+     * @return mixed
+     */
+    public function bankInfo(Request $request)
+    {
+        $check = (new WaterService())->bankInfo($request, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [

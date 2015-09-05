@@ -26,6 +26,7 @@ Route::any('/bagList', ['uses' => 'UserController@bagList']);
 Route::any('/search', ['uses' => 'UserController@search']);
 Route::any('/bankOrder', ['uses' => 'UserController@bankOrder']);
 Route::any('/bankSure', ['uses' => 'UserController@bankSure']);
+Route::any('/bankInfo', ['uses' => 'UserController@bankInfo']);
 Route::any('/mapDetail', ['uses' => 'WaterController@mapDetail']);
 Route::any('/mapList', ['uses' => 'WaterController@mapList']);
 Route::any('/activeFocusCancel', ['uses' => 'UserController@activeFocusCancel']);
