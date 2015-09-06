@@ -19,7 +19,7 @@ class LoginController extends Controller
                 [
                     'code' => 0,
                     'message' => '登录成功！',
-                    'userInfo' => $check['userInfo'],
+                    'user_info' => $check['userInfo'],
                 ]
             );
         }
@@ -32,7 +32,7 @@ class LoginController extends Controller
         if ($check['status']) {
             return [
                 'status' => 'ok',
-                'userInfo' => $check['info'],
+                'user_info' => $check['info'],
             ];
         } else {
             return [

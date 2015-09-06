@@ -26,7 +26,7 @@ class RegisterController extends Controller
         return \Response::json([
             'code' => 0,
             'message' => '注册成功！',
-            'userInfo' => $check['userInfo'],
+            'user_info' => $check['userInfo'],
         ]);
     }
 
@@ -44,7 +44,7 @@ class RegisterController extends Controller
             return [
                 'status' => 'error',
                 'message' => '2次密码不一致',
-                'userInfo' => [],
+                'user_info' => [],
             ];
         }
 
@@ -52,7 +52,7 @@ class RegisterController extends Controller
             return [
                 'status' => 'error',
                 'message' => '验证码不正确',
-                'userInfo' => [],
+                'user_info' => [],
             ];
         }
         $path = '';
@@ -73,13 +73,13 @@ class RegisterController extends Controller
             return [
                 'status' => 'ok',
                 'message' => 'success',
-                'userInfo' => $register['info'],
+                'user_info' => $register['info'],
             ];
         }
         return [
             'status' => 'error',
             'message' => $register['msg'],
-            'userInfo' => [],
+            'user_info' => [],
         ];
     }
 
