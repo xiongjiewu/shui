@@ -74,7 +74,7 @@ class ActivityService
                 'active_id' => $activity_result_v['activity_id'],
                 'title' => $activity_result_v['title'],
                 'content' => $activity_result_v['desc'],
-                'create_time' => $activity_result_v['created_time'],
+                'create_time' => $activity_result_v['created_at'],
                 'is_focus' => UserFocus::IS_ACTIVE_FALSE,
                 'support' => $activity_result_v['focus_count'],
                 'image_url' => ActivityImage::defaultImage(),
@@ -92,7 +92,7 @@ class ActivityService
             ->groupBy('activity_id')->get()->toArray();
         $activity_image_info = [];
         foreach ($activity_image_result as $activity_image_result_v) {
-            $activity_image_info[$activity_image_result_v['activity_id']] = $activity_image_result_v['image_url'];
+            $activity_image_info[$activity_image_result_v['activity_id']] = $activity_image_result_v->path();
         }
         foreach ($list as &$v) {
             if (in_array($v['active_id'], $activity_id_is_true)) {

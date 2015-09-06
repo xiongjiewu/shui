@@ -20,12 +20,12 @@ class ActivityImage extends Model
 
     public function scopePIC($query)
     {
-        return $query->where('status', self::TYPE_IMAGE_IS_PIC);
+        return $query->where('type', self::TYPE_IMAGE_IS_PIC);
     }
 
     public function scopeGIF($query)
     {
-        return $query->where('status', self::TYPE_IMAGE_IS_GIF);
+        return $query->where('type', self::TYPE_IMAGE_IS_GIF);
     }
 
     public static function defaultImage()
