@@ -89,10 +89,10 @@ class ActivityService
         }
         //获得图片
         $activity_image_result = ActivityImage::whereIn('activity_id', $activity_id_list)->PIC()
-            ->groupBy('activity_id')->get()->toArray();
+            ->groupBy('activity_id')->get();
         $activity_image_info = [];
         foreach ($activity_image_result as $activity_image_result_v) {
-            $activity_image_info[$activity_image_result_v['activity_id']] = $activity_image_result_v->path();
+            $activity_image_info[$activity_image_result_v->activity_id] = $activity_image_result_v->path();
         }
         foreach ($list as &$v) {
             if (in_array($v['active_id'], $activity_id_is_true)) {
@@ -147,7 +147,7 @@ class ActivityService
         $data['active_id'] = $params->get('activeID');
         $data['title'] = $activity_result->title;
         $data['content'] = $activity_result->desc;
-        $data['create_time'] = $activity_result->created_at;
+        $data['create_time'] = (String)$activity_result->created_at;
         $data['is_focus'] = UserFocus::userIsFocus($params->get('activeID'), $user_id);
         $data['support'] = $activity_result->focus_count;
         $data['image_url'] = ActivityImage::getImages($params->get('activeID'));
