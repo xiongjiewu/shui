@@ -45,4 +45,24 @@ class WaterController extends BaseController
         }
         return $this->fail($check['message']);
     }
+
+    /**
+     * 水地图亲水包获取
+     * @param Request $request
+     * @return mixed
+     */
+    public function mapBag(Request $request)
+    {
+        $check = (new WaterService())->mapBag($request, $this->user_id);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '获取成功！',
+                    'get_Info' => $check['info'],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
 }

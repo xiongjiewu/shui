@@ -1,5 +1,6 @@
 <?php namespace App\Application;
 
+use App\Model\GetShopWaterLog;
 use App\Model\UserBase;
 use App\Model\UserBlackWater;
 use App\Model\UserCompanyExtend;
@@ -202,6 +203,67 @@ class WaterService
             'status' => true,
             'msg' => 'success',
             'info' => $data,
+        ];
+    }
+
+    /**
+     * 水地图亲水包获取
+     * @param $params
+     * @param $user_id
+     * @return Array
+     */
+    public function mapBag($params, $user_id)
+    {
+        $user_financial = new UserFinancial();
+        $result = $user_financial->where('user_id', $params->get('storeID'))->first();
+        if (empty($result)) {
+            return [
+                'status' => false,
+                'msg' => '店铺ID不存在!',
+                'info' => [],
+            ];
+        }
+        if ($result->giving == 0 || $result->water_count < $result->giving) {
+            return [
+                'status' => false,
+                'msg' => '已经领取完了!',
+                'info' => [],
+            ];
+        }
+        $bool = $user_financial->where('user_id', $params->get('storeID'))->update(
+            [
+                'water_count' => $result->water_count - $result->giving,
+                'send_water' => $result->send_water + $result->giving,
+            ]
+        );
+        if ($bool) {
+            $my_result = $user_financial->where('user_id', $user_id)->first();
+            if (!empty($my_result)) {
+                $user_financial->where('user_id', $user_id)->update(
+                    [
+                        'water_count' => $my_result->water_count + $result->giving,
+                    ]
+                );
+            } else {
+                $user_financial->user_id = $user_id;
+                $user_financial->water_count = $result->giving;
+                $user_financial->save();
+            }
+            $get_show_water_log = new GetShopWaterLog();
+            $get_show_water_log->user_id = $params->get('storeID');
+            $get_show_water_log->water_count = $result->giving;
+            $get_show_water_log->giving_user_id = $user_id;
+            $get_show_water_log->save();
+            return [
+                'status' => false,
+                'msg' => '领取成功!',
+                'info' => [],
+            ];
+        }
+        return [
+            'status' => false,
+            'msg' => '领取失败!',
+            'info' => [],
         ];
     }
 
