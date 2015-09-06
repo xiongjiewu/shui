@@ -1,11 +1,10 @@
-<?php namespace App\Console\Commands;
+<?php namespace App\Jobs;
 
 use App\Model\UserBase;
 use App\Model\UserBlackWater;
 use App\Model\UserLoginLog;
-use Illuminate\Console\Command;
 
-class CalculateTheBlackWater extends Command
+class CalculateTheBlackWater extends Job
 {
     /**
      * The console command name.

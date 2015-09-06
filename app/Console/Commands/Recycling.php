@@ -1,9 +1,10 @@
-<?php namespace App\Jobs;
+<?php namespace App\Console\Commands;
 
 use App\Model\UserFinancial;
 use App\Model\UserSendWater;
+use Illuminate\Console\Command;
 
-class Recycling extends Job
+class Recycling extends Command
 {
     /**
      * @param $job

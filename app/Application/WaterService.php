@@ -97,7 +97,7 @@ class WaterService
             $bool = $user_send_water->save();
             if ($bool) {
                 $time_out = Carbon::now()->addHour(getenv('TIMEOUT_HOUR'));
-                \Queue::later($time_out, '\App\Jobs\Recycling', ['send_id' => $bool->id]);
+                \Queue::later($time_out, '\App\Console\Commands\Recycling', ['send_id' => $bool->id]);
                 return [
                     'status' => true,
                     'msg' => 'success',
