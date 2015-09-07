@@ -78,7 +78,7 @@ class RegisterController extends Controller
         }
         return [
             'status' => 'error',
-            'message' => $register['msg'],
+            'message' => $register['message'],
             'userInfo' => [],
         ];
     }
