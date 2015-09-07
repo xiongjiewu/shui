@@ -36,6 +36,9 @@ class ActivityImage extends Model
     public static function getImages($activity_id, $type = self::TYPE_IMAGE_IS_PIC)
     {
         $result = self::where('activity_id', $activity_id)->where('type', $type)->get()->toArray();
+        if (empty($result)) {
+            return (Object)[];
+        }
         return (count($result) == 1) ? array_shift($result) : $result;
     }
 }
