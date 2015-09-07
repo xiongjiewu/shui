@@ -21,7 +21,7 @@ class RegisterController extends Controller
         //检查登录信息
         $check = $this->check($cellphone, $password, $password2, $verify, $head);
         if ($check['status'] == 'error') {
-            return $this->fail($check['msg']);
+            return $this->fail($check['message']);
         }
         return \Response::json([
             'code' => 0,
