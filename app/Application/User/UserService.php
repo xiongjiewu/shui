@@ -112,7 +112,7 @@ class UserService
     {
         return [
             'status' => $status,
-            'msg' => $msg,
+            'message' => $msg,
             'info' => $info,
         ];
     }
@@ -138,7 +138,7 @@ class UserService
         $report->save();
         return [
             'status' => true,
-            'msg' => 'success',
+            'message' => 'success',
             'info' => [],
         ];
     }
@@ -178,7 +178,7 @@ class UserService
         if (empty($path)) {
             return [
                 'status' => false,
-                'msg' => '没有上传头像!',
+                'message' => '没有上传头像!',
                 'info' => [],
             ];
         }
@@ -198,7 +198,7 @@ class UserService
         }
         return [
             'status' => true,
-            'msg' => 'success',
+            'message' => 'success',
             'info' => [],
         ];
     }
@@ -216,13 +216,13 @@ class UserService
         if ($result) {
             return [
                 'status' => true,
-                'msg' => 'success',
+                'message' => 'success',
                 'info' => [],
             ];
         } else {
             return [
                 'status' => false,
-                'msg' => '修改密码失败!',
+                'message' => '修改密码失败!',
                 'info' => [],
             ];
         }
@@ -242,7 +242,7 @@ class UserService
         if (empty($result)) {
             return [
                 'status' => true,
-                'msg' => 'success',
+                'message' => 'success',
                 'info' => [],
             ];
         }
@@ -255,7 +255,7 @@ class UserService
         }
         return [
             'status' => true,
-            'msg' => 'success',
+            'message' => 'success',
             'info' => $list,
         ];
     }
@@ -270,13 +270,13 @@ class UserService
         if (!$user_name) {
             return [
                 'status' => false,
-                'msg' => '登录账户不能为空',
+                'message' => '登录账户不能为空',
             ];
         }
         if (!$password) {
             return [
                 'status' => false,
-                'msg' => '密码不能为空',
+                'message' => '密码不能为空',
             ];
         }
 
@@ -294,12 +294,12 @@ class UserService
             \Cookie::queue($cookie);
             return [
                 'status' => true,
-                'msg' => '登录成功',
+                'message' => '登录成功',
             ];
         }
         return [
             'status' => false,
-            'msg' => '账户或密码错误',
+            'message' => '账户或密码错误',
         ];
     }
 

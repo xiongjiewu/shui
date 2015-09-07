@@ -34,13 +34,13 @@ class ActivityService
         if ($bool) {
             return [
                 'status' => true,
-                'msg' => 'success',
+                'message' => 'success',
                 'info' => [],
             ];
         } else {
             return [
                 'status' => false,
-                'msg' => '系统错误!',
+                'message' => '系统错误!',
                 'info' => [],
             ];
         }
@@ -62,7 +62,7 @@ class ActivityService
         if (empty($activity_result)) {
             return [
                 'status' => true,
-                'msg' => '获取成功!',
+                'message' => '获取成功!',
                 'info' => [],
             ];
         }
@@ -112,7 +112,7 @@ class ActivityService
         ];
         return [
             'status' => true,
-            'msg' => '获取成功!',
+            'message' => '获取成功!',
             'info' => $list,
             'pager' => $pager
         ];
@@ -129,7 +129,7 @@ class ActivityService
         if (!$params->get('activeID')) {
             return [
                 'status' => false,
-                'msg' => '活动ID不能为空!',
+                'message' => '活动ID不能为空!',
                 'info' => [],
             ];
         }
@@ -139,7 +139,7 @@ class ActivityService
         if (empty($activity_result)) {
             return [
                 'status' => false,
-                'msg' => '活动不存在!',
+                'message' => '活动不存在!',
                 'info' => [],
             ];
         }
@@ -159,7 +159,7 @@ class ActivityService
         $data['people_num'] = $fundraising->fundraising_count;
         return [
             'status' => true,
-            'msg' => '获取成功!',
+            'message' => '获取成功!',
             'info' => $data,
         ];
     }
@@ -175,7 +175,7 @@ class ActivityService
         if (!$params->get('activeID')) {
             return [
                 'status' => false,
-                'msg' => '活动ID不能为空!',
+                'message' => '活动ID不能为空!',
                 'info' => [],
             ];
         }
@@ -186,7 +186,7 @@ class ActivityService
         if ($user_financial_result->water_count < $money_to_water) {
             return [
                 'status' => false,
-                'msg' => '你的亲水值不够!',
+                'message' => '你的亲水值不够!',
                 'info' => [],
             ];
         }
@@ -215,13 +215,13 @@ class ActivityService
             $activity_donations_log->save();
             return [
                 'status' => true,
-                'msg' => '捐款成功!',
+                'message' => '捐款成功!',
                 'info' => [],
             ];
         }
         return [
             'status' => false,
-            'msg' => '系统错误!',
+            'message' => '系统错误!',
             'info' => [],
         ];
     }
