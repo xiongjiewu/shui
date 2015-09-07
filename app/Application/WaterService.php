@@ -22,7 +22,7 @@ class WaterService
         if (!$params->get('bagID')) {
             return [
                 'status' => false,
-                'msg' => '领取了一个不存在的亲水包!',
+                'message' => '领取了一个不存在的亲水包!',
                 'info' => [],
             ];
         }
@@ -30,7 +30,7 @@ class WaterService
         if (empty($result)) {
             return [
                 'status' => false,
-                'msg' => '亲水包不存在!',
+                'message' => '亲水包不存在!',
                 'info' => [],
             ];
         }
@@ -48,20 +48,20 @@ class WaterService
             if ($bool) {
                 return [
                     'status' => true,
-                    'msg' => 'success',
+                    'message' => 'success',
                     'info' => [],
                 ];
             } else {
                 return [
                     'status' => false,
-                    'msg' => '领取失败!',
+                    'message' => '领取失败!',
                     'info' => [],
                 ];
             }
         }
         return [
             'status' => false,
-            'msg' => '该亲水包已经飞走了!',
+            'message' => '该亲水包已经飞走了!',
             'info' => [],
         ];
 
@@ -79,7 +79,7 @@ class WaterService
         if (empty($water_result) || $water_result->water_count < $params->get('money')) {
             return [
                 'status' => false,
-                'msg' => '你的亲水值不够!',
+                'message' => '你的亲水值不够!',
                 'info' => [],
             ];
         }
@@ -101,14 +101,14 @@ class WaterService
                 \Queue::later($time_out, '\App\Console\Commands\Recycling', ['send_id' => $bool->id], 'send_water');
                 return [
                     'status' => true,
-                    'msg' => 'success',
+                    'message' => 'success',
                     'info' => [],
                 ];
             }
         }
         return [
             'status' => false,
-            'msg' => '发送亲水包失败!',
+            'message' => '发送亲水包失败!',
             'info' => [],
         ];
     }
@@ -127,7 +127,7 @@ class WaterService
         if (empty($result)) {
             return [
                 'status' => true,
-                'msg' => 'success',
+                'message' => 'success',
                 'info' => [],
             ];
         }
@@ -154,7 +154,7 @@ class WaterService
         }
         return [
             'status' => true,
-            'msg' => 'success',
+            'message' => 'success',
             'info' => $list,
         ];
     }
@@ -170,7 +170,7 @@ class WaterService
         if (!$params->get('store_id')) {
             return [
                 'status' => false,
-                'msg' => '查询店铺不存在!',
+                'message' => '查询店铺不存在!',
                 'info' => [],
             ];
         }
@@ -178,7 +178,7 @@ class WaterService
         if ($result) {
             return [
                 'status' => false,
-                'msg' => '查询店铺不存在!',
+                'message' => '查询店铺不存在!',
                 'info' => [],
             ];
         }
@@ -201,7 +201,7 @@ class WaterService
         }
         return [
             'status' => true,
-            'msg' => 'success',
+            'message' => 'success',
             'info' => $data,
         ];
     }
@@ -219,14 +219,14 @@ class WaterService
         if (empty($result)) {
             return [
                 'status' => false,
-                'msg' => '店铺ID不存在!',
+                'message' => '店铺ID不存在!',
                 'info' => [],
             ];
         }
         if ($result->giving == 0 || $result->water_count < $result->giving) {
             return [
                 'status' => false,
-                'msg' => '已经领取完了!',
+                'message' => '已经领取完了!',
                 'info' => [],
             ];
         }
@@ -256,13 +256,13 @@ class WaterService
             $get_show_water_log->save();
             return [
                 'status' => false,
-                'msg' => '领取成功!',
+                'message' => '领取成功!',
                 'info' => [],
             ];
         }
         return [
             'status' => false,
-            'msg' => '领取失败!',
+            'message' => '领取失败!',
             'info' => [],
         ];
     }
@@ -286,7 +286,7 @@ class WaterService
             if (empty($result)) {
                 return [
                     'status' => true,
-                    'msg' => '获取成功!',
+                    'message' => '获取成功!',
                     'info' => [],
                 ];
             }
@@ -327,7 +327,7 @@ class WaterService
         } else {
             return [
                 'status' => false,
-                'msg' => '缺少经纬度参数!',
+                'message' => '缺少经纬度参数!',
                 'info' => [],
             ];
         }
@@ -396,7 +396,7 @@ class WaterService
         $data['protect_num'] = $user_financial_result->water_count();
         return [
             'status' => true,
-            'msg' => 'success',
+            'message' => 'success',
             'info' => $data,
         ];
     }

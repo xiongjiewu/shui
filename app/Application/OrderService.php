@@ -23,13 +23,13 @@ class OrderService
         if (!empty($result)) {
             return [
                 'status' => false,
-                'msg' => '生成失败!',
+                'message' => '生成失败!',
                 'info' => [],
             ];
         }
         return [
             'status' => true,
-            'msg' => 'success',
+            'message' => 'success',
             'info' => ['order_id' => $result->id, 'order_info' => ''],
         ];
     }
@@ -64,13 +64,13 @@ class OrderService
         if ($result) {
             return [
                 'status' => true,
-                'msg' => '提交成功!',
+                'message' => '提交成功!',
                 'info' => [],
             ];
         } else {
             return [
                 'status' => false,
-                'msg' => '提交失败!',
+                'message' => '提交失败!',
                 'info' => [],
             ];
         }
