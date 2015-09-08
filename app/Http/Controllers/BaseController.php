@@ -10,7 +10,7 @@ class BaseController extends Controller
     public function __construct(Request $request)
     {
         if (!$request->header('App-token')) {
-            return $this->fail('用户ID不存在!');
+            exit();
         }
         $this->user_id = TokenService::tokenDecrypt($request->header('App-token'));
     }
