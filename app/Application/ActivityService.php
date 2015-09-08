@@ -84,15 +84,19 @@ class ActivityService
         $user_focus = UserFocus::where('activity_id', array_unique($activity_id_list))
             ->where('user_id', $params['userID'])->IsActiveTrue()->get()->toArray();
         $activity_id_is_true = [];
-        foreach ($user_focus as $user_focus_v) {
-            array_push($activity_id_is_true, $user_focus_v['activity_id']);
+        if (!empty($user_focus)) {
+            foreach ($user_focus as $user_focus_v) {
+                array_push($activity_id_is_true, $user_focus_v['activity_id']);
+            }
         }
         //获得图片
         $activity_image_result = ActivityImage::whereIn('activity_id', $activity_id_list)->PIC()
             ->groupBy('activity_id')->get();
         $activity_image_info = [];
-        foreach ($activity_image_result as $activity_image_result_v) {
-            $activity_image_info[$activity_image_result_v->activity_id] = $activity_image_result_v->path();
+        if (!empty($activity_image_result)) {
+            foreach ($activity_image_result as $activity_image_result_v) {
+                $activity_image_info[$activity_image_result_v->activity_id] = $activity_image_result_v->path();
+            }
         }
         foreach ($list as &$v) {
             if (in_array($v['active_id'], $activity_id_is_true)) {
