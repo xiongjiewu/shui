@@ -15,7 +15,7 @@ class ActivityImage extends Model
      */
     public function path()
     {
-        return getenv('FILE_PATH') . '/' . $this->image_url;
+        return getenv('THE_DOMAIN_NAME') . getenv('FILE_PATH') . '/' . $this->image_url;
     }
 
     public function scopePIC($query)
