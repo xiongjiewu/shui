@@ -48,12 +48,12 @@ class OrderService
         $user_financial = new UserFinancial();
         $user_financial_result = $user_financial->where('user_id', $user_id)->first();
         if (empty($user_financial_result)) {
-            $user_financial_result->user_id = $user_id;
-            $user_financial_result->water_count = $result->water_count;
-            $user_financial_result->price = $result->price;
-            $user_financial_result->save();
+            $user_financial->user_id = $user_id;
+            $user_financial->water_count = $result->water_count;
+            $user_financial->price = $result->price;
+            $user_financial->save();
         } else {
-            $user_financial_result->where('user_id', $user_id)->update(
+            $user_financial->where('user_id', $user_id)->update(
                 [
                     'water_count' => ($user_financial_result->water_count + $result->water_count),
                     'price' => ($user_financial_result->price + $result->price)
