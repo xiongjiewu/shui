@@ -39,8 +39,8 @@ class ActivityImage extends Model
         if (empty($result)) {
             return (Object)[];
         }
-        foreach ($result as $value) {
-            $value['image_url'] = parent::getImagePath() . $value['image_url'];
+        foreach ($result as &$value) {
+            $value['image_url'] = parent::getImagePath() . '/' . $value['image_url'];
         }
         return (count($result) == 1) ? array_shift($result) : $result;
     }
