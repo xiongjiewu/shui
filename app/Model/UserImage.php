@@ -12,13 +12,18 @@ class UserImage extends Model
     const TYPE_BUSINESS = 2;//类型-营业执照
     const TYPE_SHOP = 3;//类型-店铺招牌
 
+    public static function getImagePath()
+    {
+        return getenv('THE_DOMAIN_NAME') . getenv('FILE_PATH');
+    }
+
     /**
      * 获取文件完整路径
      * @return string
      */
     public function path()
     {
-        return parent::getImagePath() . '/' . $this->image_url;
+        return self::getImagePath() . '/' . $this->image_url;
     }
 
     /**

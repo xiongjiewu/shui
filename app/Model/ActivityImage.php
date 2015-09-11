@@ -9,13 +9,18 @@ class ActivityImage extends Model
     const TYPE_IMAGE_IS_PIC = 1;
     const TYPE_IMAGE_IS_GIF = 2;
 
+    public static function getImagePath()
+    {
+        return getenv('THE_DOMAIN_NAME') . getenv('FILE_PATH');
+    }
+
     /**
      * 获取文件完整路径
      * @return string
      */
     public function path()
     {
-        return parent::getImagePath() . '/' . $this->image_url;
+        return self::getImagePath() . '/' . $this->image_url;
     }
 
     public function scopePIC($query)
@@ -40,7 +45,7 @@ class ActivityImage extends Model
             return (Object)[];
         }
         foreach ($result as &$value) {
-            $value['image_url'] = parent::getImagePath() . '/' . $value['image_url'];
+            $value['image_url'] = self::getImagePath() . '/' . $value['image_url'];
         }
         return (count($result) == 1) ? array_shift($result) : $result;
     }
