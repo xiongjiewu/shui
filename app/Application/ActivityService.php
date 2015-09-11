@@ -159,10 +159,15 @@ class ActivityService
         $data['image_url'] = ActivityImage::getImages($params->get('activeID'));
         $data['video_url'] = ActivityImage::getImages($params->get('activeID'), ActivityImage::TYPE_IMAGE_IS_GIF);
         $data['like_url'] = $activity_result->url;
+        $data['left_money'] = 0;
+        $data['now_money'] = 0;
+        $data['people_num'] = 0;
         $fundraising = ActivityFundraising::where('activity_id', $params->get('activeID'))->first();
-        $data['left_money'] = $fundraising->total_amount_price;
-        $data['now_money'] = $fundraising->existing_price;
-        $data['people_num'] = $fundraising->fundraising_count;
+        if (!empty($fundraising)) {
+            $data['left_money'] = $fundraising->total_amount_price;
+            $data['now_money'] = $fundraising->existing_price;
+            $data['people_num'] = $fundraising->fundraising_count;
+        }
         return [
             'status' => true,
             'message' => '获取成功!',
