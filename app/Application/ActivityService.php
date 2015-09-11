@@ -64,6 +64,7 @@ class ActivityService
                 'status' => true,
                 'message' => '获取成功!',
                 'info' => [],
+                'pager' => [],
             ];
         }
         $list = [];
