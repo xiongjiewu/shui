@@ -20,7 +20,7 @@ class OrderService
         $order_log->rate = OrderLog::getRate();
         $order_log->water_count = (OrderLog::getRate() * $params->get('money'));
         $result = $order_log->save();
-        if (!empty($result)) {
+        if (empty($result)) {
             return [
                 'status' => false,
                 'message' => '生成失败!',
@@ -30,7 +30,7 @@ class OrderService
         return [
             'status' => true,
             'message' => 'success',
-            'info' => ['order_id' => $result->id, 'order_info' => ''],
+            'info' => ['order_id' => $result->order_id, 'order_info' => ''],
         ];
     }
 
