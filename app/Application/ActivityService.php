@@ -51,7 +51,7 @@ class ActivityService
      * @param $params
      * @return array
      */
-    public function showList($params)
+    public function showList($params, $user_id)
     {
         $page = !empty($params['page']) ?: 1;
         $count = !empty($params['count']) ?: 10;
@@ -83,7 +83,7 @@ class ActivityService
         }
         //获得关注信息
         $user_focus = UserFocus::whereIn('activity_id', array_unique($activity_id_list))
-            ->where('user_id', $params['userID'])->IsActiveTrue()->get()->toArray();
+            ->where('user_id', $user_id)->IsActiveTrue()->get()->toArray();
         $activity_id_is_true = [];
         if (!empty($user_focus)) {
             foreach ($user_focus as $user_focus_v) {
