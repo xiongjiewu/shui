@@ -82,7 +82,7 @@ class ActivityService
             ];
         }
         //获得关注信息
-        $user_focus = UserFocus::where('activity_id', array_unique($activity_id_list))
+        $user_focus = UserFocus::whereIn('activity_id', array_unique($activity_id_list))
             ->where('user_id', $params['userID'])->IsActiveTrue()->get()->toArray();
         $activity_id_is_true = [];
         if (!empty($user_focus)) {
