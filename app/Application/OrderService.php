@@ -47,7 +47,7 @@ class OrderService
         $result = $order_log->where('order_id', $params->get('orderID'))->where('user_id', $user_id)->first();
         if ($result->status == OrderLog::STATUS_IS_TRUE) {
             return [
-                'status' => true,
+                'status' => false,
                 'message' => '请勿重复充值!',
                 'info' => [],
             ];
