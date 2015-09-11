@@ -15,7 +15,7 @@ class ActivityImage extends Model
      */
     public function path()
     {
-        return getenv('THE_DOMAIN_NAME') . getenv('FILE_PATH') . '/' . $this->image_url;
+        return parent::getImagePath() . '/' . $this->image_url;
     }
 
     public function scopePIC($query)
@@ -38,6 +38,9 @@ class ActivityImage extends Model
         $result = self::where('activity_id', $activity_id)->where('type', $type)->get()->toArray();
         if (empty($result)) {
             return (Object)[];
+        }
+        foreach ($result as $value) {
+            $value['image_url'] = parent::getImagePath() . $value['image_url'];
         }
         return (count($result) == 1) ? array_shift($result) : $result;
     }

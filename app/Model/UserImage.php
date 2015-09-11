@@ -18,7 +18,7 @@ class UserImage extends Model
      */
     public function path()
     {
-        return getenv('THE_DOMAIN_NAME') . getenv('FILE_PATH') . '/' . $this->image_url;
+        return parent::getImagePath() . '/' . $this->image_url;
     }
 
     /**
