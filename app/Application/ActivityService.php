@@ -49,6 +49,7 @@ class ActivityService
     /**
      * 公益活动列表
      * @param $params
+     * @param $user_id
      * @return array
      */
     public function showList($params, $user_id)
