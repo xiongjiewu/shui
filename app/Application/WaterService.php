@@ -136,10 +136,10 @@ class WaterService
         foreach ($result as $value) {
             $user_ids[] = $value['user_id'];
         }
-        $user_result = UserBase::whereIn('id', $user_ids)->get()->toArray();
+        $user_result = UserBase::whereIn('user_id', array_unique($user_ids))->get()->toArray();
         $user_list = [];
         foreach ($user_result as $user_result_val) {
-            $user_list[$user_result_val['id']] = $user_result_val['user_name'];
+            $user_list[$user_result_val['user_id']] = $user_result_val['user_name'];
         }
         $list = [];
         foreach ($result as $value) {
