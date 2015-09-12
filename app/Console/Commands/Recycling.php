@@ -16,7 +16,7 @@ class Recycling extends Command
         if (!empty($data['send_id'])) {
             $user_send_water = new UserSendWater();
             $result = $user_send_water->where('id', $data['send_id'])->first();
-            if (!empty($result) && $result->status == UserSendWater::IS_ACTIVE_FALSE) {
+            if (!empty($result) && $result->status == UserSendWater::STATUS_IS_FALSE) {
                 $user_send_water->where('id', $data['send_id'])->update(
                     [
                         'status' => UserSendWater::STATUS_IS_ACTIVE_FALSE,
