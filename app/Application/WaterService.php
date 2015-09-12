@@ -8,6 +8,7 @@ use App\Model\UserFinancial;
 use App\Model\UserImage;
 use App\Model\UserSendWater;
 use Carbon\Carbon;
+use Queue;
 
 class WaterService
 {
@@ -98,7 +99,7 @@ class WaterService
             $bool = $user_send_water->save();
             if ($bool) {
                 $time_out = Carbon::now()->addHour(getenv('TIMEOUT_HOUR'));
-                \Queue::later($time_out, 'App\Console\Commands\Recycling', ['send_id' => $user_send_water->id], 'send_water');
+                Queue::later($time_out, 'App\Console\Commands\RecyclingQueue', ['send_id' => $user_send_water->id], 'send_water');
                 return [
                     'status' => true,
                     'message' => 'success',

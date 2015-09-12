@@ -4,7 +4,7 @@ use App\Model\UserFinancial;
 use App\Model\UserSendWater;
 use Illuminate\Console\Command;
 
-class Recycling extends Command
+class RecyclingQueue extends Command
 {
     /**
      * @param $job
@@ -12,7 +12,6 @@ class Recycling extends Command
      */
     public function fire($job, $data)
     {
-        $job->delete();
         if (!empty($data['send_id'])) {
             $user_send_water = new UserSendWater();
             $result = $user_send_water->where('id', $data['send_id'])->first();
@@ -31,5 +30,6 @@ class Recycling extends Command
                 ]
             );
         }
+        $job->delete();
     }
 }
