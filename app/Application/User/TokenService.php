@@ -53,6 +53,6 @@ class TokenService
 
     public static function tokenDecrypt($data)
     {
-        return base64_decode($data);
+        return (int)base64_decode($data);
     }
 }
