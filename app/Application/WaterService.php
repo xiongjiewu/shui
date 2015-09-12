@@ -139,7 +139,7 @@ class WaterService
         $user_result = UserBase::whereIn('user_id', array_unique($user_ids))->get()->toArray();
         $user_list = [];
         foreach ($user_result as $user_result_val) {
-            $user_list[$user_result_val['user_id']] = $user_result_val['user_name'];
+            $user_list[$user_result_val['user_id']] = $user_result_val['user_name'] ?: '匿名';
         }
         $list = [];
         foreach ($result as $value) {
@@ -147,7 +147,7 @@ class WaterService
                 'bag_id' => $value['id'],
                 'water_num' => $value['water_count'],
                 'from_id' => $value['user_id'],
-                'from_name' => isset($user_list[$value['user_id']]) ? $user_list[$value['user_id']] : '匿名',
+                'from_name' => $user_list[$value['user_id']],
                 'create_time' => $value['created_at'],
                 'get_time' => $value['updated_at'],
                 'status' => $value['status'],
