@@ -1,10 +1,11 @@
-<?php namespace App\Jobs;
+<?php namespace App\Console\Commands;
 
 use App\Model\UserBase;
 use App\Model\UserBlackWater;
 use App\Model\UserLoginLog;
+use Illuminate\Console\Command;
 
-class CalculateTheBlackWater extends Job
+class CalculateTheBlackWater extends Command
 {
     /**
      * The console command name.
@@ -45,6 +46,9 @@ class CalculateTheBlackWater extends Job
         $black_water_val = (int)getenv('BLACK_WATER');
         while (true) {
             $result = UserBase::where('user_id', '>', $i)->limit($this->limit)->get()->toArray();
+            if (empty($result)) {
+                break;
+            }
             $i += $this->limit;
             foreach ($result as $value) {
                 $user_login_log = UserLoginLog::where('user_id', $value['user_id'])->where('date', date('Ymd', strtotime('-1 day')))->first();
