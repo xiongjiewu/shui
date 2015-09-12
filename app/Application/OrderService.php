@@ -30,7 +30,7 @@ class OrderService
         return [
             'status' => true,
             'message' => 'success',
-            'info' => ['order_id' => $result->order_id, 'order_info' => ''],
+            'info' => ['order_id' => $order_log->order_id, 'order_info' => ''],
         ];
     }
 
