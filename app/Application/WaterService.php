@@ -8,7 +8,7 @@ use App\Model\UserFinancial;
 use App\Model\UserImage;
 use App\Model\UserSendWater;
 use Carbon\Carbon;
-use Queue;
+use Illuminate\Contracts\Queue\Queue;
 
 class WaterService
 {
