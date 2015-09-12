@@ -36,7 +36,7 @@ class WaterService
             ];
         }
         if ($result->status == UserSendWater::STATUS_IS_FALSE && strtotime($result->overdue_date) > time()) {
-            $financial_result = UserFinancial::where('user_id', $params['userID'])->first();
+            $financial_result = UserFinancial::where('user_id', $user_id)->first();
             if (empty($financial_result)) {
                 $user_financiel = new UserFinancial();
                 $user_financiel->user_id = $user_id;
