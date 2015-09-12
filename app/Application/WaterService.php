@@ -147,7 +147,7 @@ class WaterService
                 'bag_id' => $value['id'],
                 'water_num' => $value['water_count'],
                 'from_id' => $value['user_id'],
-                'from_name' => isset($user_list[$value['user_id']]) ? $user_list[$value['user_id']] : '',
+                'from_name' => isset($user_list[$value['user_id']]) ? $user_list[$value['user_id']] : '匿名',
                 'create_time' => $value['created_at'],
                 'get_time' => $value['updated_at'],
                 'status' => $value['status'],
