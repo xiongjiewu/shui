@@ -17,8 +17,8 @@ class OrderService
         $order_log = new OrderLog();
         $order_log->user_id = $user_id;
         $order_log->price = $params->get('money');
-        $order_log->rate = OrderLog::getRate();
-        $order_log->water_count = (OrderLog::getRate() * $params->get('money'));
+        $order_log->rate = $order_log::getRate();
+        $order_log->water_count = ($order_log::getRate() * $params->get('money'));
         $result = $order_log->save();
         if (empty($result)) {
             return [
