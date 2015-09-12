@@ -17,7 +17,7 @@ class CreateTableUserSendWater extends Migration
             $table->integer('user_id')->default('0')->comment('用户ID');
             $table->integer('water_count')->default('0')->comment('送出的亲水值');
             $table->integer('accept_user_id')->default('0')->comment('接受的用户ID');
-            $table->timestamp('overdue_date')->comment('过期时间');
+            $table->integer('overdue_date')->comment('过期时间');
             $table->tinyInteger('status')->default('0')->comment('0-未领取 1-已领取 2-无效');
             $table->timestamps();
             $table->index(['user_id']);

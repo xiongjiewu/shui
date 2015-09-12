@@ -17,6 +17,6 @@ class UserSendWater extends Model
      */
     public static function getOverdueDate()
     {
-        return date((time() + (60 * 60 * 48)));
+        return date('Y-m-d H:i:s', strtotime("+48 hour"));
     }
 }
