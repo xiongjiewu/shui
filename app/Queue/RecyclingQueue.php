@@ -1,10 +1,9 @@
-<?php namespace App\Console\Commands;
+<?php namespace App\Queue;
 
 use App\Model\UserFinancial;
 use App\Model\UserSendWater;
-use Illuminate\Console\Command;
 
-class RecyclingQueue extends Command
+class RecyclingQueue
 {
     /**
      * @param $job
