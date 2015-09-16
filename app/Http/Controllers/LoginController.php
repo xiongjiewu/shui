@@ -5,6 +5,11 @@ use \Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+    /**
+     * 用户登入
+     * @param Request $request
+     * @return mixed
+     */
     public function login(Request $request)
     {
         $cellphone = $request->get('cellphone');

@@ -11,8 +11,9 @@
 |
 */
 
+//用户
 Route::get('/', ['uses' => 'HomeController@home']);
-Route::any('/login', ['uses' => 'LoginController@login']);
+Route::any('/login', ['uses' => 'LoginController@userRegister']);
 Route::any('/register', ['uses' => 'RegisterController@register']);
 Route::any('/activeDetail', ['uses' => 'ActivityController@activeDetail']);
 Route::any('/activeList', ['uses' => 'ActivityController@activeList']);
@@ -32,6 +33,18 @@ Route::any('/mapDetail', ['uses' => 'WaterController@mapDetail']);
 Route::any('/mapList', ['uses' => 'WaterController@mapList']);
 Route::any('/activeFocusCancel', ['uses' => 'UserController@activeFocusCancel']);
 Route::any('/activeFocus', ['uses' => 'UserController@activeFocus']);
+//商户
+Route::any('/businessRegister', ['uses' => 'RegisterController@businessRegister']);
+Route::any('/businessInfoFinish', ['uses' => 'BusinessController@businessInfoFinish']);
+Route::any('/businessInfo', ['uses' => 'BusinessController@businessInfo']);
+Route::any('/businessStart', ['uses' => 'BusinessController@businessStart']);
+Route::any('/businessEnd', ['uses' => 'BusinessController@businessEnd']);
+Route::any('/businessNewLogo', ['uses' => 'BusinessController@businessNewLogo']);
+
+
+
+
+
 
 //管理后台
 Route::get('admin/login', ['as' => 'admin::login', 'uses' => 'Admin\LoginController@login']);
