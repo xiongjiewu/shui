@@ -111,8 +111,7 @@ class UserService
      * @param array $info
      * @return array
      */
-    private
-    function outputFormat($status, $msg, $info = [])
+    private function outputFormat($status, $msg, $info = [])
     {
         return [
             'status' => $status,
@@ -127,8 +126,7 @@ class UserService
      * @param $user_id
      * @return array
      */
-    public
-    function report($params, $user_id)
+    public function report($params, $user_id)
     {
         if (trim($params->get('report')) == '') {
             return [
@@ -153,8 +151,7 @@ class UserService
      * @param $password
      * @return string
      */
-    public
-    function encryptPassword($password)
+    public function encryptPassword($password)
     {
         return base64_encode(md5($password));
     }
@@ -180,8 +177,7 @@ class UserService
      * @param $user_id
      * @return array
      */
-    public
-    function updateUserHead($path, $user_id)
+    public function updateUserHead($path, $user_id)
     {
         if (empty($path)) {
             return [
@@ -217,8 +213,7 @@ class UserService
      * @param $user_id
      * @return array
      */
-    public
-    function setNewPassword($params, $user_id)
+    public function setNewPassword($params, $user_id)
     {
         $result = UserBase::where('user_id', $user_id)
             ->update(['password' => $this->encryptPassword($params->get('newPassword'))]);
@@ -243,8 +238,7 @@ class UserService
      * @param $user_id
      * @return array
      */
-    public
-    function search($params, $user_id)
+    public function search($params, $user_id)
     {
         $result = UserBase::where('user_name', 'like', $params->get('searchContent') . '%')
             ->where('type', ($params->get('type') ?: UserBase::TYPE_BUSINESS))->where('user_id', '!=', $user_id)
@@ -275,8 +269,7 @@ class UserService
      * @param $password
      * @return array
      */
-    public
-    function adminLogin($user_name, $password)
+    public function adminLogin($user_name, $password)
     {
         if (!$user_name) {
             return [
@@ -320,8 +313,7 @@ class UserService
      * @param int $per_page
      * @return array
      */
-    public
-    function getList($page = 1, $per_page = 10)
+    public function getList($page = 1, $per_page = 10)
     {
         $users = UserBase::offset(($page - 1) * $per_page)
             ->limit($per_page)
@@ -352,8 +344,7 @@ class UserService
         return $user_list;
     }
 
-    public
-    function updateStatus($user_id, $status)
+    public function updateStatus($user_id, $status)
     {
         return UserBase::where('user_id', $user_id)
             ->update(

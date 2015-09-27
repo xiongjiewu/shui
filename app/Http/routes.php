@@ -40,12 +40,14 @@ Route::any('/businessInfo', ['uses' => 'BusinessController@businessInfo']);
 Route::any('/businessStart', ['uses' => 'BusinessController@businessStart']);
 Route::any('/businessEnd', ['uses' => 'BusinessController@businessEnd']);
 Route::any('/businessNewLogo', ['uses' => 'BusinessController@businessNewLogo']);
-
-
-
-
-
-
+Route::any('/businessNewPassword', ['uses' => 'BusinessController@businessNewPassword']);
+Route::any('/businessImage', ['uses' => 'BusinessController@businessImage']);
+Route::any('/businessNewInfo', ['uses' => 'BusinessController@businessNewInfo']);
+Route::any('/businessReport', ['uses' => 'BusinessController@businessReport']);
+Route::any('/businessBankOrder', ['uses' => 'BusinessController@businessBankOrder']);
+Route::any('/businessBankSure', ['uses' => 'BusinessController@businessBankSure']);
+Route::any('/businessOutOrder', ['uses' => 'BusinessController@businessOutOrder']);
+Route::any('/businessOutSure', ['uses' => 'BusinessController@businessOutSure']);
 //管理后台
 Route::get('admin/login', ['as' => 'admin::login', 'uses' => 'Admin\LoginController@login']);
 Route::post('admin/login', ['as' => 'admin::login::action', 'uses' => 'Admin\LoginController@loginAction']);

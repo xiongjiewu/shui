@@ -1,6 +1,7 @@
 <?php namespace App\Application\Controllers;
 
 use App\Application\User\TokenService;
+use App\Model\Report;
 use App\Model\UserBase;
 use App\Model\UserCompanyExtend;
 use App\Model\UserFinancial;
@@ -240,5 +241,189 @@ class BusinessService
                 'info' => [],
             ];
         }
+    }
+
+    /**
+     * 为商户设置新密码
+     * @param $params
+     * @param $user_id
+     * @return array
+     */
+    public function setBusinessNewPassword($params, $user_id)
+    {
+        $new_password = $params->get('newPassword');
+        if (trim($new_password) == '') {
+            return [
+                'status' => false,
+                'message' => '你的新密码不能为空!',
+                'info' => [],
+            ];
+        }
+        $result = UserBase::where('user_id', $user_id)->update(
+            [
+                'password' => $this->encryptPassword($new_password)
+            ]
+        );
+        if ($result) {
+            return [
+                'status' => true,
+                'message' => 'success',
+                'info' => [],
+            ];
+        } else {
+            return [
+                'status' => false,
+                'message' => '修改失败!',
+                'info' => [],
+            ];
+        }
+    }
+
+    /**
+     * 为商户设置新图片
+     * @param $user_id
+     * @param $business_allow_image_path
+     * @param $business_image_path
+     * @param $business_image2_path
+     * @return array
+     */
+    public function setBusinessNewImage(
+        $user_id,
+        $business_allow_image_path,
+        $business_image_path,
+        $business_image2_path
+    )
+    {
+        $user_image_model = new UserImage();
+        if (!empty($business_allow_image_path)) {
+            $user_image_model->user_id = $user_id;
+            $user_image_model->type = UserImage::TYPE_BUSINESS;
+            $user_image_model->image_url = $business_allow_image_path;
+            $user_image_model->save();
+        }
+
+        if (!empty($business_image_path)) {
+            $user_image_model->user_id = $user_id;
+            $user_image_model->type = UserImage::TYPE_SHOP;
+            $user_image_model->image_url = $business_image_path;
+            $user_image_model->save();
+        }
+
+        if (!empty($business_image2_path)) {
+            $user_image_model->user_id = $user_id;
+            $user_image_model->type = UserImage::TYPE_SHOP;
+            $user_image_model->image_url = $business_image2_path;
+            $user_image_model->save();
+        }
+
+        $data = [];
+        $data['business_id'] = $user_id;
+        $result = $user_image_model->where('user_id', $user_id)->get();
+        foreach ($result as $value) {
+            if ($value['type'] == UserImage::TYPE_BUSINESS) {
+                $data['business_allowImage'] = $value->path();
+            }
+            if ($value['type'] == UserImage::TYPE_SHOP) {
+                if (empty($data['business_image'])) {
+                    $data['business_image'] = $value->path();
+                } else {
+                    $data['business_image2'] = $value->path();
+                }
+            }
+        }
+
+        return [
+            'status' => true,
+            'message' => 'success',
+            'info' => $data,
+        ];
+    }
+
+    /**
+     * 商户设置简介
+     * @param $params
+     * @param $user_id
+     * @return mixed
+     */
+    public function setBusinessNewInfo($params, $user_id)
+    {
+        $business_info = $params->get('businessInfo');
+        if (trim($business_info) == '') {
+            return [
+                'status' => false,
+                'message' => '简介不能为空!',
+                'info' => [],
+            ];
+        }
+        $result = UserCompanyExtend::where('user_id', $user_id)->update(
+            [
+                'user_desc' => $business_info
+            ]
+        );
+        if ($result) {
+            return [
+                'status' => true,
+                'message' => 'success',
+                'info' => [
+                    'business_id' => $user_id,
+                    'business_info' => $business_info,
+                ],
+            ];
+        } else {
+            return [
+                'status' => false,
+                'message' => '修改失败!',
+                'info' => [],
+            ];
+        }
+    }
+
+    /**
+     * 商户意见反馈
+     * @param $params
+     * @param $user_id
+     * @return mixed
+     */
+    public function setBusinessReport($params, $user_id)
+    {
+        $report = $params->get('businessReport');
+        if (trim($report) == '') {
+            return [
+                'status' => false,
+                'message' => '举报内容不能为空!',
+                'info' => [],
+            ];
+        }
+        $report = new Report();
+        $report->user_id = $user_id;
+        $report->report = $report;
+        $report->type = Report::TYPE_BUSINESS;
+        $result = $report->save();
+        if ($result) {
+            return [
+                'status' => true,
+                'message' => 'success',
+                'info' => [
+                    'business_id' => $user_id,
+                    'business_report' => $report,
+                ],
+            ];
+        } else {
+            return [
+                'status' => false,
+                'message' => '修改失败!',
+                'info' => [],
+            ];
+        }
+    }
+
+    /**
+     * 加密密码
+     * @param $password
+     * @return string
+     */
+    public function encryptPassword($password)
+    {
+        return base64_encode(md5($password));
     }
 }
