@@ -13,6 +13,7 @@ class CreateTableImage extends Migration
     public function up()
     {
         Schema::create('user_image', function ($table) {
+            $table->increments('id')->comment('图片自增ID');
             $table->integer('user_id')->comment('用户自增ID');
             $table->string('image_url')->default('')->comment('图片路径');
             $table->tinyInteger('type')->default(1)->comment('1-用户头像(LOGO)2-营业执照3-店铺实景');
