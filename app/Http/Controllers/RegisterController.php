@@ -1,10 +1,12 @@
 <?php namespace App\Http\Controllers;
 
 use App\Application\User\UserService;
+use App\Application\VerifyService;
 use App\Model\UserBase;
 use App\Model\UserImage;
 use Illuminate\Http\Request;
 use Input;
+use \Response;
 
 class RegisterController extends Controller
 {
@@ -28,7 +30,7 @@ class RegisterController extends Controller
         if ($check['status'] == 'error') {
             return $this->fail($check['message']);
         }
-        return \Response::json([
+        return Response::json([
             'code' => 0,
             'message' => '注册成功！',
             'userInfo' => $check['userInfo'],
@@ -55,7 +57,7 @@ class RegisterController extends Controller
         if ($check['status'] == 'error') {
             return $this->fail($check['message']);
         }
-        return \Response::json([
+        return Response::json([
             'code' => 0,
             'message' => '注册成功！',
             'userInfo' => $check['userInfo'],
@@ -81,14 +83,16 @@ class RegisterController extends Controller
             ];
         }
 
-        if (!$this->checkVerify($verify)) {
+        $rt = $this->checkVerify($cellphone, $verify);
+
+        if (!$rt['status']) {
             return [
                 'status' => 'error',
-                'message' => '验证码不正确',
+                'message' => $rt['message'],
                 'userInfo' => [],
             ];
         }
-        
+
         $path = '';
         if (!empty($head) && $head->isValid()) {
             $new_name = $this->updateFile($head);
@@ -120,8 +124,34 @@ class RegisterController extends Controller
         ];
     }
 
-    private function checkVerify($verify)
+    /**
+     * 检测手机号
+     * @param $cellphone
+     * @param $verify
+     * @return bool
+     */
+    private function checkVerify($cellphone, $verify)
     {
-        return true;
+        return (new VerifyService())->checkThisPhoneVerifyIsTrue($cellphone, $verify);
+    }
+
+    /**
+     * 发送验证码
+     * @param $cellphone
+     * @return array
+     */
+    public function verify($cellphone)
+    {
+        $check = (new VerifyService())->sendThisPhoneVerify($cellphone);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '发送成功！',
+                    'userInfo' => [],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
     }
 }
