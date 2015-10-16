@@ -96,10 +96,17 @@ class BusinessService
         $info = [];
         $info['business_id'] = $user_id;
         $info['business_cellphone'] = $user_result->cellphone;
-        $info['business_longitude'] = $company_result->user_company_lng;
-        $info['business_latitude'] = $company_result->user_company_lat;
-        $info['business_name'] = $company_result->user_company_name;
-        $info['business_info'] = $company_result->user_desc;
+        $info['business_longitude'] = '';
+        $info['business_latitude'] = '';
+        $info['business_name'] = '';
+        $info['business_info'] = '';
+
+        if (!empty($company_result)) {
+            $info['business_longitude'] = $company_result->user_company_lng;
+            $info['business_latitude'] = $company_result->user_company_lat;
+            $info['business_name'] = $company_result->user_company_name;
+            $info['business_info'] = $company_result->user_desc;
+        }
 
         $user_image = new UserImage();
         $user_iamge_result = $user_image->where('user_id', $user_id)->get();

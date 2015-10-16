@@ -27,9 +27,6 @@ class UserVerify extends Model
             return false;
         }
         $url['scorpid'] = getenv('SEND_MSG_SCORPID');
-        if (!empty($url['scorpid'])) {
-            return false;
-        }
         $url['sprdid'] = getenv('SEND_MSG_SPRDID');
         if (!empty($url['sprdid'])) {
             return false;

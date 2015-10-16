@@ -104,7 +104,7 @@ class RegisterController extends Controller
 
         $image = [
             'url' => $path,
-            'type' => UserImage::TYPE_LOGO,
+            'type' => UserImage::TYPE_HEAD,
         ];
 
 
@@ -137,11 +137,12 @@ class RegisterController extends Controller
 
     /**
      * 发送验证码
-     * @param $cellphone
-     * @return array
+     * @param Request $request
+     * @return mixed
      */
-    public function verify($cellphone)
+    public function verify(Request $request)
     {
+        $cellphone = $request->get('cellphone');
         $check = (new VerifyService())->sendThisPhoneVerify($cellphone);
         if ($check['status']) {
             return Response::json(

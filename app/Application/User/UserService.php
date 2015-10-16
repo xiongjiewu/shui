@@ -85,7 +85,7 @@ class UserService
         $user_base->type = $type;
         $user_base->status = $status;
 
-        if ($user_base->save() && $type == UserBase::TYPE_USER) {
+        if ($user_base->save()) {
             $user = $user_base->toArray();
             $image_url = UserImage::defaultImage();
             if (!empty($image['url']) && !empty($image['type'])) {
