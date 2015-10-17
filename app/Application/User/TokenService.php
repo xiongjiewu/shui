@@ -3,8 +3,8 @@
 class TokenService
 {
     //先写死，后续还成配置
-    const AES_IV = '12345678123456';
-    const AES_PRIVATE_KEY = '1234567w812a3456';
+    const AES_IV = '12345678123456xx';
+    const AES_PRIVATE_KEY = '1234567w812a3456xx';
 
     /**
      * 生成token
@@ -27,7 +27,7 @@ class TokenService
         if (!is_numeric($data) && !is_string($data)) {
             $data = json_encode($data);
         }
-        $encrypted = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, self::AES_PRIVATE_KEY, $data, MCRYPT_MODE_CBC, self::AES_IV);
+        $encrypted = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, md5(self::AES_PRIVATE_KEY), $data, MCRYPT_MODE_CBC, self::AES_IV);
         return base64_encode($encrypted);
     }
 
@@ -38,7 +38,7 @@ class TokenService
     public static function decode($data)
     {
         $encrypted = base64_decode($data);
-        $data = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, self::AES_PRIVATE_KEY, $encrypted, MCRYPT_MODE_CBC, self::AES_IV), "\0");
+        $data = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, md5(self::AES_PRIVATE_KEY), $encrypted, MCRYPT_MODE_CBC, self::AES_IV), "\0");
         $rt = json_decode($data, true);
         if (json_last_error() != JSON_ERROR_NONE) {
             $rt = $data;
