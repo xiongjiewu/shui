@@ -83,15 +83,15 @@ class RegisterController extends Controller
             ];
         }
 
-        $rt = $this->checkVerify($cellphone, $verify);
-
-        if (!$rt['status']) {
-            return [
-                'status' => 'error',
-                'message' => $rt['message'],
-                'userInfo' => [],
-            ];
-        }
+//        $rt = $this->checkVerify($cellphone, $verify);
+//
+//        if (!$rt['status']) {
+//            return [
+//                'status' => 'error',
+//                'message' => $rt['message'],
+//                'userInfo' => [],
+//            ];
+//        }
 
         $path = '';
         if (!empty($head) && $head->isValid()) {
