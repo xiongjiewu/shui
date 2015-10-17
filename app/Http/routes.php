@@ -13,7 +13,7 @@
 
 //用户
 Route::get('/', ['uses' => 'HomeController@home']);
-Route::any('/login', ['uses' => 'LoginController@userRegister']);
+Route::any('/login', ['uses' => 'LoginController@login']);
 Route::any('/verify', ['uses' => 'RegisterController@verify']);
 Route::any('/register', ['uses' => 'RegisterController@userRegister']);
 Route::any('/activeDetail', ['uses' => 'ActivityController@activeDetail']);
