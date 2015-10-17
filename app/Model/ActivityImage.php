@@ -11,7 +11,7 @@ class ActivityImage extends Model
 
     public static function getImagePath()
     {
-        return getenv('THE_DOMAIN_NAME') . getenv('FILE_PATH');
+        return getenv('THE_DOMAIN_NAME') . getenv('PIC_SHOW_PATH');
     }
 
     /**
