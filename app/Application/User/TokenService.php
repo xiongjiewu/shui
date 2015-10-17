@@ -3,8 +3,8 @@
 class TokenService
 {
     //先写死，后续还成配置
-    const AES_IV = '12345678123456xx';
-    const AES_PRIVATE_KEY = '1234567w812a3456xx';
+    const AES_IV = '12345678123456';
+    const AES_PRIVATE_KEY = '1234567w812a3456';
 
     /**
      * 生成token
