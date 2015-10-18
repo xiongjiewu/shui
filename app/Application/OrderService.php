@@ -14,7 +14,7 @@ class OrderService
     public function bankOrder($params, $user_id)
     {
         $money = $params->get('money');
-        if (empty($business_money)) {
+        if (empty($money)) {
             return [
                 'status' => false,
                 'message' => '金额不能为空!',
