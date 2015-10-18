@@ -28,7 +28,7 @@ class LoginController extends Controller
                 ]
             );
         }
-        return $this->fail($check['message']);
+        return $this->fail($check['userInfo']);
     }
 
     private function check($cellphone, $password)
