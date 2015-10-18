@@ -11,6 +11,7 @@ class RecyclingQueue
      */
     public function fire($job, $data)
     {
+        $job->delete();
         if (!empty($data['send_id'])) {
             $user_send_water = new UserSendWater();
             $result = $user_send_water->where('id', $data['send_id'])->first();
@@ -29,6 +30,5 @@ class RecyclingQueue
                 ]
             );
         }
-        $job->delete();
     }
 }
