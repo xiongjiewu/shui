@@ -4,6 +4,7 @@ use App\Model\UserBase;
 use App\Model\UserImage;
 use App\Model\Report;
 use App\Model\UserLoginLog;
+use App\Model\UserThirdParty;
 
 class UserService
 {
@@ -160,8 +161,7 @@ class UserService
      * @param $user
      * @return mixed
      */
-    private
-    function formatUser($user)
+    private function formatUser($user)
     {
         unset($user['password']);
         unset($user['created_at']);
@@ -352,5 +352,85 @@ class UserService
                     'status' => $status
                 ]
             );
+    }
+
+    /**
+     * 第三方平台注册
+     * @param $params
+     * @return array
+     */
+    public function otherRegister($params)
+    {
+        if (!$params->get('open_id')) {
+            return [
+                'status' => false,
+                'message' => '用户唯一标识不能为空!',
+            ];
+        }
+        if (!$params->get('type')) {
+            return [
+                'status' => false,
+                'message' => '登入来源标识不能为空!',
+            ];
+        }
+        $user_third_parth = new UserThirdParty();
+        $rt = $user_third_parth->where('user_other_id', $params->get('open_id'))
+            ->where('type', $params->get('type'))->first();
+        $user_base = new UserBase();
+        $user_image = new UserImage();
+        //如果没注册过
+        if (empty($rt) && in_array($params->get('type'), [UserThirdParty::TX_QQ, UserThirdParty::WEI_XIN])) {
+            if ($params->get('nick_name')) {
+                $user_base->user_name = $params->get('nick_name');
+            }
+            $user_base->save();
+            if ($user_base->user_id) {
+                $user_third_parth->user_other_id = $params->get('open_id');
+                $user_third_parth->type = $params->get('type');
+                $user_third_parth->user_id = $user_base->user_id;
+                $user_third_parth->save();
+                $image = $user_image->where('user_id', $user_base->user_id)->head()->first();
+                if (empty($image)) {
+                    $user_image->image_url = $params->get('head_img') ?: UserImage::defaultImage();
+                    $user_image->user_id = $user_base->user_id;
+                    $user_image->is_completion = UserImage::IS_COMPLETION_TRUE;
+                    $user_image->type = UserImage::TYPE_HEAD;
+                    $user_image->save();
+                } else {
+                    $user_image->where('user_id', $user_base->user_id)
+                        ->where('type', UserImage::TYPE_HEAD)
+                        ->update(
+                            [
+                                'image_url' => ($params->get('head_img') ?: UserImage::defaultImage()),
+                            ]
+                        );
+                }
+            } else {
+                return [
+                    'status' => false,
+                    'message' => '系统一个人去旅行了，请稍后重试!',
+                ];
+            }
+            $user = $user_base->where('user_id', $user_base->user_id)->IsOpen()->first()->toArray();
+            if ($params->get('head_img')) {
+                $user['user_head'] = $params->get('head_img');
+            } else {
+                $user['user_head'] = UserImage::defaultImage();
+            }
+            $user['token'] = TokenService::tokenEncode($user_base->user_id);
+            UserLoginLog::insert_login_log($user_base->user_id);
+            return $this->outputFormat(true, 'success', $this->formatUser($user));
+        }
+        //如果已经注册过
+        $user = $user_base->where('user_id', $rt->user_id)->IsOpen()->first()->toArray();
+        $image = $user_image->where('user_id', $rt->user_id)->head()->first();
+        if ($image) {
+            $user['user_head'] = $image->path();
+        } else {
+            $user['user_head'] = UserImage::defaultImage();
+        }
+        $user['token'] = TokenService::tokenEncode($rt->user_id);
+        UserLoginLog::insert_login_log($rt->user_id);
+        return $this->outputFormat(true, 'success', $this->formatUser($user));
     }
 }

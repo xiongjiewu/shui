@@ -155,4 +155,24 @@ class RegisterController extends Controller
         }
         return $this->fail($check['message']);
     }
+
+    /**
+     * 第三方平台注册
+     * @param Request $request
+     * @return mixed
+     */
+    public function otherRegister(Request $request)
+    {
+        $check = (new UserService())->otherRegister($request);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '注册登入成功！',
+                    'userInfo' => $check['info'],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
 }

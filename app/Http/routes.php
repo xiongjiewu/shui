@@ -16,6 +16,7 @@ Route::get('/', ['uses' => 'HomeController@home']);
 Route::any('/login', ['uses' => 'LoginController@login']);
 Route::any('/verify', ['uses' => 'RegisterController@verify']);
 Route::any('/register', ['uses' => 'RegisterController@userRegister']);
+Route::any('/otherRegister', ['uses' => 'RegisterController@otherRegister']);
 Route::any('/activeDetail', ['uses' => 'ActivityController@activeDetail']);
 Route::any('/activeList', ['uses' => 'ActivityController@activeList']);
 Route::any('/activeDonations', ['uses' => 'ActivityController@activeDonations']);
