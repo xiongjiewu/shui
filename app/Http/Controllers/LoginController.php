@@ -42,7 +42,7 @@ class LoginController extends Controller
         } else {
             return [
                 'status' => 'error',
-                'userInfo' => $check['msg'],
+                'userInfo' => $check['message'],
             ];
         }
     }
