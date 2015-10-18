@@ -236,4 +236,21 @@ class ActivityService
             'info' => [],
         ];
     }
+
+    public function getList()
+    {
+        $activities = Activity::all();
+        if ($activities->isEmpty()) {
+            return $activities;
+        }
+
+        $result = [];
+        foreach ($activities as $activity) {
+            $info = $activity->toArray();
+            $info['status_text'] = ($activity->status == 1) ? '正常' : '关闭';
+            $info['action_text'] = ($activity->status == 1) ? '关闭' : '打开';
+            $result[] = $info;
+        }
+        return $result;
+    }
 }

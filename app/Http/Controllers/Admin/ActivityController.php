@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Admin;
 
+use App\Application\ActivityService;
 use App\Model\Activity;
 use App\Model\ActivityFundraising;
 use App\Model\ActivityImage;
@@ -11,7 +12,14 @@ class ActivityController extends BaseController
     {
         $this->title = '新增公益活动';
         $this->file_js = 'Admin/activity_add';
-        return $this->view('admin.activity.add', ['choose_id' => 2]);
+        return $this->view('admin.activity.add', ['choose_id' => 3]);
+    }
+
+    public function manage()
+    {
+        $this->title = '公益活动管理';
+        $this->file_js = 'Admin/activity_manage';
+        return $this->view('admin.activity.manage', ['choose_id' => 2, 'activities' => (new ActivityService())->getList()]);
     }
 
     public function addSubmit(Request $request)
