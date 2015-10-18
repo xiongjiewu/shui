@@ -45,6 +45,6 @@
         @endforeach
     </table>
     <script>
-        new admin_activity_manage('{{route('admin::activity.status.change')}}}');
+        new admin_activity_manage('{{route('admin::activity.status.change')}}');
     </script>
 @endsection

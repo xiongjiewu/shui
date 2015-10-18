@@ -256,7 +256,7 @@ class ActivityService
 
     public function changeStatus($id, $status)
     {
-        if (Activity::where('id', $id)->update(['status' => $status])) {
+        if (Activity::where('activity_id', $id)->update(['status' => $status])) {
             return true;
         }
         return false;
