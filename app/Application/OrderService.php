@@ -298,4 +298,27 @@ class OrderService
             ];
         }
     }
+
+
+    /**
+     * 用户护水值
+     * @param $user_id
+     * @return array
+     */
+    public function donations($user_id)
+    {
+        $user_financial = new UserFinancial();
+        $user_financial_result = $user_financial->where('user_id', $user_id)->first();
+        $data['protect_number'] = 0;
+        $data['water_price'] = 0;
+        if (!empty($user_financial_result)) {
+            $data['protect_number'] = $user_financial_result->water_count;
+            $data['water_price'] = $user_financial_result->water_count / OrderLog::getRate();
+        }
+        return [
+            'status' => true,
+            'message' => '反馈成功!',
+            'info' => $data,
+        ];
+    }
 }

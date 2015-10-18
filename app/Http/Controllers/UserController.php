@@ -254,4 +254,23 @@ class UserController extends BaseController
         }
         return $this->fail($check['message']);
     }
+
+    /**
+     * 用户护水值
+     * @return mixed
+     */
+    public function userDonations()
+    {
+        $check = (new OrderService())->donations($this->user_id);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '反馈成功！',
+                    'order' => $check['info'],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
 }
