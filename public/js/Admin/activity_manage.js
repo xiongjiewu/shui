@@ -14,7 +14,10 @@ admin_activity_manage.prototype.init = function () {
                 data: {id: id, status: status},
                 dataType: 'json',
                 success: function (res) {
-
+                    alert(res.message);
+                    if (res.status) {
+                        window.location.reload();
+                    }
                 }
             });
         });

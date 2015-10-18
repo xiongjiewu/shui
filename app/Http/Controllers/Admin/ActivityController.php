@@ -140,4 +140,31 @@ class ActivityController extends BaseController
             "<script>alert('" . $msg . "');history.back(-1);</script>"
         );
     }
+
+    public function statusChange(Request $request)
+    {
+        if (!intval($request->get('id')) || !intval($request->get('status'))) {
+            return response(
+                [
+                    'status' => false,
+                    'message' => '请选择活动再进行操作！',
+                ]
+            );
+        }
+
+        if ((new ActivityService())->changeStatus($request->get('id'), ($request->get('status') == 1) ? 2 : 1)) {
+            return response(
+                [
+                    'status' => true,
+                    'message' => '操作成功！',
+                ]
+            );
+        }
+        return response(
+            [
+                'status' => true,
+                'message' => '操作失败，请重试！',
+            ]
+        );
+    }
 }
