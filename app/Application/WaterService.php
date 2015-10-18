@@ -394,7 +394,7 @@ class WaterService
         $user_financial = new UserFinancial();
         $data['person_water'] = $user_financial->sum('water_count');
         $user_financial_result = $user_financial->where('user_id', $user_id)->first();
-        $data['protect_num'] = $user_financial_result->water_count();
+        $data['protect_num'] = $user_financial_result->water_count;
         return [
             'status' => true,
             'message' => 'success',
