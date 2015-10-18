@@ -241,7 +241,7 @@ class ActivityService
     {
         $activities = Activity::all();
         if ($activities->isEmpty()) {
-            return $activities;
+            return [];
         }
 
         $result = [];
