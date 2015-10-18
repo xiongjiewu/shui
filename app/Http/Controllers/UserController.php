@@ -247,8 +247,8 @@ class UserController extends BaseController
             return Response::json(
                 [
                     'code' => 0,
-                    'message' => '关注成功！',
-                    'order' => [],
+                    'message' => '反馈成功！',
+                    'order' => $check['info'],
                 ]
             );
         }
