@@ -122,8 +122,10 @@ class WaterService
      */
     public function bagList($params, $user_id)
     {
-        $where['status'] = $params->get('status') ?: UserSendWater::STATUS_IS_FALSE;
         $where['accept_user_id'] = $user_id;
+        if ($params->get('status')) {
+            $where['status'] = $params->get('status');
+        }
         $result = UserSendWater::where($where)->get()->toArray();
         if (empty($result)) {
             return [
