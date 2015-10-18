@@ -54,8 +54,8 @@ class ActivityService
      */
     public function showList($params, $user_id)
     {
-        $page = !empty($params['page']) ?: 1;
-        $count = !empty($params['count']) ?: 10;
+        $page = $params->get('page') ?: 1;
+        $count = $params->get('count') ?: 10;
         /** @var $activity \App\Model\Activity */
         $activity = new Activity();
         $activity_result = $activity->StatusOk()->orderBy('created_at', 'desc')
