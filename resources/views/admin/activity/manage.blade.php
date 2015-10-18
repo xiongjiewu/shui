@@ -37,7 +37,7 @@
                     {{$activity['status_text']}}
                 </td>
                 <td>
-                    <a href="javascript:void(0);" status="{{$activity['status']}}">
+                    <a href="javascript:void(0);" status="{{$activity['status']}}" id="{{$activity['activity_id']}}">
                         {{$activity['action_text']}}
                     </a>
                 </td>
@@ -45,5 +45,6 @@
         @endforeach
     </table>
     <script>
+        new admin_activity_manage('{{route('admin:activity.status.change')}}}');
     </script>
 @endsection
