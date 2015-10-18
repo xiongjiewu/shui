@@ -60,12 +60,20 @@ class ActivityService
         $activity = new Activity();
         $activity_result = $activity->StatusOk()->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $count)->take($count)->get()->toArray();
+        $activity_count = $activity->StatusOk()->count();
+        $next_page = ((($page - 1) * $count) >= $activity_count) ? $page : $page + 1;
+        $pager = [
+            'page' => $page,
+            'count' => $count,
+            'total' => $activity_count,
+            'next' => $next_page,
+        ];
         if (empty($activity_result)) {
             return [
                 'status' => true,
                 'message' => '获取成功!',
                 'info' => [],
-                'pager' => [],
+                'pager' => $pager,
             ];
         }
         $list = [];
@@ -108,14 +116,7 @@ class ActivityService
                 $v['image_url'] = $activity_image_info[$v['active_id']];
             }
         }
-        $activity_count = $activity->StatusOk()->orderBy('created_at', 'desc')->count();
-        $next_page = ((($page - 1) * $count) >= $activity_count) ? $page : $page + 1;
-        $pager = [
-            'page' => $page,
-            'count' => $count,
-            'total' => $activity_count,
-            'next' => $next_page,
-        ];
+
         return [
             'status' => true,
             'message' => '获取成功!',

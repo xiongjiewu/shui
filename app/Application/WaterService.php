@@ -126,12 +126,24 @@ class WaterService
         if ($params->get('status')) {
             $where['status'] = $params->get('status');
         }
-        $result = UserSendWater::where($where)->get()->toArray();
+        $page = $params->get('page') ?: 1;
+        $count = $params->get('count') ?: 10;
+        $user_send_water = new UserSendWater();
+        $result = $user_send_water->where($where)->skip(($page - 1) * $count)->take($count)->get()->toArray();
+        $send_water = $user_send_water->where($where)->count();
+        $next_page = ((($page - 1) * $count) >= $send_water) ? $page : $page + 1;
+        $pager = [
+            'page' => $page,
+            'count' => $count,
+            'total' => $send_water,
+            'next' => $next_page,
+        ];
         if (empty($result)) {
             return [
                 'status' => true,
                 'message' => 'success',
                 'info' => [],
+                'pager' => $pager,
             ];
         }
         $user_ids = [];
@@ -159,6 +171,7 @@ class WaterService
             'status' => true,
             'message' => 'success',
             'info' => $list,
+            'pager' => $pager,
         ];
     }
 
