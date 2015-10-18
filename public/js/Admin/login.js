@@ -21,7 +21,7 @@ admin_login.prototype.login = function (user_name, password) {
             if (res.status) {
                 window.location.href = that.to_url;
             } else {
-                alert(res.msg);
+                alert(res.message);
             }
         }
     });
