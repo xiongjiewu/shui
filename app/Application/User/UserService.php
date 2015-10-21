@@ -58,7 +58,7 @@ class UserService
      * @param int $status
      * @return array
      */
-    public function register($user_cellphone, $password, $type, $image = [], $user_name = null, $status = 1)
+    public function register($user_cellphone, $password, $type, $image = [], $user_name = null, $status = 1, $user_name)
     {
         if (!$user_cellphone) {
             return $this->outputFormat(false, '手机号码不能为空', []);

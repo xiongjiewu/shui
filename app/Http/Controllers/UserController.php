@@ -273,13 +273,4 @@ class UserController extends BaseController
         }
         return $this->fail($check['message']);
     }
-
-    /**
-     * 分享
-     * @param Request $request
-     */
-    public function UserShare(Request $request)
-    {
-
-    }
 }

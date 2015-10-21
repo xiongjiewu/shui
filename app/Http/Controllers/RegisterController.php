@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Application\User\TokenService;
 use App\Application\User\UserService;
 use App\Application\VerifyService;
 use App\Model\UserBase;
@@ -20,13 +21,14 @@ class RegisterController extends Controller
         $cellphone = $request->get('cellphone');
         $password = $request->get('password');
         $password2 = $request->get('password2');
+        $user_name = $request->get('user_name');
         $verify = $request->get('verify');
         $head = $request->file('head');
         if (!$cellphone || !$password || !$password2 || !$verify) {
             return $this->fail('参数错误');
         }
         //检查登录信息
-        $check = $this->check($cellphone, $password, $password2, $verify, $head, UserBase::TYPE_USER);
+        $check = $this->check($cellphone, $password, $password2, $verify, $head, UserBase::TYPE_USER, $user_name);
         if ($check['status'] == 'error') {
             return $this->fail($check['message']);
         }
@@ -48,12 +50,13 @@ class RegisterController extends Controller
         $password = $request->get('password');
         $password2 = $request->get('password2');
         $verify = $request->get('verify');
+        $user_name = $request->get('user_name');
         $head = $request->file('head');
         if (!$cellphone || !$password || !$password2 || !$verify) {
             return $this->fail('参数错误');
         }
         //检查登录信息
-        $check = $this->check($cellphone, $password, $password2, $verify, $head, UserBase::TYPE_BUSINESS);
+        $check = $this->check($cellphone, $password, $password2, $verify, $head, UserBase::TYPE_BUSINESS, $user_name);
         if ($check['status'] == 'error') {
             return $this->fail($check['message']);
         }
@@ -71,9 +74,10 @@ class RegisterController extends Controller
      * @param $verify
      * @param $head
      * @param $type
+     * @param $user_name
      * @return array
      */
-    private function check($cellphone, $password, $password2, $verify, $head, $type)
+    private function check($cellphone, $password, $password2, $verify, $head, $type, $user_name = '')
     {
         if ($password != $password2) {
             return [
@@ -108,7 +112,7 @@ class RegisterController extends Controller
         ];
 
 
-        $register = (new UserService())->register($cellphone, $password, $type, $image);
+        $register = (new UserService())->register($cellphone, $password, $type, $image, $user_name);
 
         if ($register['status']) {
             return [
@@ -174,5 +178,21 @@ class RegisterController extends Controller
             );
         }
         return $this->fail($check['message']);
+    }
+
+
+    /**
+     * 分享
+     * @param $id
+     * @param Request $request
+     */
+    public function UserShare($id, Request $request)
+    {
+        $user_id = TokenService::tokenDecrypt($id);
+        if (is_numeric($user_id)) {
+            dd($request);
+        } else {
+            return $this->fail('非法Token!');
+        }
     }
 }
