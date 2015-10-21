@@ -33,7 +33,7 @@ class WaterController extends BaseController
      */
     public function mapList(Request $request)
     {
-        $check = (new WaterService())->mapList($request, $this->user_id);
+        $check = (new WaterService())->mapList($request);
         if ($check['status']) {
             return Response::json(
                 [

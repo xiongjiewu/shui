@@ -51,6 +51,8 @@ Route::any('/businessBankOrder', ['uses' => 'BusinessController@businessBankOrde
 Route::any('/businessBankSure', ['uses' => 'BusinessController@businessBankSure']);
 Route::any('/businessOutOrder', ['uses' => 'BusinessController@businessOutOrder']);
 Route::any('/businessOutSure', ['uses' => 'BusinessController@businessOutSure']);
+//分享
+Route::get('/share', ['uses' => 'UserController@UserShare']);
 //管理后台
 Route::get('admin/login', ['as' => 'admin::login', 'uses' => 'Admin\LoginController@login']);
 Route::post('admin/login', ['as' => 'admin::login::action', 'uses' => 'Admin\LoginController@loginAction']);

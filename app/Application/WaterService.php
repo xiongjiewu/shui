@@ -286,12 +286,11 @@ class WaterService
     /**
      * 水地图列表
      * @param $params
-     * @param $user_id
      * @return array
      */
-    public function mapList($params, $user_id)
+    public function mapList($params)
     {
-        if ($params->get('longitude') && $params->get($params['latitude'])) {
+        if ($params->get('longitude') && $params->get('latitude')) {
             $squares = $this->returnSquarePoint($params->get('longitude'), $params->get('latitude'), $params->get('radius') ?: null);
             $result = UserCompanyExtend::where('user_company_lat', '>', '0')
                 ->where('user_company_lat', '>=', $squares['right-bottom']['lat'])
