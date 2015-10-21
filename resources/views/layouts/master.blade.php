@@ -1,6 +1,11 @@
 <html>
 <head>
-    <title>水世界管理后台 - {{$title}}</title>
+    @if($show_title)
+        <title>水世界管理后台 - {{$title}}</title>
+    @endif
+    @if($is_mobile)
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    @endif
     <link href="/bootstrap/css/bootstrap.css" rel="stylesheet"/>
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/bootstrap/css/bootstrap-theme.css" rel="stylesheet"/>

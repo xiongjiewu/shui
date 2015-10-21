@@ -8,6 +8,8 @@ class BaseController extends Controller
     protected $title;
     protected $file_css;
     protected $file_js;
+    protected $show_title = true;
+    protected $is_mobile = false;
 
     public function view($page, $data = [])
     {
@@ -19,6 +21,8 @@ class BaseController extends Controller
                 'file_js' => $this->file_js ? '/js/' . $this->file_js : null,
                 'user_id' => $this->getUserId(),
                 'user_name' => $this->getUserName(),
+                'show_title' => $this->show_title,
+                'is_mobile' => $this->is_mobile,
             ]
         );
         return view($page, $data);
