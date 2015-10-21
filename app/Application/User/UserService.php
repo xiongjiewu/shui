@@ -58,7 +58,7 @@ class UserService
      * @param int $status
      * @return array
      */
-    public function register($user_cellphone, $password, $type, $image = [], $user_name = null, $status = 1, $user_name)
+    public function register($user_cellphone, $password, $type, $image = [], $user_name = null, $status = 1)
     {
         if (!$user_cellphone) {
             return $this->outputFormat(false, '手机号码不能为空', []);
@@ -82,7 +82,7 @@ class UserService
         $user_base = new UserBase();
         $user_base->user_cellphone = $user_cellphone;
         $user_base->password = $this->encryptPassword($password);
-        $user_base->user_name = $user_name ?: '';
+        $user_base->user_name = !empty($user_name) ? $user_name : '';
         $user_base->type = $type;
         $user_base->status = $status;
 

@@ -77,7 +77,7 @@ class RegisterController extends Controller
      * @param $user_name
      * @return array
      */
-    private function check($cellphone, $password, $password2, $verify, $head, $type, $user_name = '')
+    private function check($cellphone, $password, $password2, $verify, $head, $type, $user_name)
     {
         if ($password != $password2) {
             return [
