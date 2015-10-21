@@ -95,7 +95,7 @@ class UserService
                 $user_image->image_url = $image['url'];
                 $user_image->type = $image['type'];
                 $user_image->save();
-                $image_url = $user_image->url();
+                $image_url = $user_image->path();
             }
             $user['user_head'] = $image_url;
             $user['token'] = TokenService::tokenEncode($user_base->user_id);
