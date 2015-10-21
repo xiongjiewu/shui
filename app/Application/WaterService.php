@@ -309,12 +309,12 @@ class WaterService
             foreach ($result as $result_val) {
                 $user_ids[] = $result_val->user_id;
             }
-            $user_images_result = UserImage::whereIn('user_id', $user_ids)->where('type', UserImage::TYPE_SHOP)->first();
+            $user_images_result = UserImage::whereIn('user_id', $user_ids)->where('type', UserImage::TYPE_SHOP)->get();
             $images = [];
             foreach ($user_images_result as $user_images_result_val) {
                 $images[$user_images_result_val->user_id] = $user_images_result_val->path();
             }
-            $user_financial_result = UserFinancial::whereIn('user_id', $user_ids)->first();
+            $user_financial_result = UserFinancial::whereIn('user_id', $user_ids)->get();
             $financial = [];
             foreach ($user_financial_result as $user_financial_result_val) {
                 $financial[$user_financial_result_val->user_id] = $user_financial_result_val->water_count;
