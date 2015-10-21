@@ -246,6 +246,18 @@ class WaterService
                 'info' => [],
             ];
         }
+        $start_now_time = Carbon::now()->format('Y-m-d') . ' 00:00:01';
+        $end_now_time = Carbon::now()->format('Y-m-d') . ' 23:23:59';
+        $get_show_water_log = new GetShopWaterLog();
+        $is_giving = $get_show_water_log->where('user_id', $params->get('storeID'))->where('giving_user_id', $user_id)
+            ->whereBetween('created_at', [$start_now_time, $end_now_time])->first();
+        if (!empty($is_giving)) {
+            return [
+                'status' => false,
+                'message' => '今天您已经领取过,请勿重复领取!',
+                'info' => [],
+            ];
+        }
         $bool = $user_financial->where('user_id', $params->get('storeID'))->update(
             [
                 'water_count' => $result->water_count - $result->giving,
@@ -265,7 +277,6 @@ class WaterService
                 $user_financial->water_count = $result->giving;
                 $user_financial->save();
             }
-            $get_show_water_log = new GetShopWaterLog();
             $get_show_water_log->user_id = $params->get('storeID');
             $get_show_water_log->water_count = $result->giving;
             $get_show_water_log->giving_user_id = $user_id;

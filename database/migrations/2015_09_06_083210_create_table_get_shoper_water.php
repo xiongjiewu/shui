@@ -17,6 +17,7 @@ class CreateTableGetShoperWater extends Migration
             $table->decimal('water_count')->default('0')->comment('亲水值');
             $table->integer('giving_user_id')->unique()->default('0')->comment('领取的用户ID');
             $table->timestamps();
+            $table->index(['user_id', 'giving_user_id'], 'u_g');
         });
     }
 
