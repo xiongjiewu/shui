@@ -2,6 +2,7 @@
 
 use App\Application\ActivityService;
 use App\Application\OrderService;
+use App\Application\ShareService;
 use App\Application\WaterService;
 use App\Model\UserFocus;
 use \Illuminate\Http\Request;
@@ -281,6 +282,16 @@ class UserController extends BaseController
      */
     public function userShare(Request $request)
     {
-
+        $check = (new ShareService())->createShareUrl($request, $this->user_id);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '反馈成功！',
+                    'order' => $check['info'],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
     }
 }
