@@ -179,20 +179,4 @@ class RegisterController extends Controller
         }
         return $this->fail($check['message']);
     }
-
-
-    /**
-     * 分享
-     * @param $id
-     * @param Request $request
-     */
-    public function UserShare($id, Request $request)
-    {
-        $user_id = TokenService::tokenDecrypt($id);
-        if (is_numeric($user_id)) {
-            dd($request);
-        } else {
-            return $this->fail('非法Token!');
-        }
-    }
 }

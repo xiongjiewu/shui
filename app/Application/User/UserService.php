@@ -5,6 +5,7 @@ use App\Model\UserImage;
 use App\Model\Report;
 use App\Model\UserLoginLog;
 use App\Model\UserThirdParty;
+use Carbon\Carbon;
 
 class UserService
 {
@@ -78,13 +79,13 @@ class UserService
             return $this->outputFormat(false, '用户已存在', []);
         }
 
-
         $user_base = new UserBase();
         $user_base->user_cellphone = $user_cellphone;
         $user_base->password = $this->encryptPassword($password);
         $user_base->user_name = !empty($user_name) ? $user_name : '';
         $user_base->type = $type;
         $user_base->status = $status;
+        $user_base->invite_code = crc32(md5($user_cellphone));
 
         if ($user_base->save()) {
             $user = $user_base->toArray();

@@ -36,15 +36,15 @@
     </style>
 </head>
 <body>
-<form action="http://localhost/index.php/register" method="post" enctype="multipart/form-data">
-    cellphone<input name="cellphone" type="text"><br/>
-    name<input name="head_name" type="text"><br/>
-    password<input name="password" type="text"><br/>
-    password2<input name="password2" type="text"><br/>
-    verify<input name="verify" type="text"><br/>
-    head<input name="head" type="file"><br/>
-    <input type="submit">
-</form>
+{{--<form action="http://localhost/index.php/register" method="post" enctype="multipart/form-data">--}}
+    {{--cellphone<input name="cellphone" type="text"><br/>--}}
+    {{--name<input name="head_name" type="text"><br/>--}}
+    {{--password<input name="password" type="text"><br/>--}}
+    {{--password2<input name="password2" type="text"><br/>--}}
+    {{--verify<input name="verify" type="text"><br/>--}}
+    {{--head<input name="head" type="file"><br/>--}}
+    {{--<input type="submit">--}}
+{{--</form>--}}
 <div class="container">
     <div class="content">
         <div class="title">Laravel 5</div>
