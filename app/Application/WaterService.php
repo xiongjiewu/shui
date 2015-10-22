@@ -1,11 +1,13 @@
 <?php namespace App\Application;
 
 use App\Model\GetShopWaterLog;
+use App\Model\SystemHasWater;
 use App\Model\UserBase;
 use App\Model\UserBlackWater;
 use App\Model\UserCompanyExtend;
 use App\Model\UserFinancial;
 use App\Model\UserImage;
+use App\Model\UserRelationship;
 use App\Model\UserSendWater;
 use Carbon\Carbon;
 use \Queue;
@@ -277,6 +279,63 @@ class WaterService
                 $user_financial->water_count = $result->giving;
                 $user_financial->save();
             }
+
+            //给与推荐给我相关的人分享一半的值
+            $user_relationship = new UserRelationship();
+            $user_relationship_rt = $user_relationship->where('guest_id', $user_id)->first();
+            $has_guest = false;
+            if (!empty($user_relationship_rt) && ($result->water_count - $result->giving - $result->giving * UserRelationship::getGuestRate() >= 0)) {
+                $has_guest = true;
+                $be_guest_result = $user_financial->where('user_id', $params->get('storeID'))->first();
+                $user_financial->where('user_id', $params->get('storeID'))->update(
+                    [
+                        'water_count' => $result->water_count - $result->giving * UserRelationship::getGuestRate(),
+                        'send_water' => $result->send_water + $result->giving * UserRelationship::getGuestRate(),
+                    ]
+                );
+                if (!empty($be_guest_result)) {
+                    $user_financial->where('user_id', $user_relationship_rt->user_id)->update(
+                        [
+                            'water_count' => $my_result->water_count + $result->giving * UserRelationship::getGuestRate(),
+                        ]
+                    );
+                } else {
+                    $user_financial->user_id = $user_relationship_rt->user_id;
+                    $user_financial->water_count = $result->giving * UserRelationship::getGuestRate();
+                    $user_financial->save();
+                }
+                $get_show_water_log->user_id = $params->get('storeID');
+                $get_show_water_log->water_count = $result->giving * UserRelationship::getGuestRate();
+                $get_show_water_log->giving_user_id = $user_relationship_rt->user_id;
+                $get_show_water_log->type = GetShopWaterLog::GUEST_GET_TYPE;
+                $get_show_water_log->save();
+            }
+
+            $guest_val = 0;
+            if ($has_guest == true) {
+                $guest_val = UserRelationship::getGuestRate();
+            }
+
+            //再扣除公益值
+            if ($result->water_count - $result->giving - $result->giving * $guest_val - $result->giving * SystemHasWater::getRate() >= 0) {
+                $user_financial->where('user_id', $params->get('storeID'))->update(
+                    [
+                        'water_count' => $result->water_count - $result->giving * SystemHasWater::getRate(),
+                        'send_water' => $result->send_water + $result->giving * SystemHasWater::getRate(),
+                    ]
+                );
+                $system_has_water = new SystemHasWater();
+                $system_has_water->business_id = $params->get('storeID');
+                $system_has_water->sys_water_count = $result->giving * SystemHasWater::getRate();
+                $system_has_water->rate = SystemHasWater::getRate();
+                $system_has_water->save();
+                $get_show_water_log->user_id = $params->get('storeID');
+                $get_show_water_log->water_count = $result->giving * SystemHasWater::getRate();
+                $get_show_water_log->giving_user_id = $user_relationship_rt->user_id;
+                $get_show_water_log->type = GetShopWaterLog::SYS_GET_TYPE;
+                $get_show_water_log->save();
+            }
+
             $get_show_water_log->user_id = $params->get('storeID');
             $get_show_water_log->water_count = $result->giving;
             $get_show_water_log->giving_user_id = $user_id;

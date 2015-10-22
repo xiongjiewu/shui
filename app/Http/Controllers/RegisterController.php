@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-use App\Application\User\TokenService;
 use App\Application\User\UserService;
 use App\Application\VerifyService;
 use App\Model\UserBase;

@@ -165,8 +165,6 @@ class UserService
     private function formatUser($user)
     {
         unset($user['password']);
-        unset($user['created_at']);
-        unset($user['updated_at']);
         unset($user['type']);
         unset($user['status']);
         return $user;
