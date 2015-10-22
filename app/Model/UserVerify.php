@@ -18,21 +18,21 @@ class UserVerify extends Model
     //短信提交地址
     public function getSendMsgUrl($phone, $content)
     {
-        $url['sname'] = getenv('SEND_MSG_SNAME');
-        if (!empty($url['sname'])) {
+        $url['username'] = getenv('SEND_MSG_SNAME');
+        if (empty($url['username'])) {
             return false;
         }
-        $url['spwd'] = getenv('SEND_MSG_SPWD');
-        if (!empty($url['spwd'])) {
+        $url['password'] = getenv('SEND_MSG_SPWD');
+        if (empty($url['password'])) {
             return false;
         }
-        $url['scorpid'] = getenv('SEND_MSG_SCORPID');
-        $url['sprdid'] = getenv('SEND_MSG_SPRDID');
-        if (!empty($url['sprdid'])) {
-            return false;
-        }
-        $url['sdst'] = $phone;
-        $url['smsg'] = $content;
+//        $url['scorpid'] = getenv('SEND_MSG_SCORPID');
+//        $url['sprdid'] = getenv('SEND_MSG_SPRDID');
+//        if (empty($url['sprdid'])) {
+//            return false;
+//        }
+        $url['mobile'] = $phone;
+        $url['smscontent'] = $content;
         $curl = getenv('SEND_MSG_URL') . '?' . http_build_query($url);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $curl);

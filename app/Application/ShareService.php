@@ -124,9 +124,9 @@ class ShareService
                     $user_base->invite_code = crc32(md5($params->get('cellphone')));
                     if ($user_base->save()) {
                         //发送短信提示
-//                        $user_verify = new UserVerify();
-//                        $content = '感谢你注册水想世界，您的APP登入密码为' . $password . '，请尽快登入之后修改密码噢～';
-//                        $user_verify->getSendMsgUrl($params->get('cellphone'), $content);
+                        $user_verify = new UserVerify();
+                        $content = '感谢你注册水想世界，您的APP登入密码为' . $password . '，请尽快登入之后修改密码噢～';
+                        $user_verify->getSendMsgUrl($params->get('cellphone'), $content);
                         //建立图片
                         $user_image = new UserImage();
                         $user_image->user_id = $user_base->user_id;

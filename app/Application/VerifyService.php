@@ -60,8 +60,7 @@ class VerifyService
         }
         $user_verify_model = new UserVerify();
         $verify = rand(pow(10, 5), pow(10, 6) - 1);
-        //$content = '您的验证码是：' . $verify . '。有效时间为' . ((int)$user_verify_model->getExpiredTime() / 60) . '分钟，请不要把验证码泄露给其他人。【水想世界】';
-        $content = '您的验证码是：' . $verify . '。请不要把验证码泄露给其他人。【微网通联】';
+        $content = '您的验证码是：' . $verify . '。有效时间为' . ((int)$user_verify_model->getExpiredTime() / 60) . '分钟，请不要把验证码泄露给其他人。【水想世界】';
         $user_verify_model->cellphone = $phone;
         $user_verify_model->verify = $verify;
         $user_verify_model->expired_at = (time() + (int)$user_verify_model->getExpiredTime());
