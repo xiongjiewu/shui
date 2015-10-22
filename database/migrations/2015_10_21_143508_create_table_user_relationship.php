@@ -17,7 +17,7 @@ class CreateTableUserRelationship extends Migration
             $table->integer('user_id')->default('0')->comment('用户ID');
             $table->integer('guest_id')->default('0')->comment('被邀请的人ID');
             $table->timestamps();
-            $table->index('guest_id');
+            $table->index(['guest_id', 'user_id'], 'g_u');
         });
     }
 
