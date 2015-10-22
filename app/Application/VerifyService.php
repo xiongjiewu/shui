@@ -13,7 +13,7 @@ class VerifyService
     public function checkThisPhoneVerifyIsTrue($cellphone, $verify)
     {
         $user_verify_model = new UserVerify();
-        $rt = $user_verify_model->where('cellphone', $cellphone)->where('verify', $verify)->find();
+        $rt = $user_verify_model->where('cellphone', $cellphone)->where('verify', $verify)->first();
         if (empty($rt)) {
             return [
                 'status' => false,
@@ -28,7 +28,7 @@ class VerifyService
                 'info' => [],
             ];
         }
-        if ($rt->expired_at >= time()) {
+        if ($rt->expired_at < time()) {
             return [
                 'status' => false,
                 'message' => '验证码已经过期!',
@@ -41,7 +41,19 @@ class VerifyService
                 'status' => UserVerify::STATUS_FALSE,
             ]
         );
-        return $bool ? true : false;
+        if($bool){
+            return [
+                'status' => true,
+                'message' => '验证成功!',
+                'info' => [],
+            ];
+        }else{
+            return [
+                'status' => false,
+                'message' => '系统一个人去旅行了，请重试!',
+                'info' => [],
+            ];
+        }
     }
 
     /**
