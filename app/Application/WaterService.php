@@ -193,7 +193,7 @@ class WaterService
             ];
         }
         $result = UserCompanyExtend::where('user_id', $params->get('storeId'))->first();
-        if ($result) {
+        if (!$result) {
             return [
                 'status' => false,
                 'message' => '查询店铺不存在!',
