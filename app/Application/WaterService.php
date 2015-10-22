@@ -381,7 +381,7 @@ class WaterService
             foreach ($result as $result_val) {
                 $user_ids[] = $result_val->user_id;
             }
-            $user_images_result = UserImage::whereIn('user_id', $user_ids)->where('type', UserImage::TYPE_HEAD)->get();
+            $user_images_result = UserImage::whereIn('user_id', $user_ids)->Head()->get();
             $images = [];
             if (!empty($user_images_result)) {
                 foreach ($user_images_result as $user_images_result_val) {
@@ -400,8 +400,8 @@ class WaterService
                 $data[] = [
                     'store_id' => $result_value->user_id,
                     'store_name' => $result_value->user_company_name,
-                    'image_url' => isset($images[$result_value->user_id]) ?: '',
-                    'left_num' => isset($financial[$result_value->user_id]) ?: 0,
+                    'image_url' => isset($images[$result_value->user_id]) ? $images[$result_value->user_id] : '',
+                    'left_num' => isset($financial[$result_value->user_id]) ? $financial[$result_value->user_id] : 0,
                     'latitude' => $result_value->user_company_lat,
                     'longitude' => $result_value->user_company_lng,
                     'distance' => $this->getDistance(
