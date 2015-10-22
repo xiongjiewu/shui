@@ -361,13 +361,15 @@ class WaterService
     public function mapList($params)
     {
         if ($params->get('longitude') && $params->get('latitude')) {
-            $squares = $this->returnSquarePoint($params->get('longitude'), $params->get('latitude'), $params->get('radius') ?: null);
-            $result = UserCompanyExtend::where('user_company_lat', '>', '0')
-                ->where('user_company_lat', '>=', $squares['right-bottom']['lat'])
-                ->where('user_company_lat', '<=', $squares['left-top']['lat'])
-                ->where('user_company_lng', '>=', $squares['left-top']['lng'])
-                ->where('user_company_lng', '<=', $squares['right-bottom']['lng'])
-                ->get();
+//            $squares = $this->returnSquarePoint($params->get('longitude'), $params->get('latitude'), $params->get('radius') ?: null);
+//            $result = UserCompanyExtend::where('user_company_lat', '>', '0')
+//                ->where('user_company_lat', '>=', $squares['right-bottom']['lat'])
+//                ->where('user_company_lat', '<=', $squares['left-top']['lat'])
+//                ->where('user_company_lng', '>=', $squares['left-top']['lng'])
+//                ->where('user_company_lng', '<=', $squares['right-bottom']['lng'])
+//                ->get();
+            $result = UserCompanyExtend::where('user_company_lng', $params->get('longitude'))
+                ->where('user_company_lat', $params->get('latitude'))->get();
             if (empty($result)) {
                 return [
                     'status' => true,
@@ -381,13 +383,17 @@ class WaterService
             }
             $user_images_result = UserImage::whereIn('user_id', $user_ids)->where('type', UserImage::TYPE_HEAD)->get();
             $images = [];
-            foreach ($user_images_result as $user_images_result_val) {
-                $images[$user_images_result_val->user_id] = $user_images_result_val->path();
+            if (!empty($user_images_result)) {
+                foreach ($user_images_result as $user_images_result_val) {
+                    $images[$user_images_result_val->user_id] = $user_images_result_val->path();
+                }
             }
             $user_financial_result = UserFinancial::whereIn('user_id', $user_ids)->get();
             $financial = [];
-            foreach ($user_financial_result as $user_financial_result_val) {
-                $financial[$user_financial_result_val->user_id] = $user_financial_result_val->water_count;
+            if (!empty($user_financial_result)) {
+                foreach ($user_financial_result as $user_financial_result_val) {
+                    $financial[$user_financial_result_val->user_id] = $user_financial_result_val->water_count;
+                }
             }
             $data = [];
             foreach ($result as $result_value) {
