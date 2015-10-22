@@ -36,6 +36,7 @@ Route::any('/mapDetail', ['uses' => 'WaterController@mapDetail']);
 Route::any('/mapList', ['uses' => 'WaterController@mapList']);
 Route::any('/activeFocusCancel', ['uses' => 'UserController@activeFocusCancel']);
 Route::any('/activeFocus', ['uses' => 'UserController@activeFocus']);
+Route::any('/activeSupport', ['uses' => 'UserController@activeSupport']);
 //商户
 Route::any('/businessRegister', ['uses' => 'RegisterController@businessRegister']);
 Route::any('/businessInfoFinish', ['uses' => 'BusinessController@businessInfoFinish']);

@@ -238,6 +238,26 @@ class UserController extends BaseController
     }
 
     /**
+     * 支持
+     * @param Request $request
+     * @return mixed
+     */
+    public function activeSupport(Request $request)
+    {
+        $check = (new ActivityService())->activeSupport($request, $this->user_id);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '支持成功！',
+                    'order' => [],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
+
+    /**
      * 水银行信息
      * @return mixed
      */

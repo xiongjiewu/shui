@@ -6,6 +6,7 @@ use App\Model\ActivityFundraising;
 use App\Model\ActivityImage;
 use App\Model\UserFinancial;
 use App\Model\UserFocus;
+use App\Model\UserSupport;
 
 class ActivityService
 {
@@ -43,6 +44,57 @@ class ActivityService
                 'message' => '系统错误!',
                 'info' => [],
             ];
+        }
+    }
+
+    /**
+     * 支持
+     * @param $params
+     * @param $user_id
+     * @return array
+     */
+    public function activeSupport($params, $user_id)
+    {
+        $activity_id = $params->get('activityID');
+        if (empty($activity_id)) {
+            return [
+                'status' => false,
+                'message' => '文章ID不能为空!',
+                'info' => [],
+            ];
+        }
+        $user_support = new UserSupport();
+        $rt = $user_support->where('user_id', $user_id)->where('activity_id', $activity_id)->first();
+        if (!empty($rt)) {
+            return [
+                'status' => false,
+                'message' => '请勿重复支持!',
+                'info' => [],
+            ];
+        } else {
+            $user_support->user_id = $user_id;
+            $user_support->activity_id = $activity_id;
+            $user_support->save();
+            $activity = new Activity();
+            $a_rt = $activity->where('activity_id', $activity_id)->first();
+            $r = $activity->where('activity_id', $activity_id)->update(
+                [
+                    'focus_count' => ($a_rt->focus_count + 1)
+                ]
+            );
+            if (!empty($r)) {
+                return [
+                    'status' => true,
+                    'message' => '谢谢支持!',
+                    'info' => [],
+                ];
+            } else {
+                return [
+                    'status' => false,
+                    'message' => '系统旅行去了，请重试!',
+                    'info' => [],
+                ];
+            }
         }
     }
 
