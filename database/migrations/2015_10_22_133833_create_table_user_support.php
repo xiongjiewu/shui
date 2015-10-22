@@ -13,8 +13,9 @@ class CreateTableUserSupport extends Migration
     public function up()
     {
         Schema::create('user_support', function (Blueprint $table) {
-            $table->integer('user_id')->default('0')->comment('用户ID');
-            $table->integer('activity_id')->default('0')->comment('文章ID');
+            $table->increments('id');
+            $table->integer('user_id')->comment('用户ID');
+            $table->integer('activity_id')->comment('文章ID');
             $table->timestamps();
             $table->index('user_id');
         });
