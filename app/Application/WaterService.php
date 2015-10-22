@@ -213,7 +213,7 @@ class WaterService
         } else {
             $data['left_num'] = $data['send_num'] = 0;
         }
-        $user_image_result = UserImage::where('user_id', $params->get('store_id'))->Shop()->first();
+        $user_image_result = UserImage::where('user_id', $params->get('storeId'))->Shop()->first();
         if ($user_image_result) {
             $data['info_image'] = $user_image_result->path();
         }
