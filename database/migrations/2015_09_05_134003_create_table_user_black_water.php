@@ -14,7 +14,7 @@ class CreateTableUserBlackWater extends Migration
     {
         Schema::create('user_black_water', function ($table) {
             $table->integer('user_id')->unique()->default('0')->comment('用户ID');
-            $table->integer('black_water')->default('0')->comment('黑水值');
+            $table->string('black_water')->default('0')->comment('黑水值');
             $table->timestamps();
         });
     }
