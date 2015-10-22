@@ -368,8 +368,8 @@ class WaterService
 //                ->where('user_company_lng', '>=', $squares['left-top']['lng'])
 //                ->where('user_company_lng', '<=', $squares['right-bottom']['lng'])
 //                ->get();
-            $result = UserCompanyExtend::where('user_company_lng', $params->get('longitude'))
-                ->where('user_company_lat', $params->get('latitude'))->get();
+            $user_company_extend = new UserCompanyExtend();
+            $result = $user_company_extend->get();
             if (empty($result)) {
                 return [
                     'status' => true,
