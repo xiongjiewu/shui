@@ -185,14 +185,14 @@ class WaterService
      */
     public function mapDetail($params, $user_id)
     {
-        if (!$params->get('store_id')) {
+        if (!$params->get('storeId')) {
             return [
                 'status' => false,
                 'message' => '查询店铺不存在!',
                 'info' => [],
             ];
         }
-        $result = UserCompanyExtend::where('user_id', $params->get('store_id'))->where('type', UserBase::TYPE_BUSINESS)->first();
+        $result = UserCompanyExtend::where('user_id', $params->get('storeId'))->first();
         if ($result) {
             return [
                 'status' => false,
@@ -213,9 +213,9 @@ class WaterService
         } else {
             $data['left_num'] = $data['send_num'] = 0;
         }
-        $user_image_result = UserImage::where('user_id', $params->get('store_id'))->where('type', UserImage::TYPE_SHOP)->first();
+        $user_image_result = UserImage::where('user_id', $params->get('store_id'))->Shop()->first();
         if ($user_image_result) {
-            $data['info_image'] = $user_image_result->image_url;
+            $data['info_image'] = $user_image_result->path();
         }
         return [
             'status' => true,
