@@ -100,7 +100,7 @@ class WaterService
             $user_send_water->overdue_date = UserSendWater::getOverdueDate();
             $bool = $user_send_water->save();
             if ($bool) {
-                $time_out = Carbon::now()->addHour(getenv('TIMEOUT_HOUR'));
+                $time_out = Carbon::now()->addMinute(getenv('TIMEOUT_HOUR'));
                 Queue::later($time_out, 'App\Queue\RecyclingQueue', ['send_id' => $user_send_water->id], 'send_water');
                 return [
                     'status' => true,
