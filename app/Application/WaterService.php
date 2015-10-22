@@ -235,7 +235,7 @@ class WaterService
     public function mapBag($params, $user_id)
     {
         $user_financial = new UserFinancial();
-        $result = $user_financial->where('user_id', $params->get('storeID'))->first();
+        $result = $user_financial->where('user_id', $params->get('storeId'))->first();
         if (empty($result)) {
             return [
                 'status' => false,
@@ -253,7 +253,7 @@ class WaterService
         $start_now_time = Carbon::now()->format('Y-m-d') . ' 00:00:01';
         $end_now_time = Carbon::now()->format('Y-m-d') . ' 23:23:59';
         $get_show_water_log = new GetShopWaterLog();
-        $is_giving = $get_show_water_log->where('user_id', $params->get('storeID'))->where('giving_user_id', $user_id)
+        $is_giving = $get_show_water_log->where('user_id', $params->get('storeId'))->where('giving_user_id', $user_id)
             ->whereBetween('created_at', [$start_now_time, $end_now_time])->first();
         if (!empty($is_giving)) {
             return [
@@ -262,7 +262,7 @@ class WaterService
                 'info' => [],
             ];
         }
-        $bool = $user_financial->where('user_id', $params->get('storeID'))->update(
+        $bool = $user_financial->where('user_id', $params->get('storeId'))->update(
             [
                 'water_count' => $result->water_count - $result->giving,
                 'send_water' => $result->send_water + $result->giving,
@@ -288,8 +288,8 @@ class WaterService
             $has_guest = false;
             if (!empty($user_relationship_rt) && ($result->water_count - $result->giving - $result->giving * UserRelationship::getGuestRate() >= 0)) {
                 $has_guest = true;
-                $be_guest_result = $user_financial->where('user_id', $params->get('storeID'))->first();
-                $user_financial->where('user_id', $params->get('storeID'))->update(
+                $be_guest_result = $user_financial->where('user_id', $params->get('storeId'))->first();
+                $user_financial->where('user_id', $params->get('storeId'))->update(
                     [
                         'water_count' => $result->water_count - $result->giving * UserRelationship::getGuestRate(),
                         'send_water' => $result->send_water + $result->giving * UserRelationship::getGuestRate(),
@@ -306,7 +306,7 @@ class WaterService
                     $user_financial->water_count = $result->giving * UserRelationship::getGuestRate();
                     $user_financial->save();
                 }
-                $get_show_water_log->user_id = $params->get('storeID');
+                $get_show_water_log->user_id = $params->get('storeId');
                 $get_show_water_log->water_count = $result->giving * UserRelationship::getGuestRate();
                 $get_show_water_log->giving_user_id = $user_relationship_rt->user_id;
                 $get_show_water_log->type = GetShopWaterLog::GUEST_GET_TYPE;
@@ -320,25 +320,25 @@ class WaterService
 
             //再扣除公益值
             if ($result->water_count - $result->giving - $result->giving * $guest_val - $result->giving * SystemHasWater::getRate() >= 0) {
-                $user_financial->where('user_id', $params->get('storeID'))->update(
+                $user_financial->where('user_id', $params->get('storeId'))->update(
                     [
                         'water_count' => $result->water_count - $result->giving * SystemHasWater::getRate(),
                         'send_water' => $result->send_water + $result->giving * SystemHasWater::getRate(),
                     ]
                 );
                 $system_has_water = new SystemHasWater();
-                $system_has_water->business_id = $params->get('storeID');
+                $system_has_water->business_id = $params->get('storeId');
                 $system_has_water->sys_water_count = $result->giving * SystemHasWater::getRate();
                 $system_has_water->rate = SystemHasWater::getRate();
                 $system_has_water->save();
-                $get_show_water_log->user_id = $params->get('storeID');
+                $get_show_water_log->user_id = $params->get('storeId');
                 $get_show_water_log->water_count = $result->giving * SystemHasWater::getRate();
                 $get_show_water_log->giving_user_id = $user_relationship_rt->user_id;
                 $get_show_water_log->type = GetShopWaterLog::SYS_GET_TYPE;
                 $get_show_water_log->save();
             }
 
-            $get_show_water_log->user_id = $params->get('storeID');
+            $get_show_water_log->user_id = $params->get('storeId');
             $get_show_water_log->water_count = $result->giving;
             $get_show_water_log->giving_user_id = $user_id;
             $get_show_water_log->save();
