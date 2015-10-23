@@ -54,7 +54,9 @@ class ActivityController extends BaseController
             return $this->returnAddJs('视频文件无效！');
         }
 
-        if (!($video = $this->updateFile($video))) {
+        $video_w = $this->updateFile($video);
+
+        if (!$video_w) {
             return $this->returnAddJs('视频上传失败，请重新上传！');
         }
 
@@ -67,7 +69,8 @@ class ActivityController extends BaseController
             return $this->returnAddJs('第一张图片格式不正确！');
         }
 
-        if (!($image1 = $this->updateFile($image1))) {
+        $image1_w = $this->updateFile($image1);
+        if (!$image1_w) {
             return $this->returnAddJs('第一张图片上传失败，请重新上传！');
         }
 
@@ -80,7 +83,8 @@ class ActivityController extends BaseController
             return $this->returnAddJs('第二张图片格式不正确！');
         }
 
-        if (!($image2 = $this->updateFile($image2))) {
+        $image2_w = $this->updateFile($image2);
+        if (!$image2_w) {
             return $this->returnAddJs('第二张图片上传失败，请重新上传！');
         }
 
@@ -93,7 +97,8 @@ class ActivityController extends BaseController
             return $this->returnAddJs('第三张图片格式不正确');
         }
 
-        if (!($image3 = $this->updateFile($image3))) {
+        $image3_w = $this->updateFile($image3);
+        if (!$image3_w) {
             return $this->returnAddJs('第三张图片上传失败，请重新上传');
         }
 
@@ -104,9 +109,9 @@ class ActivityController extends BaseController
         $activity->url = $url;
         if ($activity->save()) {
             $images = [
-                $image1,
-                $image2,
-                $image3,
+                $image1_w,
+                $image2_w,
+                $image3_w,
             ];
             foreach ($images as $image) {
                 $activity_image = new ActivityImage();
@@ -117,7 +122,7 @@ class ActivityController extends BaseController
             }
             $activity_image = new ActivityImage();
             $activity_image->activity_id = $activity->activity_id;
-            $activity_image->image_url = $video;
+            $activity_image->image_url = $video_w;
             $activity_image->type = 2;
             $activity_image->save();
             //插入捐赠额度
