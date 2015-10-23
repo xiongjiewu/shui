@@ -21,14 +21,14 @@ class RecyclingQueue
                         'status' => UserSendWater::STATUS_IS_ACTIVE_FALSE,
                     ]
                 );
+                $user_financial_result = UserFinancial::where('user_id', $result->user_id)->first();
+                UserFinancial::where('user_id', $result->user_id)->update(
+                    [
+                        'water_count' => ($user_financial_result->water_count + $result->water_count),
+                        'send_water' => ($user_financial_result->send_water - $result->water_count)
+                    ]
+                );
             }
-            $user_financial_result = UserFinancial::where('user_id', $result->user_id)->first();
-            UserFinancial::where('user_id', $result->user_id)->update(
-                [
-                    'water_count' => ($user_financial_result->water_count + $result->water_count),
-                    'send_water' => ($user_financial_result->send_water - $result->water_count)
-                ]
-            );
         }
     }
 }

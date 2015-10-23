@@ -11,6 +11,15 @@ class UserShareLog extends Model
     protected $table = 'user_share_log';
 
     /**
+     * 获得过期秒
+     * @return int
+     */
+    public static function getSystemTime()
+    {
+        return (int)(getenv('TIMEOUT_HOUR') * 3600);
+    }
+
+    /**
      * 创建分享URL
      * @param $share_time
      * @param $invite_code

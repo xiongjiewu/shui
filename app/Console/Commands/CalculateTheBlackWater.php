@@ -45,13 +45,16 @@ class CalculateTheBlackWater extends Command
         $i = 0;
         $black_water_val = (int)getenv('BLACK_WATER');
         while (true) {
-            $result = UserBase::where('user_id', '>', $i)->limit($this->limit)->get()->toArray();
+            $result = UserBase::where('user_id', '>', $i)
+                ->orderBy('user_id', 'asc')
+                ->limit($this->limit)
+                ->get()->toArray();
             if (empty($result)) {
                 break;
             }
-            $i += $this->limit;
             foreach ($result as $value) {
-                $user_login_log = UserLoginLog::where('user_id', $value['user_id'])->where('date', date('Ymd', strtotime('-1 day')))->first();
+                $user_login_log = UserLoginLog::where('user_id', $value['user_id'])
+                    ->where('date', date('Ymd', strtotime('-1 day')))->first();
                 if (empty($user_login_log)) {
                     $user_black_water = new UserBlackWater();
                     $user_black_water_result = $user_black_water->where('user_id', $value['user_id'])->first();
@@ -67,6 +70,7 @@ class CalculateTheBlackWater extends Command
                         );
                     }
                 }
+                $i = $value['user_id'];
             }
         }
     }

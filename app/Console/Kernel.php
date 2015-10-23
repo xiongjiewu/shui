@@ -15,6 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\Inspire::class,
         \App\Console\Commands\CalculateTheBlackWater::class,
+        \App\Console\Commands\RecyclingWaterValue::class,
+        \App\Console\Commands\RecyclingShareWater::class,
     ];
 
     /**
@@ -30,5 +32,11 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('calculate_the_black_water')
             ->dailyAt('01:00');
+
+        $schedule->command('recycling_water_value')
+            ->cron('* */2 * * *');
+
+        $schedule->command('recycling_share_water')
+            ->cron('* */3 * * *');
     }
 }

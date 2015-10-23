@@ -14,10 +14,19 @@ class UserSendWater extends Model
     protected $table = 'user_send_water';
 
     /**
+     * 获得过期秒
+     * @return int
+     */
+    public static function getSystemTime()
+    {
+        return (int)(getenv('TIMEOUT_HOUR') * 3600);
+    }
+
+    /**
      * 过期时间
      */
     public static function getOverdueDate()
     {
-        return (time() + strtotime("+48 hour"));
+        return (time() + self::getSystemTime());
     }
 }

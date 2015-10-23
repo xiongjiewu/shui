@@ -147,7 +147,8 @@ class ShareService
                     $user_id = $user_base_rt->user_id;
                 }
                 $user_share_receive_log = new UserShareReceiveLog();
-                $s = $user_share_receive_log->where('share_id', $user_share_log_tr->id)->where('share_receive_user_id', $user_id)->first();
+                $s = $user_share_receive_log->where('share_id', $user_share_log_tr->id)
+                    ->where('share_receive_user_id', $user_id)->first();
                 if (!empty($s)) {
                     return [
                         'status' => false,
