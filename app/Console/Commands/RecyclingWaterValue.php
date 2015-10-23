@@ -45,7 +45,7 @@ class RecyclingWaterValue extends Command
         while (true) {
             $user_send_water = new UserSendWater();
             $user_send_rt = $user_send_water->where('status', UserSendWater::STATUS_IS_FALSE)
-                ->limit($this->$limit)->where('id', '>', $i)->orderBy('id', 'asc')->get()->toArray();
+                ->where('id', '>', $i)->limit($this->limit)->orderBy('id', 'asc')->get()->toArray();
             if (empty($user_send_rt)) {
                 break;
             }
