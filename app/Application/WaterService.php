@@ -37,6 +37,13 @@ class WaterService
                 'info' => [],
             ];
         }
+        if ($result->status == UserSendWater::STATUS_IS_TRUE) {
+            return [
+                'status' => false,
+                'message' => '请勿重复领取!',
+                'info' => [],
+            ];
+        }
         if ($result->status == UserSendWater::STATUS_IS_FALSE && strtotime($result->overdue_date) > time()) {
             $financial_result = UserFinancial::where('user_id', $user_id)->first();
             if (empty($financial_result)) {
@@ -124,15 +131,43 @@ class WaterService
      */
     public function bagList($params, $user_id)
     {
-        $where['accept_user_id'] = $user_id;
-        if ($params->get('status')) {
-            $where['status'] = $params->get('status');
-        }
         $page = $params->get('page') ?: 1;
         $count = $params->get('count') ?: 10;
         $user_send_water = new UserSendWater();
-        $result = $user_send_water->where($where)->skip(($page - 1) * $count)->take($count)->get()->toArray();
-        $send_water = $user_send_water->where($where)->count();
+        $result = [];
+        $send_water = 0;
+        if ($params->get('status')) {
+            switch ($params->get('status')) {
+                case 0:
+                    $result = $user_send_water->where('accept_user_id', $user_id)
+                        ->where('status', UserSendWater::STATUS_IS_FALSE)
+                        ->where('overdue_date', '>=', time())
+                        ->skip(($page - 1) * $count)->take($count)->get()->toArray();
+                    $send_water = $user_send_water->where('accept_user_id', $user_id)
+                        ->where('status', UserSendWater::STATUS_IS_FALSE)->count();
+                    break;
+                case 1;
+                    $result = $user_send_water->where('accept_user_id', $user_id)
+                        ->where('status', UserSendWater::STATUS_IS_TRUE)
+                        ->where('overdue_date', '>=', time())
+                        ->skip(($page - 1) * $count)->take($count)->get()->toArray();
+                    $send_water = $user_send_water->where('accept_user_id', $user_id)
+                        ->where('status', UserSendWater::STATUS_IS_FALSE)->count();
+                    break;
+                case 2;
+                    $result = $user_send_water->where('accept_user_id', $user_id)
+                        ->whereBetween('status', [0, 2])
+                        ->where('overdue_date', '<', time())
+                        ->skip(($page - 1) * $count)->take($count)->get()->toArray();
+                    $send_water = $user_send_water->where('status', UserSendWater::STATUS_IS_FALSE)
+                        ->count();
+                    break;
+            }
+        } else {
+            $result = $user_send_water->where('accept_user_id', $user_id)
+                ->skip(($page - 1) * $count)->take($count)->get()->toArray();
+            $send_water = $user_send_water->where('accept_user_id', $user_id)->count();
+        }
         $next_page = ((($page - 1) * $count) >= $send_water) ? $page : $page + 1;
         $pager = [
             'page' => $page,

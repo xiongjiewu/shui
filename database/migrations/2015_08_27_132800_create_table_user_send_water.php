@@ -23,6 +23,7 @@ class CreateTableUserSendWater extends Migration
             $table->timestamps();
             $table->index(['user_id']);
             $table->index(['accept_user_id']);
+            $table->index(['accept_user_id', 'status', 'overdue_date'], 'a_s_o');
         });
     }
 
