@@ -50,7 +50,7 @@ class ActivityController extends BaseController
         }
 
         $video = $request->file('video');
-        if (!$video || !$video->isValid()) {
+        if (!$video->isValid()) {
             return $this->returnAddJs('视频文件无效！');
         }
 
@@ -61,7 +61,7 @@ class ActivityController extends BaseController
         }
 
         $image1 = $request->file('image1');
-        if (!$image1 || !$image1->isValid()) {
+        if (!$image1->isValid()) {
             return $this->returnAddJs('请选择第一张图片！');
         }
 
@@ -75,7 +75,7 @@ class ActivityController extends BaseController
         }
 
         $image2 = $request->file('image2');
-        if (!$image2 || !$image2->isValid()) {
+        if (!$image2->isValid()) {
             return $this->returnAddJs('第二张图片无效！');
         }
 
@@ -89,7 +89,7 @@ class ActivityController extends BaseController
         }
 
         $image3 = $request->file('image3');
-        if (!$image3 || !$image3->isValid()) {
+        if (!$image3->isValid()) {
             return $this->returnAddJs('第三张图片无效');
         }
 

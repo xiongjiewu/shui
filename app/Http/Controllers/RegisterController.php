@@ -103,7 +103,6 @@ class RegisterController extends Controller
                 $path = $new_name;
             }
         }
-        dd($path);
 
         $image = [
             'url' => $path,
