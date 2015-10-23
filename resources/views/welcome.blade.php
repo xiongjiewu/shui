@@ -36,7 +36,7 @@
     </style>
 </head>
 <body>
-<form action="http://localhost/index.php/register" method="post" enctype="multipart/form-data">
+<form action="http://www.lairenda.com/register" method="post" enctype="multipart/form-data">
     cellphone<input name="cellphone" type="text"><br/>
     name<input name="head_name" type="text"><br/>
     password<input name="password" type="text"><br/>
