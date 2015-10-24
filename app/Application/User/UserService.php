@@ -1,6 +1,7 @@
 <?php namespace App\Application\User;
 
 use App\Model\UserBase;
+use App\Model\UserFinancial;
 use App\Model\UserImage;
 use App\Model\Report;
 use App\Model\UserLoginLog;
@@ -88,6 +89,7 @@ class UserService
         $user_base->invite_code = crc32(md5($user_cellphone));
 
         if ($user_base->save()) {
+
             $user = $user_base->toArray();
             $image_url = UserImage::defaultImage();
             if (!empty($image['url']) && !empty($image['type'])) {
@@ -98,6 +100,14 @@ class UserService
                 $user_image->save();
                 $image_url = $user_image->path();
             }
+
+            if ($type == UserBase::TYPE_USER && UserFinancial::getInitialize() > 0) {
+                $user_financial = new UserFinancial();
+                $user_financial->user_id = $user_base->user_id;
+                $user_financial->water_count = UserFinancial::getInitialize();
+                $user_financial->save();
+            }
+            
             $user['user_head'] = $image_url;
             $user['token'] = TokenService::tokenEncode($user_base->user_id);
             return $this->outputFormat(true, 'success', $this->formatUser($user));
