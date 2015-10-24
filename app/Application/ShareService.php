@@ -21,7 +21,7 @@ class ShareService
      */
     public function createShareUrl($params, $user_id)
     {
-        if (!$params->get('water_num')) {
+        if (!$params->get('money')) {
             return [
                 'status' => false,
                 'message' => '分享亲水值不能为空!',
@@ -38,7 +38,7 @@ class ShareService
                 'info' => [],
             ];
         }
-        if ($user_financial_result->water_count < $params->get('water_num')) {
+        if ($user_financial_result->water_count < $params->get('money')) {
             return [
                 'status' => false,
                 'message' => '对不起,您的亲水值不够!',
@@ -49,15 +49,15 @@ class ShareService
         $crc = crc32(md5(time() . $user_id));
         $user_shar_log = new UserShareLog();
         $user_shar_log->user_id = $user_id;
-        $user_shar_log->share_water_count = $params->get('water_num');
+        $user_shar_log->share_water_count = $params->get('money');
         $user_shar_log->share_time = $crc;
         $user_shar_log->status = UserShareLog::SHARE_OK;
 
         if ($user_shar_log->save()) {
             $user_financial->where('user_id', $user_id)->update(
                 [
-                    'water_count' => ($user_financial_result->water_count - $params->get('water_num')),
-                    'send_water' => ($user_financial_result->send_water + $params->get('water_num')),
+                    'water_count' => ($user_financial_result->water_count - $params->get('money')),
+                    'send_water' => ($user_financial_result->send_water + $params->get('money')),
                 ]
             );
             $user_base = new UserBase();
