@@ -107,7 +107,7 @@ class UserService
                 $user_financial->water_count = UserFinancial::getInitialize();
                 $user_financial->save();
             }
-            
+
             $user['user_head'] = $image_url;
             $user['token'] = TokenService::tokenEncode($user_base->user_id);
             return $this->outputFormat(true, 'success', $this->formatUser($user));
