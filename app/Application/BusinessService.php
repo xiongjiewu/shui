@@ -322,30 +322,36 @@ class BusinessService
         $business_image2_path
     )
     {
-        $user_image_model = new UserImage();
         if (!empty($business_allow_image_path)) {
-            $user_image_model->user_id = $user_id;
-            $user_image_model->type = UserImage::TYPE_BUSINESS;
-            $user_image_model->image_url = $business_allow_image_path;
-            $user_image_model->save();
+            $user_image_model_o = new UserImage();
+            $user_image_model_o->user_id = $user_id;
+            $user_image_model_o->type = UserImage::TYPE_BUSINESS;
+            $user_image_model_o->image_url = $business_allow_image_path;
+            $user_image_model_o->save();
+            unset($user_image_model_o);
         }
 
         if (!empty($business_image_path)) {
-            $user_image_model->user_id = $user_id;
-            $user_image_model->type = UserImage::TYPE_SHOP;
-            $user_image_model->image_url = $business_image_path;
-            $user_image_model->save();
+            $user_image_model_t = new UserImage();
+            $user_image_model_t->user_id = $user_id;
+            $user_image_model_t->type = UserImage::TYPE_SHOP;
+            $user_image_model_t->image_url = $business_image_path;
+            $user_image_model_t->save();
+            unset($user_image_model_t);
         }
 
         if (!empty($business_image2_path)) {
-            $user_image_model->user_id = $user_id;
-            $user_image_model->type = UserImage::TYPE_SHOP;
-            $user_image_model->image_url = $business_image2_path;
-            $user_image_model->save();
+            $user_image_model_f = new UserImage();
+            $user_image_model_f->user_id = $user_id;
+            $user_image_model_f->type = UserImage::TYPE_SHOP;
+            $user_image_model_f->image_url = $business_image2_path;
+            $user_image_model_f->save();
+            unset($user_image_model_f);
         }
 
         $data = [];
         $data['business_id'] = $user_id;
+        $user_image_model = new UserImage();
         $result = $user_image_model->where('user_id', $user_id)->get();
         foreach ($result as $value) {
             if ($value['type'] == UserImage::TYPE_BUSINESS) {
