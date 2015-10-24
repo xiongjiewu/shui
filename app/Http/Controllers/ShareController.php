@@ -13,11 +13,15 @@ class ShareController extends AdminBaseController
             return response(['status' => 'error']);
         }
 
+        $code_arr = explode('-', $code);
+        if (count($code_arr) != 2) {
+            return response(['status' => 'error']);
+        }
         $this->is_mobile = true;
         $this->show_title = false;
         $this->file_css = 'Share/code';
         $this->file_js = 'Share/code';
-        return $this->view('activity.share', ['code' => $code]);
+        return $this->view('activity.share', ['code' => $code_arr[1], 'share_code' => $code]);
     }
 
     /**

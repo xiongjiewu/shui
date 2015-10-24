@@ -91,7 +91,6 @@ class ShareService
         $code = $params->get('code');
         $e = explode('-', $code);
         if (count($e) == 2) {
-
             $user_share_log = new UserShareLog();
             $user_share_log_tr = $user_share_log->where('share_time', $e[0])->first();
             if (empty($user_share_log_tr)) {

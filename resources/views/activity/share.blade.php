@@ -5,15 +5,15 @@
         <div class="phone-and-code">
             <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1"></span>
-                <input type="text" class="form-control" placeholder="手机号码" aria-describedby="basic-addon1">
+                <input type="number" name="phone" class="form-control" placeholder="手机号码" aria-describedby="basic-addon1">
             </div>
             <div class="input-group">
                 <span class="input-group-addon" id="basic-addon2"></span>
-                <input type="text" class="form-control" placeholder="邀请码" aria-describedby="basic-addon2" value="{{$code}}">
+                <input type="text" class="form-control" disabled="disabled" placeholder="邀请码" aria-describedby="basic-addon2" value="{{$code}}">
             </div>
             <div class="check-code-get">
                 <div class="input-group get-code">
-                    <input type="text" class="form-control check-code" placeholder="验证码" aria-describedby="basic-addon3">
+                    <input type="text" name="code" class="form-control check-code" placeholder="验证码" aria-describedby="basic-addon3">
                 </div>
                 <input type="button" class="show-button">
             </div>
@@ -22,4 +22,7 @@
             </div>
         </div>
     </div>
+    <script>
+        new share_get('{{$share_code}}');
+    </script>
 @endsection
