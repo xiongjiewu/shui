@@ -157,9 +157,11 @@ class ShareService
                 ->where('share_receive_user_id', $user_id)->first();
             if (!empty($s)) {
                 return [
-                    'status' => false,
+                    'status' => true,
                     'message' => '您已经领取过',
-                    'info' => [],
+                    'info' => [
+                        'water_count' => $s->share_water_count
+                    ],
                 ];
             }
             if (!empty($user_id)) {
@@ -225,7 +227,9 @@ class ShareService
                 return [
                     'status' => true,
                     'message' => '领取成功',
-                    'info' => [],
+                    'info' => [
+                        'water_count' => $water
+                    ],
                 ];
             } else {
                 return [
