@@ -42,31 +42,41 @@ class BusinessService
         $user_company_extend->user_company_lng = $longitude;
         $user_company_extend->save();
 
-        $user_image = new UserImage();
-        $user_image->user_id = $user_id;
 
         if ($logo_image_path) {
-            $user_image->image_url = $logo_image_path;
-            $user_image->type = UserImage::TYPE_HEAD;
-            $user_image->save();
+            $user_image_one = new UserImage();
+            $user_image_one->user_id = $user_id;
+            $user_image_one->image_url = $logo_image_path;
+            $user_image_one->type = UserImage::TYPE_HEAD;
+            $user_image_one->save();
+            unset($user_image_one);
         }
 
         if ($business_allow_image) {
-            $user_image->image_url = $business_allow_image;
-            $user_image->type = UserImage::TYPE_BUSINESS;
-            $user_image->save();
+            $user_image_two = new UserImage();
+            $user_image_two->user_id = $user_id;
+            $user_image_two->image_url = $business_allow_image;
+            $user_image_two->type = UserImage::TYPE_BUSINESS;
+            $user_image_two->save();
+            unset($user_image_two);
         }
 
         if ($business_image) {
-            $user_image->image_url = $business_image;
-            $user_image->type = UserImage::TYPE_SHOP;
-            $user_image->save();
+            $user_image_thr = new UserImage();
+            $user_image_thr->user_id = $user_id;
+            $user_image_thr->image_url = $business_image;
+            $user_image_thr->type = UserImage::TYPE_SHOP;
+            $user_image_thr->save();
+            unset($user_image_thr);
         }
 
         if ($business_image2) {
-            $user_image->image_url = $business_image2;
-            $user_image->type = UserImage::TYPE_SHOP;
-            $user_image->save();
+            $user_image_fou = new UserImage();
+            $user_image_fou->user_id = $user_id;
+            $user_image_fou->image_url = $business_image2;
+            $user_image_fou->type = UserImage::TYPE_SHOP;
+            $user_image_fou->save();
+            unset($user_image_fou);
         }
 
         $info = $this->getBusinessInfo($user_id);
@@ -109,20 +119,25 @@ class BusinessService
         }
 
         $user_image = new UserImage();
-        $user_iamge_result = $user_image->where('user_id', $user_id)->get();
+        $user_image_result = $user_image->where('user_id', $user_id)->get();
 
-        foreach ($user_iamge_result as $user_iamge_result_v) {
-            if ($user_iamge_result_v['type'] == UserImage::TYPE_HEAD) {
-                $info['business_logo'] = $user_iamge_result->path();
+        $info['business_logo'] = '';
+        $info['business_allowImage'] = '';
+        $info['business_image'] = '';
+        $info['business_image2'] = '';
+
+        foreach ($user_image_result as $user_image_result_v) {
+            if ($user_image_result_v['type'] == UserImage::TYPE_HEAD) {
+                $info['business_logo'] = $user_image_result->path();
             }
-            if ($user_iamge_result_v['type'] == UserImage::TYPE_BUSINESS) {
-                $info['business_allowImage'] = $user_iamge_result->path();
+            if ($user_image_result_v['type'] == UserImage::TYPE_BUSINESS) {
+                $info['business_allowImage'] = $user_image_result->path();
             }
-            if ($user_iamge_result_v['type'] == UserImage::TYPE_SHOP) {
+            if ($user_image_result_v['type'] == UserImage::TYPE_SHOP) {
                 if (empty($info['business_image'])) {
-                    $info['business_image'] = $user_iamge_result->path();
+                    $info['business_image'] = $user_image_result->path();
                 } else {
-                    $info['business_image2'] = $user_iamge_result->path();
+                    $info['business_image2'] = $user_image_result->path();
                 }
             }
         }
