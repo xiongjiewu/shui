@@ -39,10 +39,15 @@ class UserController extends BaseController
      */
     public function newHead(Request $request)
     {
-        $head = $request->file('head');
+        $android_head = $request->get('android_head');
         $path = '';
-        if (!empty($head) && $head->isValid()) {
-            $path = $this->updateFile($head);
+        if (!empty($android_head)) {
+            $head = $request->file('head');
+            if (!empty($head) && $head->isValid()) {
+                $path = $this->updateFile($head);
+            }
+        } else {
+            $path = $android_head;
         }
         $check = (new UserService())->updateUserHead($path, $this->user_id);
         if ($check['status']) {
