@@ -392,7 +392,9 @@ class WaterService
             return [
                 'status' => true,
                 'message' => '领取成功!',
-                'info' => [],
+                'info' => [
+                    'water_count' => $result->giving
+                ],
             ];
         }
         return [
