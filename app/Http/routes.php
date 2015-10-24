@@ -11,7 +11,7 @@
 |
 */
 
-//测试接口
+//单独上传文件类
 Route::post('/api/push/image', ['uses' => 'RegisterController@pushImage']);
 //用户
 Route::get('/', ['uses' => 'HomeController@home']);

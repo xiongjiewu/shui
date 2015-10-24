@@ -14,50 +14,70 @@ class BusinessController extends BaseController
      */
     public function businessInfoFinish(Request $request)
     {
-        $logo_image = $request->file('logoImage');
         $longitude = $request->get('longitude');
         $latitude = $request->get('latitude');
         $business_name = $request->get('business_name');
         $business_info = $request->get('business_info');
-        $business_allow_image = $request->file('business_allowImage');
-        $business_image = $request->file('business_image');
-        $business_image2 = $request->file('business_image2');
 
-        if (!$logo_image || !$longitude || !$latitude || !$business_name || !$business_info || !$business_allow_image || !$business_image) {
+        if (!$longitude || !$latitude || !$business_name || !$business_info) {
             return $this->fail('参数错误');
         }
 
+        //安卓上传
+        $android_logo_image = $request->get('android_logoImage');
+        $android_business_allow_image = $request->get('android_business_allowImage');
+        $android_business_image = $request->get('android_business_image');
+        $android_business_image2 = $request->get('android_business_image2');
+
         $logo_image_path = '';
-        if (!empty($logo_image) && $logo_image->isValid()) {
-            $logo_image_name = $this->updateFile($logo_image);
-            if ($logo_image_name) {
-                $logo_image_path = $logo_image_name;
-            }
-        }
-
         $business_allow_image_path = '';
-        if (!empty($business_allow_image) && $business_allow_image->isValid()) {
-            $business_allow_image_name = $this->updateFile($business_allow_image);
-            if ($business_allow_image_name) {
-                $business_allow_image_path = $business_allow_image_name;
-            }
-        }
-
         $business_image_path = '';
-        if (!empty($business_image) && $business_image->isValid()) {
-            $business_image_name = $this->updateFile($business_image);
-            if ($business_image_name) {
-                $business_image_path = $business_image_name;
+        $business_image2_path = '';
+
+        if (!empty($android_business_allow_image) && !empty($android_business_image)) {
+            $logo_image_path = $android_logo_image;
+            $business_allow_image_path = $android_business_allow_image;
+            $business_image_path = $android_business_image;
+            $business_image2_path = $android_business_image2;
+        } else {
+            $logo_image = $request->file('logoImage');
+            $business_allow_image = $request->file('business_allowImage');
+            $business_image = $request->file('business_image');
+            $business_image2 = $request->file('business_image2');
+
+            if (!empty($logo_image) && $logo_image->isValid()) {
+                $logo_image_name = $this->updateFile($logo_image);
+                if ($logo_image_name) {
+                    $logo_image_path = $logo_image_name;
+                }
+            }
+
+            if (!empty($business_allow_image) && $business_allow_image->isValid()) {
+                $business_allow_image_name = $this->updateFile($business_allow_image);
+                if ($business_allow_image_name) {
+                    $business_allow_image_path = $business_allow_image_name;
+                }
+            }
+
+            if (!empty($business_image) && $business_image->isValid()) {
+                $business_image_name = $this->updateFile($business_image);
+                if ($business_image_name) {
+                    $business_image_path = $business_image_name;
+                }
+            }
+
+            if (!empty($business_image2) && $business_image2->isValid()) {
+                $business_image2_name = $this->updateFile($business_image2);
+                if ($business_image2_name) {
+                    $business_image2_path = $business_image2_name;
+                }
             }
         }
 
-        $business_image2_path = '';
-        if (!empty($business_image2) && $business_image2->isValid()) {
-            $business_image2_name = $this->updateFile($business_image2);
-            if ($business_image2_name) {
-                $business_image2_path = $business_image2_name;
-            }
+        if (!empty($logo_image_path) && !empty($business_allow_image_path) && !empty($business_image_path)) {
+            return $this->fail('参数错误');
         }
+
 
         $check = (new BusinessService())->businessInfoFinish(
             $this->user_id,
@@ -80,6 +100,7 @@ class BusinessController extends BaseController
                 ]
             );
         }
+        
         return $this->fail($check['message']);
     }
 
