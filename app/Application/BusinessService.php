@@ -79,12 +79,10 @@ class BusinessService
             unset($user_image_fou);
         }
 
-        $info = $this->getBusinessInfo($user_id);
-
         return [
             'status' => true,
             'message' => 'success',
-            'info' => $info,
+            'info' => [],
         ];
 
     }
@@ -94,7 +92,7 @@ class BusinessService
      * @param $user_id
      * @return array
      */
-    private function getBusinessInfo($user_id)
+    public function getBusinessInfo($user_id)
     {
 
         $user_base = new UserBase();
