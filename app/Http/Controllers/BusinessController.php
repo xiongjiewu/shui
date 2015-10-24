@@ -100,7 +100,7 @@ class BusinessController extends BaseController
                 ]
             );
         }
-        
+
         return $this->fail($check['message']);
     }
 

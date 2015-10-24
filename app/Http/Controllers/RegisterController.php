@@ -204,4 +204,54 @@ class RegisterController extends Controller
             ]
         );
     }
+
+    /**
+     * 商家完善资料
+     * @param Request $request
+     * @return mixed
+     */
+    public function pushAllImage(Request $request)
+    {
+        $logo = $request->file('logo');         //lOGO
+        $license = $request->file('license');   //执照
+        $live1 = $request->file('live1');       //实景1
+        $live2 = $request->file('live2');       //实景2
+
+        $data = [];
+        if (!empty($logo) && $logo->isValid()) {
+            $logo_name = $this->updateFile($logo);
+            if ($logo_name) {
+                $data['logo'] = $logo_name;
+            }
+        }
+
+        if (!empty($license) && $license->isValid()) {
+            $license_name = $this->updateFile($license);
+            if ($license_name) {
+                $data['license'] = $license_name;
+            }
+        }
+
+        if (!empty($live1) && $live1->isValid()) {
+            $live1_name = $this->updateFile($live1);
+            if ($live1_name) {
+                $data['live1'] = $live1_name;
+            }
+        }
+
+        if (!empty($live2) && $live2->isValid()) {
+            $live2_name = $this->updateFile($live2);
+            if ($live2_name) {
+                $data['live2'] = $live2_name;
+            }
+        }
+
+        return Response::json(
+            [
+                'code' => 0,
+                'message' => '上传成功！',
+                'userInfo' => $data,
+            ]
+        );
+    }
 }
