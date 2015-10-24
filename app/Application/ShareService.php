@@ -46,7 +46,7 @@ class ShareService
             ];
         }
 
-        $crc = crc32(md5(time() . $user_id));
+        $crc = time() . $user_id . mt_rand(100, 999);
         $user_shar_log = new UserShareLog();
         $user_shar_log->user_id = $user_id;
         $user_shar_log->share_water_count = $params->get('money');
