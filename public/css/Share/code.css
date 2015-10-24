@@ -129,13 +129,14 @@ input:-ms-input-placeholder {
     height: 30px;
     margin-top: 132%;
     margin-left: 26%;
-    color: red;
+    color: #f4777c;
     font-size: 40px;
     font-weight: bolder;
     z-index: 9999;
 }
 
 .qingshuizhi-show {
+    display: none;
     position: absolute;
     margin-top: 134%;
     margin-left: 45%;
@@ -146,6 +147,7 @@ input:-ms-input-placeholder {
 }
 
 .show-account {
+    display: none;
     position: absolute;
     margin-top: 161%;
     margin-left: 10%;
@@ -183,4 +185,62 @@ input:-ms-input-placeholder {
     background: url("/image/beijing_3.png");
     -moz-background-size: 100% 100%;
     background-size: 100% 100%;
+}
+
+.show-list {
+    position: absolute;
+    margin-top: 70%;
+    margin-left: 15%;
+    width: 75%;
+    height: 64px;
+    z-index: 100000;
+    font-size: 25px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    -moz-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+
+.show-list table {
+    width: 100%;
+}
+
+.show-list table tr {
+    display: block;
+    margin-top: 30px;
+}
+
+.show-list table tr.first {
+    margin-top: 0;
+}
+
+.show-list table td.user-info {
+    width: 60%;
+    color: #fff;
+    font-weight: normal;
+}
+
+.show-list table td.user-info .name {
+    font-size: 22px;
+    font-weight: bolder;
+}
+
+.show-list table td.user-info .time-content {
+    margin-top: 13px;
+}
+
+.show-list table td.user-water {
+    color: #fef702;
+    font-size: 25px;
+}
+
+.show-list .user-img {
+    margin-right: 10px;
+}
+
+.show-list img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
 }

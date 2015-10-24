@@ -57,7 +57,7 @@ Route::any('/share', ['uses' => 'UserController@userShare']);
 Route::get('/get/{code}.html', ['uses' => 'ShareController@shareCode']);
 Route::any('/shareGet', ['uses' => 'ShareController@shareGet']);
 //分享列表展示
-Route::get('/share/show/{code}.html', ['uses' => 'ShareController@shareShow']);
+Route::any('/share/show/{code}.html', ['uses' => 'ShareController@shareShow']);
 //管理后台
 Route::get('admin/login', ['as' => 'admin::login', 'uses' => 'Admin\LoginController@login']);
 Route::post('admin/login', ['as' => 'admin::login::action', 'uses' => 'Admin\LoginController@loginAction']);

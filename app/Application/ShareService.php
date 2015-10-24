@@ -97,6 +97,7 @@ class ShareService
                 return [
                     'status' => false,
                     'message' => '非法参数',
+                    'code' => 1,
                     'info' => [],
                 ];
             }
@@ -104,6 +105,7 @@ class ShareService
                 return [
                     'status' => false,
                     'message' => '分享已经结束',
+                    'code' => 2,
                     'info' => [],
                 ];
             }
@@ -111,7 +113,8 @@ class ShareService
             $rt = $this->checkVerify($params->get('cellphone'), $params->get('verify'));
             if (!$rt['status']) {
                 return [
-                    'status' => 'error',
+                    'status' => false,
+                    'code' => 3,
                     'message' => $rt['message'],
                     'userInfo' => [],
                 ];
@@ -157,7 +160,8 @@ class ShareService
                 ->where('share_receive_user_id', $user_id)->first();
             if (!empty($s)) {
                 return [
-                    'status' => true,
+                    'status' => false,
+                    'code' => 4,
                     'message' => '您已经领取过',
                     'info' => [
                         'water_count' => $s->share_water_count
@@ -234,14 +238,18 @@ class ShareService
             } else {
                 return [
                     'status' => false,
+                    'code' => 5,
                     'message' => '系统一个人旅行去了，请重试!',
                     'info' => [],
                 ];
             }
         } else {
-            return ['status' => false,
+            return [
+                'status' => false,
+                'code' => 1,
                 'message' => '非法参数',
-                'info' => [],];
+                'info' => [],
+            ];
         }
     }
 
@@ -286,6 +294,7 @@ class ShareService
             $user_base = new UserBase();
             $user_rt = $user_base->whereIn('user_id', $user_ids)->get()->toArray();
             foreach ($u_s_r_l as &$r) {
+                $r['created_at'] = date('m.d H:s', strtotime($r['created_at']));
                 foreach ($user_rt as $u) {
                     if ($r['share_receive_user_id'] == $u['user_id']) {
                         $r['user_name'] = !empty($u['user_name']) ? $u['user_name'] : '匿名';
@@ -295,7 +304,7 @@ class ShareService
             return [
                 'status' => true,
                 'message' => '返回成功',
-                'info' => $user_rt,
+                'info' => $u_s_r_l,
             ];
         } else {
             return [

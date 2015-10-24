@@ -7,7 +7,7 @@
             <div class="phone-and-code">
                 <div class="input-group">
                     <span class="input-group-addon" id="basic-addon1"></span>
-                    <input type="number" name="phone" class="form-control" placeholder="手机号码" aria-describedby="basic-addon1">
+                    <input type="text" name="phone" maxlength="11" class="form-control" placeholder="手机号码" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon" id="basic-addon2"></span>
@@ -39,7 +39,73 @@
             <button type="button" class="down-button"></button>
         </div>
         <div class="content content3">
-
+            <div class="show-list">
+                <table>
+                    <tr class="first">
+                        <td class="user-img">
+                            <img src="/image/touxiang_03.png">
+                        </td>
+                        <td class="user-info">
+                            <div class="time-name">
+                                <span class="name">
+                                杨帆
+                                </span>
+                                <span class="time">
+                                    10.18 12:12
+                                </span>
+                            </div>
+                            <div class="time-content">
+                                磁暴知应天上有
+                            </div>
+                        </td>
+                        <td class="user-water">
+                            12121
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="user-img">
+                            <img src="/image/touxiang_03.png">
+                        </td>
+                        <td class="user-info">
+                            <div class="time-name">
+                                <span class="name">
+                                杨帆
+                                </span>
+                                <span class="time">
+                                    10.18 12:12
+                                </span>
+                            </div>
+                            <div class="time-content">
+                                磁暴知应天上有
+                            </div>
+                        </td>
+                        <td class="user-water">
+                            12121
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="user-img">
+                            <img src="/image/touxiang_03.png">
+                        </td>
+                        <td class="user-info">
+                            <div class="time-name">
+                                <span class="name">
+                                杨帆
+                                </span>
+                                <span class="time">
+                                    10.18 12:12
+                                </span>
+                            </div>
+                            <div class="time-content">
+                                磁暴知应天上有
+                            </div>
+                        </td>
+                        <td class="user-water">
+                            12121
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </form>
     <script>
