@@ -136,6 +136,7 @@ class UserController extends BaseController
                     'code' => 0,
                     'message' => '搜索成功！',
                     'bagList' => $check['info'],
+                    'pager' => $check['pager'],
                 ]
             );
         }

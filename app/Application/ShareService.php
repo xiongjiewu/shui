@@ -62,8 +62,8 @@ class ShareService
             );
             $user_base = new UserBase();
             $user_base_rt = $user_base->where('user_id', $user_id)->first();
-            $time_out = Carbon::now()->addHour(getenv('TIMEOUT_HOUR'));
-            Queue::later($time_out, 'App\Queue\RecyclingWeixinShareWaterQueue', ['share_id' => $user_shar_log->id], 'send_water');
+//            $time_out = Carbon::now()->addHour(getenv('TIMEOUT_HOUR'));
+//            Queue::later($time_out, 'App\Queue\RecyclingWeixinShareWaterQueue', ['share_id' => $user_shar_log->id], 'send_water');
             return [
                 'status' => true,
                 'message' => '反馈成功!',
