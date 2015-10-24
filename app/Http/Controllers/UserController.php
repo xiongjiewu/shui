@@ -41,7 +41,7 @@ class UserController extends BaseController
     {
         $android_head = $request->get('android_head');
         $path = '';
-        if (!empty($android_head)) {
+        if (empty($android_head)) {
             $head = $request->file('head');
             if (!empty($head) && $head->isValid()) {
                 $path = $this->updateFile($head);
