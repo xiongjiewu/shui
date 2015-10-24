@@ -8,6 +8,7 @@ use App\Model\UserSendWater;
 use App\Model\UserShareLog;
 use App\Model\UserShareReceiveLog;
 use App\Model\UserVerify;
+use Carbon\Carbon;
 use \Queue;
 
 class ShareService
@@ -50,6 +51,7 @@ class ShareService
         $user_shar_log->user_id = $user_id;
         $user_shar_log->share_water_count = $params->get('water_num');
         $user_shar_log->share_time = $crc;
+        $user_shar_log->status = UserShareLog::SHARE_OK;
 
         if ($user_shar_log->save()) {
             $user_financial->where('user_id', $user_id)->update(
@@ -89,6 +91,7 @@ class ShareService
         $code = $params->get('code');
         $e = explode('-', $code);
         if (count($e) == 2) {
+
             $user_share_log = new UserShareLog();
             $user_share_log_tr = $user_share_log->where('share_time', $e[0])->first();
             if (empty($user_share_log_tr)) {
@@ -97,125 +100,145 @@ class ShareService
                     'message' => '非法参数',
                     'info' => [],
                 ];
-            } else if ($user_share_log_tr->status == UserShareLog::SHARE_NO) {
+            }
+            if ($user_share_log_tr->status == UserShareLog::SHARE_NO) {
                 return [
                     'status' => false,
                     'message' => '分享已经结束',
                     'info' => [],
                 ];
+            }
+
+            $rt = $this->checkVerify($params->get('cellphone'), $params->get('verify'));
+            if (!$rt['status']) {
+                return [
+                    'status' => 'error',
+                    'message' => $rt['message'],
+                    'userInfo' => [],
+                ];
+            }
+
+            //注册成为用户
+            $user_base = new UserBase();
+            $user_base_rt = $user_base->where('user_cellphone', $params->get('cellphone'))->first();
+            if (empty($user_base_rt)) {
+                $user_id = $user_base->user_id;
+                $password = mt_rand(100000, 999999);
+                $user_base->user_cellphone = $params->get('cellphone');
+                $user_base->password = $this->encryptPassword($password);
+                $user_base->user_name = !empty($user_name) ? $user_name : '';
+                $user_base->invite_code = crc32(md5($params->get('cellphone')));
+                if ($user_base->save()) {
+                    //发送短信提示
+                    $user_verify = new UserVerify();
+                    $content = '感谢你注册水想世界，您的APP登入密码为' . $password . '，请尽快登入之后修改密码噢～';
+                    $user_verify->getSendMsgUrl($params->get('cellphone'), $content);
+                    //建立图片
+                    $user_image = new UserImage();
+                    $user_image->user_id = $user_base->user_id;
+                    $user_image->image_url = UserImage::defaultImage();
+                    $user_image->type = UserImage::TYPE_HEAD;
+                    $user_image->save();
+                    //绑定关系
+                    $user_relationship = new UserRelationship();
+                    $user_relationship_rt = $user_relationship->where('user_id', $user_share_log_tr->user_id)
+                        ->where('guest_id', $user_base->user_id)->first();
+                    if (!empty($user_relationship_rt)) {
+                        $user_relationship->user_id = $user_share_log_tr->user_id;
+                        $user_relationship->guest_id = $user_base->user_id;
+                        $user_relationship->save();
+                    }
+                }
             } else {
-                $rt = $this->checkVerify($params->get('cellphone'), $params->get('verify'));
-                if (!$rt['status']) {
-                    return [
-                        'status' => 'error',
-                        'message' => $rt['message'],
-                        'userInfo' => [],
-                    ];
+                $user_id = $user_base_rt->user_id;
+            }
+
+            $user_share_receive_log = new UserShareReceiveLog();
+            $s = $user_share_receive_log->where('share_id', $user_share_log_tr->id)
+                ->where('share_receive_user_id', $user_id)->first();
+            if (!empty($s)) {
+                return [
+                    'status' => false,
+                    'message' => '您已经领取过',
+                    'info' => [],
+                ];
+            }
+            if (!empty($user_id)) {
+                //开始分享
+                $water = 0;
+                $share_count = 0;
+                $share_status = 1;
+                switch ($user_share_log_tr->share_count) {
+                    case 0:
+                        $water = ceil($user_share_log_tr->share_water_count / 3);
+                        $share_count = 1;
+                        break;
+                    case 1:
+                        $water = ceil(($user_share_log_tr->share_water_count - $user_share_log_tr->share_receive) / 2);
+                        $share_count = 2;
+                        break;
+                    case 2:
+                        $water = $user_share_log_tr->share_water_count - $user_share_log_tr->share_receive;
+                        $share_count = 3;
+                        $share_status = 0;
+                        break;
                 }
-                //注册成为用户
-                $user_base = new UserBase();
-                $user_base_rt = $user_base->where('user_cellphone', $params->get('cellphone'))->first();
-                if (empty($user_base_rt)) {
-                    $user_id = $user_base->user_id;
-                    $password = mt_rand(100000, 999999);
-                    $user_base->user_cellphone = $params->get('cellphone');
-                    $user_base->password = $this->encryptPassword($password);
-                    $user_base->user_name = !empty($user_name) ? $user_name : '';
-                    $user_base->invite_code = crc32(md5($params->get('cellphone')));
-                    if ($user_base->save()) {
-                        //发送短信提示
-                        $user_verify = new UserVerify();
-                        $content = '感谢你注册水想世界，您的APP登入密码为' . $password . '，请尽快登入之后修改密码噢～';
-                        $user_verify->getSendMsgUrl($params->get('cellphone'), $content);
-                        //建立图片
-                        $user_image = new UserImage();
-                        $user_image->user_id = $user_base->user_id;
-                        $user_image->image_url = UserImage::defaultImage();
-                        $user_image->type = UserImage::TYPE_HEAD;
-                        $user_image->save();
-                        //绑定关系
-                        $user_relationship = new UserRelationship();
-                        $user_relationship_rt = $user_relationship->where('user_id', $user_share_log_tr->user_id)
-                            ->where('guest_id', $user_base->user_id)->first();
-                        if (!empty($user_relationship_rt)) {
-                            $user_relationship->user_id = $user_share_log_tr->user_id;
-                            $user_relationship->guest_id = $user_base->user_id;
-                            $user_relationship->save();
-                        }
-                    }
+
+                //放入用户账户
+                $user_financial = new UserFinancial();
+                $user_f_rt = $user_financial->where('user_id', $user_id)->first();
+                if (empty($user_f_rt)) {
+                    $user_financial->user_id = $user_id;
+                    $user_financial->water_count = $water;
+                    $user_financial->save();
                 } else {
-                    $user_id = $user_base_rt->user_id;
+                    $user_financial->where('user_id', $user_id)->update(
+                        [
+                            'water_count' => ($user_f_rt->water_count + $water),
+                        ]
+                    );
                 }
-                $user_share_receive_log = new UserShareReceiveLog();
-                $s = $user_share_receive_log->where('share_id', $user_share_log_tr->id)
-                    ->where('share_receive_user_id', $user_id)->first();
-                if (!empty($s)) {
-                    return [
-                        'status' => false,
-                        'message' => '您已经领取过',
-                        'info' => [],
-                    ];
-                }
-                if (!empty($user_id)) {
-                    //开始分享
-                    $water = 0;
-                    switch ($user_share_log->share_count) {
-                        case 0:
-                            $water = ceil($user_share_log->share_water_count / 3);
-                            break;
-                        case 1:
-                            $water = ceil(($user_share_log->share_water_count - $user_share_log->share_receive) / 2);
-                            break;
-                        case 2:
-                            $water = $user_share_log->share_water_count - $user_share_log->share_receive;
-                            break;
-                    }
-                    //放入用户账户
-                    $user_financial = new UserFinancial();
-                    $user_f_rt = $user_financial->where('user_id', $user_id)->first();
-                    if (!empty($user_f_rt)) {
-                        $user_financial->water_count = $water;
-                        $user_financial->save();
-                    } else {
-                        $user_financial->where('user_id', $user_id)->update(
-                            [
-                                'water_count' => ($user_f_rt->water_count + $water),
-                            ]
-                        );
-                    }
-                    //建立领取记录
-                    $user_send_water = new UserSendWater();
-                    $user_send_water->user_id = $user_share_log_tr->user_id;
-                    $user_send_water->water_count = $water;
-                    $user_send_water->accept_user_id = $user_id;
-                    $user_send_water->overdue_date = time();
-                    $user_send_water->share_type = UserSendWater::SHARE_TYPE_WEIXIN;
-                    $user_send_water->status = UserSendWater::STATUS_IS_TRUE;
-                    $user_send_water->save();
-                    //记录每期领取的人
-                    $user_share_receive_log->share_id = $user_share_log_tr->id;
-                    $user_share_receive_log->share_receive_user_id = $user_id;
-                    $user_share_receive_log->share_water_count = $water;
-                    $user_share_receive_log->save();
-                    return [
-                        'status' => true,
-                        'message' => '领取成功',
-                        'info' => [],
-                    ];
-                } else {
-                    return [
-                        'status' => false,
-                        'message' => '系统一个人旅行去了，请重试!',
-                        'info' => [],
-                    ];
-                }
+
+                $user_share_log->where('id', $user_share_log_tr->id)->update(
+                    [
+                        'share_count' => $share_count,
+                        'status' => $share_status,
+                        'share_receive' => $user_share_log_tr->share_receive + $water,
+                    ]
+                );
+
+                //建立领取记录
+                $user_send_water = new UserSendWater();
+                $user_send_water->user_id = $user_share_log_tr->user_id;
+                $user_send_water->water_count = $water;
+                $user_send_water->accept_user_id = $user_id;
+                $user_send_water->overdue_date = time();
+                $user_send_water->share_type = UserSendWater::SHARE_TYPE_WEIXIN;
+                $user_send_water->status = UserSendWater::STATUS_IS_TRUE;
+                $user_send_water->save();
+
+                //记录每期领取的人
+                $user_share_receive_log->share_id = $user_share_log_tr->id;
+                $user_share_receive_log->share_receive_user_id = $user_id;
+                $user_share_receive_log->share_water_count = $water;
+                $user_share_receive_log->save();
+
+                return [
+                    'status' => true,
+                    'message' => '领取成功',
+                    'info' => [],
+                ];
+            } else {
+                return [
+                    'status' => false,
+                    'message' => '系统一个人旅行去了，请重试!',
+                    'info' => [],
+                ];
             }
         } else {
-            return [
-                'status' => false,
+            return ['status' => false,
                 'message' => '非法参数',
-                'info' => [],
-            ];
+                'info' => [],];
         }
     }
 

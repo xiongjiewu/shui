@@ -56,7 +56,7 @@ Route::any('/businessOutOrder', ['uses' => 'BusinessController@businessOutOrder'
 Route::any('/businessOutSure', ['uses' => 'BusinessController@businessOutSure']);
 //分享
 Route::any('/share', ['uses' => 'UserController@userShare']);
-Route::get('/{code}.html', ['uses' => 'ShareController@shareCode']);
+Route::get('/get/{code}.html', ['uses' => 'ShareController@shareCode']);
 Route::any('/shareGet', ['uses' => 'ShareController@shareGet']);
 //分享列表展示
 Route::get('/share/show/{code}.html', ['uses' => 'ShareController@shareShow']);
