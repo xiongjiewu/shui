@@ -177,4 +177,27 @@ class RegisterController extends Controller
         }
         return $this->fail($check['message']);
     }
+
+    /**
+     * 单独开发图片API
+     * @param Request $request
+     */
+    public function pushImage(Request $request)
+    {
+        $image = $request->file('image');
+        $path = '';
+        if (!empty($image) && $image->isValid()) {
+            $new_name = $this->updateFile($image);
+            if ($new_name) {
+                $path = $new_name;
+            }
+        }
+        return Response::json(
+            [
+                'code' => 0,
+                'message' => '上传成功！',
+                'userInfo' => $path,
+            ]
+        );
+    }
 }

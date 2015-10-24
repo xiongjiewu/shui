@@ -11,6 +11,8 @@
 |
 */
 
+//测试接口
+Route::post('/api/push/image', ['uses' => 'RegisterController@pushImage']);
 //用户
 Route::get('/', ['uses' => 'HomeController@home']);
 Route::any('/login', ['uses' => 'LoginController@login']);
