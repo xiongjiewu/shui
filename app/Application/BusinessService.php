@@ -1,4 +1,4 @@
-<?php namespace App\Application\Controllers;
+<?php namespace App\Application;
 
 use App\Application\User\TokenService;
 use App\Model\Report;
@@ -94,7 +94,6 @@ class BusinessService
      */
     public function getBusinessInfo($user_id)
     {
-
         $user_base = new UserBase();
         $user_result = $user_base->where('user_id', $user_id)->first();
 
@@ -103,7 +102,7 @@ class BusinessService
 
         $info = [];
         $info['business_id'] = $user_id;
-        $info['business_cellphone'] = $user_result->cellphone;
+        $info['business_cellphone'] = $user_result->user_cellphone;
         $info['business_longitude'] = '';
         $info['business_latitude'] = '';
         $info['business_name'] = '';
@@ -125,17 +124,17 @@ class BusinessService
         $info['business_image2'] = '';
 
         foreach ($user_image_result as $user_image_result_v) {
-            if ($user_image_result_v['type'] == UserImage::TYPE_HEAD) {
-                $info['business_logo'] = $user_image_result->path();
+            if ($user_image_result_v->type == UserImage::TYPE_HEAD) {
+                $info['business_logo'] = $user_image_result_v->path();
             }
-            if ($user_image_result_v['type'] == UserImage::TYPE_BUSINESS) {
-                $info['business_allowImage'] = $user_image_result->path();
+            if ($user_image_result_v->type == UserImage::TYPE_BUSINESS) {
+                $info['business_allowImage'] = $user_image_result_v->path();
             }
-            if ($user_image_result_v['type'] == UserImage::TYPE_SHOP) {
+            if ($user_image_result_v->type == UserImage::TYPE_SHOP) {
                 if (empty($info['business_image'])) {
-                    $info['business_image'] = $user_image_result->path();
+                    $info['business_image'] = $user_image_result_v->path();
                 } else {
-                    $info['business_image2'] = $user_image_result->path();
+                    $info['business_image2'] = $user_image_result_v->path();
                 }
             }
         }
@@ -177,7 +176,11 @@ class BusinessService
         $user_financial = new UserFinancial();
         $result = $user_financial->where('user_id', $user_id)->first();
         if (!empty($result)) {
-            $bool = $user_financial->where('user_id', $user_id)->update(['giving' => $water_num]);
+            $bool = $user_financial->where('user_id', $user_id)->update(
+                [
+                    'giving' => $water_num
+                ]
+            );
         } else {
             $user_financial->user_id = $user_id;
             $user_financial->giving = $water_num;
@@ -245,7 +248,12 @@ class BusinessService
             ];
         }
         $user_image = new UserImage();
-        $bool = $user_image->where('user_id', $user_id)->where('type', UserImage::TYPE_HEAD)->update(['image_url' => $logo_image_path]);
+        $bool = $user_image->where('user_id', $user_id)->where('type', UserImage::TYPE_HEAD)
+            ->update(
+                [
+                    'image_url' => $logo_image_path
+                ]
+            );
         if ($bool) {
             $info['business_logo'] = $logo_image_path;
             $info['business_id'] = TokenService::tokenEncode($user_id);

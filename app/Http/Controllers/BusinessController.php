@@ -2,7 +2,7 @@
 
 use App\Application\OrderService;
 use Illuminate\Http\Request;
-use App\Application\Controllers\BusinessService;
+use App\Application\BusinessService;
 use \Response;
 
 class BusinessController extends BaseController

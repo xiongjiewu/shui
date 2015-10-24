@@ -5,7 +5,6 @@ use App\Application\VerifyService;
 use App\Model\UserBase;
 use App\Model\UserImage;
 use Illuminate\Http\Request;
-use Input;
 use \Response;
 
 class RegisterController extends Controller

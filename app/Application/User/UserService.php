@@ -414,6 +414,12 @@ class UserService
                             ]
                         );
                 }
+                if (UserFinancial::getInitialize() > 0) {
+                    $user_financial = new UserFinancial();
+                    $user_financial->user_id = $user_base->user_id;
+                    $user_financial->water_count = UserFinancial::getInitialize();
+                    $user_financial->save();
+                }
             } else {
                 return [
                     'status' => false,
