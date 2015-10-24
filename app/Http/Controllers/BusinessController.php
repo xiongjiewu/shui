@@ -20,7 +20,7 @@ class BusinessController extends BaseController
         $business_info = $request->get('business_info');
 
         if (!$longitude || !$latitude || !$business_name || !$business_info) {
-            return $this->fail('参数错误');
+            return $this->fail('基础信息不完善');
         }
 
         //安卓上传
@@ -75,7 +75,7 @@ class BusinessController extends BaseController
         }
 
         if (!empty($logo_image_path) && !empty($business_allow_image_path) && !empty($business_image_path)) {
-            return $this->fail('参数错误');
+            return $this->fail('图片信息不完善');
         }
 
 
