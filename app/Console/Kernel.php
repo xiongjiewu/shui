@@ -17,7 +17,6 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\CalculateTheBlackWater::class,
         \App\Console\Commands\RecyclingWaterValue::class,
         \App\Console\Commands\RecyclingShareWater::class,
-        \App\Console\Commands\text::class,
     ];
 
     /**
@@ -39,8 +38,5 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('recycling_share_water')
             ->cron('* */3 * * *');
-
-        $schedule->command('text')
-            ->cron('* * * * *');
     }
 }
