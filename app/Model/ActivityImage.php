@@ -9,6 +9,9 @@ class ActivityImage extends Model
     const TYPE_IMAGE_IS_PIC = 1;
     const TYPE_IMAGE_IS_GIF = 2;
 
+    const COMPLETE_PATH = 1;    //完整路径
+    const RELATIVE_PATH = 0;    //相对路径
+
     public static function getImagePath()
     {
         return getenv('THE_DOMAIN_NAME') . getenv('PIC_SHOW_PATH');
@@ -20,7 +23,11 @@ class ActivityImage extends Model
      */
     public function path()
     {
-        return self::getImagePath() . '/' . $this->image_url;
+        if ($this->is_completion == self::RELATIVE_PATH) {
+            return self::getImagePath() . '/' . $this->image_url;
+        } else {
+            return $this->image_url;
+        }
     }
 
     public function scopePIC($query)

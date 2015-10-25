@@ -49,15 +49,9 @@ class ActivityController extends BaseController
             return $this->returnAddJs('请填写捐赠额度！');
         }
 
-        $video = $request->file('video');
-        if (!$video->isValid()) {
-            return $this->returnAddJs('视频文件无效！');
-        }
-
-        $video_w = $this->updateFile($video);
-
+        $video_w = $request->input('video');
         if (!$video_w) {
-            return $this->returnAddJs('视频上传失败，请重新上传！');
+            return $this->returnAddJs('请填写视频链接！');
         }
 
         $image1 = $request->file('image1');
@@ -117,13 +111,14 @@ class ActivityController extends BaseController
                 $activity_image = new ActivityImage();
                 $activity_image->activity_id = $activity->activity_id;
                 $activity_image->image_url = $image;
-                $activity_image->type = 1;
+                $activity_image->type = ActivityImage::TYPE_IMAGE_IS_PIC;
                 $activity_image->save();
             }
             $activity_image = new ActivityImage();
             $activity_image->activity_id = $activity->activity_id;
             $activity_image->image_url = $video_w;
-            $activity_image->type = 2;
+            $activity_image->type = ActivityImage::TYPE_IMAGE_IS_PIC;
+            $activity_image->is_completion = ActivityImage::COMPLETE_PATH;
             $activity_image->save();
             //插入捐赠额度
             $activity_fundraising = new ActivityFundraising();

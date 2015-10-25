@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
             <label for="video">视频</label>
-            <input type="file" id="video" name="video">
+            <input type="text" class="form-control" id="video" name="video" placeholder="url">
         </div>
         <div class="form-group">
             <label for="image1">图片1</label>
