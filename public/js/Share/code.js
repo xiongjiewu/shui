@@ -31,13 +31,21 @@ share_get.prototype.init = function () {
                     $('.content1').hide();
                     $('.account').html(phone);
                     $('.content2').show();
-                    $('.title-show').html('已抢到');
+                    $('.title-show').hide();
+                    $('.qingshuizhi-show').html(res.info.water_count).show();
+                    $('.show-account').show();
+                    that.show_list();
+                    return true;
+                } else {
+                    $('.content1').hide();
+                    $('.account').html(phone);
+                    $('.content2').show();
+                    $('.title-show').html(res.message);
                     $('.qingshuizhi-show').html(res.info.water_count).show();
                     $('.show-account').show();
                     that.show_list();
                     return true;
                 }
-                alert(res.message);
                 return false;
             }
         });

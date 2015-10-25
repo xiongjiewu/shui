@@ -10,7 +10,7 @@
                     <input type="text" name="phone" maxlength="11" class="form-control" placeholder="手机号码" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2"></span>
+                    <span class="input-group-addon">邀请码</span>
                     <input type="text" class="form-control" disabled="disabled" placeholder="邀请码" aria-describedby="basic-addon2" value="{{$code}}">
                 </div>
                 <div class="check-code-get">
