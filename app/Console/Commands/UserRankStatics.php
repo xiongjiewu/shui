@@ -46,11 +46,13 @@ class UserRankStatics extends Command
         $i = 0;
         $rank = UserRank::getDefaultRank();
         while (true) {
-            $user_financial = new UserFinancial();
-            $user_financial_result = $user_financial->where('user_id', '>', $i)
-                ->limit($this->limit)
-                ->orderBy('water_count', 'desc')
-                ->get()->toArray();
+            $user_financial_result = \DB::select(
+                'select * from user_financial where user_id > ? order by (water_count+0) desc limit ?',
+                [
+                    $i,
+                    $this->limit
+                ]
+            );
             if (empty($user_financial_result)) {
                 break;
             }
