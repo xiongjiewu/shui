@@ -139,7 +139,7 @@ input:-ms-input-placeholder {
 .qingshuizhi-show {
     display: none;
     position: absolute;
-    margin-top: 134%;
+    margin-top: 110%;
     margin-left: 45%;
     width: 80%;
     height: 30px;
@@ -150,7 +150,7 @@ input:-ms-input-placeholder {
 .show-account {
     display: none;
     position: absolute;
-    margin-top: 161%;
+    margin-top: 142%;
     margin-left: 10%;
     width: 80%;
     height: 30px;
@@ -213,7 +213,7 @@ input:-ms-input-placeholder {
 }
 
 .show-list table tr.first {
-    margin-top: 0;
+    margin-top: -55px;
 }
 
 .show-list table td.user-info {
