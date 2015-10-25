@@ -117,7 +117,7 @@ class ActivityController extends BaseController
             $activity_image = new ActivityImage();
             $activity_image->activity_id = $activity->activity_id;
             $activity_image->image_url = $video_w;
-            $activity_image->type = ActivityImage::TYPE_IMAGE_IS_PIC;
+            $activity_image->type = ActivityImage::TYPE_IMAGE_IS_GIF;
             $activity_image->is_completion = ActivityImage::COMPLETE_PATH;
             $activity_image->save();
             //插入捐赠额度
