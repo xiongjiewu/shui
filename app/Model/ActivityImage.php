@@ -52,7 +52,9 @@ class ActivityImage extends Model
             return (Object)[];
         }
         foreach ($result as &$value) {
-            $value['image_url'] = self::getImagePath() . '/' . $value['image_url'];
+            if ($value['is_completion'] == self::RELATIVE_PATH) {
+                $value['image_url'] = self::getImagePath() . '/' . $value['image_url'];
+            }
         }
         return (count($result) == 1) ? array_shift($result) : $result;
     }
