@@ -18,8 +18,9 @@ class BusinessController extends BaseController
         $latitude = $request->get('latitude');
         $business_name = $request->get('business_name');
         $business_info = $request->get('business_info');
+        $business_address = $request->get('business_address');
 
-        if (empty($longitude) || empty($latitude) || empty($business_name) || empty($business_info)) {
+        if (empty($longitude) || empty($latitude) || empty($business_name) || empty($business_info) || empty($business_address)) {
             return $this->fail('基础信息不完善');
         }
 
@@ -88,7 +89,8 @@ class BusinessController extends BaseController
             $business_info,
             $business_allow_image_path,
             $business_image_path,
-            $business_image2_path
+            $business_image2_path,
+            $business_address
         );
 
         if ($check['status']) {

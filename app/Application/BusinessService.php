@@ -20,6 +20,7 @@ class BusinessService
      * @param $business_allow_image
      * @param $business_image
      * @param $business_image2
+     * @param $business_address
      * @return array
      */
     public function businessInfoFinish(
@@ -31,12 +32,14 @@ class BusinessService
         $business_info,
         $business_allow_image,
         $business_image,
-        $business_image2
+        $business_image2,
+        $business_address
     )
     {
         $user_company_extend = new UserCompanyExtend();
         $user_company_extend->user_id = $user_id;
         $user_company_extend->user_company_name = $business_name;
+        $user_company_extend->user_address = $business_address;
         $user_company_extend->user_desc = $business_info;
         $user_company_extend->user_company_lat = $latitude;
         $user_company_extend->user_company_lng = $longitude;
