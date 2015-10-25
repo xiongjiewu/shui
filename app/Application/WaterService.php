@@ -7,6 +7,7 @@ use App\Model\UserBlackWater;
 use App\Model\UserCompanyExtend;
 use App\Model\UserFinancial;
 use App\Model\UserImage;
+use App\Model\UserRank;
 use App\Model\UserRelationship;
 use App\Model\UserSendWater;
 use Carbon\Carbon;
@@ -538,6 +539,7 @@ class WaterService
         $data['person_water'] = $user_financial->sum('water_count');
         $user_financial_result = $user_financial->where('user_id', $user_id)->first();
         $data['protect_num'] = ($user_financial_result ? $user_financial_result->water_count : 0);
+        $data['water_rank'] = UserRank::getUserRank($user_id);
         return [
             'status' => true,
             'message' => 'success',
