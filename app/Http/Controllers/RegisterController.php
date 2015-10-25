@@ -3,6 +3,7 @@
 use App\Application\User\UserService;
 use App\Application\VerifyService;
 use App\Model\UserBase;
+use App\Model\UserCompanyExtend;
 use App\Model\UserImage;
 use Illuminate\Http\Request;
 use \Response;
@@ -252,5 +253,15 @@ class RegisterController extends Controller
                 'userInfo' => $data,
             ]
         );
+    }
+
+    public function text()
+    {
+        $u = new UserCompanyExtend();
+        $a['user_address'] = '上海中山北二路1515号D座6楼';
+        $a['user_company_name'] = '上海迅捷环境科技有限公司';
+        $a['user_desc'] = '公司坐落于赤峰路校区国家火炬计划同济产业基地同济大学南校区， 拥有独有的特色化研发体系，技术力量雄厚，创新性强。公司充分整合同济大学资源，实验、检测设备先进，具有很强的研发能力，工程设计能力、工程管理能力和工程施工力量。公司自成立以来，核心团队现有同济博士生1名，同济研究生1名，同济本科生三名，我们充分运用人才优势和核心竞争力，除虹吸排水外，公司在雨水收集产品方面已拥有高效组合净水器，雨水初步弃流器等核心产品，并且正在进行更新的产品研发和简化，力求推动雨水产业化发展';
+        $a['user_http'] = 'http://www.shuixiangworld.com';
+        $u->where('user_id',4)->update($a);
     }
 }
