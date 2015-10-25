@@ -36,7 +36,9 @@
                 <br>
                 登录APP即可使用
             </div>
-            <button type="button" class="down-button"></button>
+            <a href="http://www.lairenda.com/download/sxsj_1.0.apk">
+                <button type="button" class="down-button"></button>
+            </a>
         </div>
         <div class="content content3">
             <div class="show-list">
