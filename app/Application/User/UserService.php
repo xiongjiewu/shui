@@ -86,7 +86,7 @@ class UserService
         $user_base->user_name = !empty($user_name) ? $user_name : '';
         $user_base->type = $type;
         $user_base->status = $status;
-        $user_base->invite_code = crc32(md5($user_cellphone));
+        $user_base->invite_code = $user_cellphone . mt_rand(100, 999);
 
         if ($user_base->save()) {
 
@@ -389,6 +389,7 @@ class UserService
         $user_image = new UserImage();
         //如果没注册过
         if (empty($rt) && in_array($params->get('type'), [UserThirdParty::TX_QQ, UserThirdParty::WEI_XIN])) {
+            $user_base->invite_code = time() . mt_rand(100, 999);
             if ($params->get('nick_name')) {
                 $user_base->user_name = $params->get('nick_name');
             }
