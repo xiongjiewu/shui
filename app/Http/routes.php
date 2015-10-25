@@ -52,7 +52,6 @@ Route::any('/businessBankOrder', ['uses' => 'BusinessController@businessBankOrde
 Route::any('/businessBankSure', ['uses' => 'BusinessController@businessBankSure']);
 Route::any('/businessOutOrder', ['uses' => 'BusinessController@businessOutOrder']);
 Route::any('/businessOutSure', ['uses' => 'BusinessController@businessOutSure']);
-Route::get('/text', ['uses' => 'RegisterController@text']);
 //分享
 Route::any('/share', ['uses' => 'UserController@userShare']);
 Route::get('/get/{code}.html', ['uses' => 'ShareController@shareCode']);
