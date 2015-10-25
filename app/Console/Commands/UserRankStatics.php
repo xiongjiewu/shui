@@ -58,19 +58,19 @@ class UserRankStatics extends Command
             }
             $user_base = new UserBase();
             foreach ($user_financial_result as $v) {
-                $r = $user_base->where('user_id', $v['user_id'])->first();
+                $r = $user_base->where('user_id', $v->user_id)->first();
                 if ($r['type'] == UserBase::TYPE_USER) {
                     $user_rank = new UserRank();
-                    $rt = $user_rank->where('user_id', $v['user_id'])->where('date', Carbon::now()->format('Ymd'))->first();
+                    $rt = $user_rank->where('user_id', $v->user_id)->where('date', Carbon::now()->format('Ymd'))->first();
                     if (empty($rt)) {
-                        $user_rank->user_id = $v['user_id'];
+                        $user_rank->user_id = $v->user_id;
                         $user_rank->rank = $rank;
                         $user_rank->date = Carbon::now()->format('Ymd');
                         $user_rank->save();
                         $rank += 1;
                     }
                 }
-                $i = $v['user_id'];
+                $i = $v->user_id;
             }
         }
     }
