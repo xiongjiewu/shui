@@ -243,6 +243,13 @@ class ActivityService
                 'info' => [],
             ];
         }
+        if (!$params->get('money')) {
+            return [
+                'status' => false,
+                'message' => '金额不能为空!',
+                'info' => [],
+            ];
+        }
         //金额转换亲水值
         $money_to_water = ($params->get('money') * ActivityDonationsLog::getRate());
         $user_financial = new UserFinancial();
