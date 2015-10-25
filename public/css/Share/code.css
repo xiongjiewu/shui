@@ -95,9 +95,9 @@ input:-ms-input-placeholder {
 
 .show-button {
     margin-left: 10px;
-    float: right;
+    float: left;
     background: url("/image/first_11.png");
-    width: 130px;
+    width: 115px;
     border: none;
     height: 75px;
     -moz-background-size: 100% 100%;
