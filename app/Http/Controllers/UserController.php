@@ -39,16 +39,7 @@ class UserController extends BaseController
      */
     public function newHead(Request $request)
     {
-        $android_head = $request->get('android_head');
-        $path = '';
-        if (empty($android_head)) {
-            $head = $request->file('head');
-            if (!empty($head) && $head->isValid()) {
-                $path = $this->updateFile($head);
-            }
-        } else {
-            $path = $android_head;
-        }
+        $path = $request->get('avater_url');
         $check = (new UserService())->updateUserHead($path, $this->user_id);
         if ($check['status']) {
             return Response::json(

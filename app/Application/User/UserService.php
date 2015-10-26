@@ -202,6 +202,7 @@ class UserService
             $user_image->user_id = $user_id;
             $user_image->type = UserImage::TYPE_HEAD;
             $user_image->image_url = $path;
+            $user_image->is_completion = UserImage::IS_COMPLETION_QINIU;
             $user_image->save();
         } else {
             $user_image->where('user_id', $user_id)->where('type', UserImage::TYPE_HEAD)->update(
