@@ -71,8 +71,5 @@ Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.che
     Route::get('activity/manage', ['as' => 'activity.manage', 'uses' => 'Admin\ActivityController@manage']);
     Route::post('activity/action/status/change', ['as' => 'activity.status.change', 'uses' => 'Admin\ActivityController@statusChange']);
 });
-//android单独上传文件类
-Route::post('/api/push/image', ['uses' => 'RegisterController@pushImage']);
-Route::post('/api/push/allImage', ['uses' => 'RegisterController@pushAllImage']);
 //第三方类库
 Route::any('/qiniu/token', ['uses' => 'QiniuController@getToken']);
