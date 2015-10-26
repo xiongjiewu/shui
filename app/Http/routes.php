@@ -75,4 +75,4 @@ Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.che
 Route::post('/api/push/image', ['uses' => 'RegisterController@pushImage']);
 Route::post('/api/push/allImage', ['uses' => 'RegisterController@pushAllImage']);
 //第三方类库
-Route::get('/qiniu/token', ['uses' => 'QiniuController@getToken']);
+Route::any('/qiniu/token', ['uses' => 'QiniuController@getToken']);
