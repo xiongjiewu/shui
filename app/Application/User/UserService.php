@@ -97,6 +97,7 @@ class UserService
                 $user_image->user_id = $user_base->user_id;
                 $user_image->image_url = $image['url'];
                 $user_image->type = $image['type'];
+                $user_image->is_completion = UserImage::IS_COMPLETION_TRUE;
                 $user_image->save();
                 $image_url = $user_image->path();
             }

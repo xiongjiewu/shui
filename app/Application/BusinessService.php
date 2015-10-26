@@ -50,6 +50,7 @@ class BusinessService
             $user_image_one = new UserImage();
             $user_image_one->user_id = $user_id;
             $user_image_one->image_url = $logo_image_path;
+            $user_image_one->is_completion = UserImage::IS_COMPLETION_TRUE;
             $user_image_one->type = UserImage::TYPE_HEAD;
             $user_image_one->save();
             unset($user_image_one);
@@ -59,6 +60,7 @@ class BusinessService
             $user_image_two = new UserImage();
             $user_image_two->user_id = $user_id;
             $user_image_two->image_url = $business_allow_image;
+            $user_image_two->is_completion = UserImage::IS_COMPLETION_TRUE;
             $user_image_two->type = UserImage::TYPE_BUSINESS;
             $user_image_two->save();
             unset($user_image_two);
@@ -68,6 +70,7 @@ class BusinessService
             $user_image_thr = new UserImage();
             $user_image_thr->user_id = $user_id;
             $user_image_thr->image_url = $business_image;
+            $user_image_thr->is_completion = UserImage::IS_COMPLETION_TRUE;
             $user_image_thr->type = UserImage::TYPE_SHOP;
             $user_image_thr->save();
             unset($user_image_thr);
@@ -77,6 +80,7 @@ class BusinessService
             $user_image_fou = new UserImage();
             $user_image_fou->user_id = $user_id;
             $user_image_fou->image_url = $business_image2;
+            $user_image_fou->is_completion = UserImage::IS_COMPLETION_TRUE;
             $user_image_fou->type = UserImage::TYPE_SHOP;
             $user_image_fou->save();
             unset($user_image_fou);
