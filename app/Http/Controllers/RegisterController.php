@@ -3,7 +3,6 @@
 use App\Application\User\UserService;
 use App\Application\VerifyService;
 use App\Model\UserBase;
-use App\Model\UserCompanyExtend;
 use App\Model\UserImage;
 use Illuminate\Http\Request;
 use \Response;
