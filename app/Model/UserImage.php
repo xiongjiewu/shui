@@ -8,8 +8,9 @@ class UserImage extends Model
 {
     protected $table = 'user_image';
 
-    const IS_COMPLETION_TRUE = 1;   //不需要补全路径
-    const IS_COMPLETION_FALSE = 0;  //需要补全
+    const IS_COMPLETION_QINIU = 2;    //来自七牛
+    const IS_COMPLETION_TRUE = 1;   //来自微信
+    const IS_COMPLETION_FALSE = 0;  //系统路径
 
     const TYPE_HEAD = 1;        //类型-头像LOGO
     const TYPE_BUSINESS = 2;    //类型-营业执照
@@ -28,6 +29,8 @@ class UserImage extends Model
     {
         if ($this->is_completion == self::IS_COMPLETION_FALSE) {
             return self::getImagePath() . '/' . $this->image_url;
+        } else if ($this->is_completion == self::IS_COMPLETION_QINIU) {
+            return getenv('QINIU_HOST') . '/' . $this->image_url;
         } else {
             return $this->image_url;
         }
