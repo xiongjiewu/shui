@@ -39,7 +39,7 @@ class UserController extends BaseController
      */
     public function newHead(Request $request)
     {
-        $path = $request->get('avater_url');
+        $path = $request->get('avatar_url');
         $check = (new UserService())->updateUserHead($path, $this->user_id);
         if ($check['status']) {
             return Response::json(
