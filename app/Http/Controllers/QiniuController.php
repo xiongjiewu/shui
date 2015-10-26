@@ -19,6 +19,7 @@ class QiniuController extends Controller
             'code' => 0,
             'message' => '申请成功！',
             'token' => $token,
+            'qiniuhost' => getenv('QINIU_HOST')
         ]);
     }
 }
