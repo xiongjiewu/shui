@@ -38,6 +38,7 @@ Route::any('/activeFocusCancel', ['uses' => 'UserController@activeFocusCancel'])
 Route::any('/activeFocus', ['uses' => 'UserController@activeFocus']);
 Route::any('/activeSupport', ['uses' => 'UserController@activeSupport']);
 //商户
+Route::any('/businessLogin', ['uses' => 'LoginController@login']);
 Route::any('/businessRegister', ['uses' => 'RegisterController@businessRegister']);
 Route::any('/businessInfoFinish', ['uses' => 'BusinessController@businessInfoFinish']);
 Route::any('/businessInfo', ['uses' => 'BusinessController@businessInfo']);
