@@ -29,9 +29,46 @@ class UserService
         }
         $password = $this->encryptPassword($password);
         $info = UserBase::where('user_cellphone', $cellphone)
-            ->where('password', $password)
-            ->IsOpen()
+            ->where('password', $password)->User()->IsOpen()->first();
+
+        if (!$info) {
+            return $this->outputFormat(false, '手机号码或者密码错误');
+        }
+
+        $image = UserImage::where('user_id', $info->user_id)
+            ->head()
             ->first();
+        $user = $info->toArray();
+        if ($image) {
+            $user['user_head'] = $image->path();
+        } else {
+            $user['user_head'] = UserImage::defaultImage();
+        }
+        $user['token'] = TokenService::tokenEncode($info->user_id);
+        UserLoginLog::insert_login_log($info->user_id);
+        return $this->outputFormat(true, 'success', $this->formatUser($user));
+    }
+
+    /**
+     * 商户登录接口
+     * @param $cellphone
+     * @param $password
+     * @return array
+     */
+    public function businessLogin($cellphone, $password)
+    {
+        if (!$cellphone) {
+            return $this->outputFormat(false, '手机号码不能为空');
+        }
+
+        if (!$password) {
+            return $this->outputFormat(false, '密码不能为空');
+        }
+
+        $password = $this->encryptPassword($password);
+        $info = UserBase::where('user_cellphone', $cellphone)
+            ->where('password', $password)->Business()->IsOpen()->first();
+
         if (!$info) {
             return $this->outputFormat(false, '手机号码或者密码错误');
         }

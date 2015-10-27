@@ -22,6 +22,16 @@ class UserBase extends Model
         return $query->where('status', self::STATUS_OPEN);
     }
 
+    public function scopeUser($query)
+    {
+        return $query->where('type', self::TYPE_USER);
+    }
+
+    public function scopeBusiness($query)
+    {
+        return $query->where('type', self::TYPE_BUSINESS);
+    }
+
     public function scopeAdmin($query)
     {
         return $query->where('type', self::TYPE_ADMIN);

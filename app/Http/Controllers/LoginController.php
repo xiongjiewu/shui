@@ -46,4 +46,46 @@ class LoginController extends Controller
             ];
         }
     }
+
+    /**
+     * 商户登入
+     * @param Request $request
+     * @return mixed
+     */
+    public function businessLogin(Request $request)
+    {
+        $cellphone = $request->get('cellphone');
+        $password = $request->get('password');
+        if (!$cellphone || !$password) {
+            return $this->fail('参数错误');
+        }
+        //检查登录信息
+        $check = $this->businessCheck($cellphone, $password);
+        if ($check['status'] == 'ok') {
+            return \Response::json(
+                [
+                    'code' => 0,
+                    'message' => '登录成功！',
+                    'userInfo' => $check['userInfo'],
+                ]
+            );
+        }
+        return $this->fail($check['userInfo']);
+    }
+
+    private function businessCheck($cellphone, $password)
+    {
+        $check = (new UserService())->businessLogin($cellphone, $password);
+        if ($check['status']) {
+            return [
+                'status' => 'ok',
+                'userInfo' => $check['info'],
+            ];
+        } else {
+            return [
+                'status' => 'error',
+                'userInfo' => $check['message'],
+            ];
+        }
+    }
 }
