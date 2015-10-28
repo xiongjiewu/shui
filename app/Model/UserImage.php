@@ -21,6 +21,11 @@ class UserImage extends Model
         return getenv('THE_DOMAIN_NAME') . getenv('PIC_SHOW_PATH');
     }
 
+    public static function getQiniuImagePath($path)
+    {
+        return getenv('QINIU_HOST') . '/' . $path;
+    }
+
     /**
      * 获取文件完整路径
      * @return string

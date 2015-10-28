@@ -122,17 +122,9 @@ class BusinessController extends BaseController
      */
     public function businessNewLogo(Request $request)
     {
-        $head = $request->file('head');
+        $logo = $request->file('business_logo');
 
-        $logo_image_path = '';
-        if (!empty($head) && $head->isValid()) {
-            $logo_image_name = $this->updateFile($head);
-            if ($logo_image_name) {
-                $logo_image_path = $logo_image_name;
-            }
-        }
-
-        $check = (new BusinessService())->businessNewLogo($logo_image_path, $this->user_id);
+        $check = (new BusinessService())->businessNewLogo($logo, $this->user_id);
         if ($check['status']) {
             return Response::json(
                 [

@@ -262,7 +262,7 @@ class BusinessService
                 ]
             );
         if ($bool) {
-            $info['business_logo'] = $logo_image_path;
+            $info['business_logo'] = UserImage::getQiniuImagePath($logo_image_path);
             $info['business_id'] = TokenService::tokenEncode($user_id);
             return [
                 'status' => true,
