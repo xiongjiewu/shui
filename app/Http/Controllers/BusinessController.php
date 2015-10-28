@@ -122,7 +122,7 @@ class BusinessController extends BaseController
      */
     public function businessNewLogo(Request $request)
     {
-        $logo = $request->file('business_logo');
+        $logo = $request->get('business_logo');
 
         $check = (new BusinessService())->businessNewLogo($logo, $this->user_id);
         if ($check['status']) {
