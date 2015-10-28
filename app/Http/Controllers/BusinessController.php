@@ -130,7 +130,7 @@ class BusinessController extends BaseController
                 [
                     'code' => 0,
                     'message' => '设置成功！',
-                    'businessInfo' => $check['businessInfo']
+                    'businessInfo' => $check['info']
                 ]
             );
         }
