@@ -255,12 +255,21 @@ class BusinessService
             ];
         }
         $user_image = new UserImage();
-        $bool = $user_image->where('user_id', $user_id)->where('type', UserImage::TYPE_HEAD)
-            ->update(
-                [
-                    'image_url' => $logo_image_path
-                ]
-            );
+        $rt = $user_image->where('user_id', $user_id)->Head()->first();
+        if (!empty($rt)) {
+            $bool = $user_image->where('user_id', $user_id)->Head()
+                ->update(
+                    [
+                        'image_url' => $logo_image_path
+                    ]
+                );
+        } else {
+            $user_image->user_id = $user_id;
+            $user_image->image_url = $logo_image_path;
+            $user_image->type = UserImage::TYPE_HEAD;
+            $user_image->is_completion = UserImage::IS_COMPLETION_QINIU;
+            $bool = $user_image->save();
+        }
         if ($bool) {
             $info['business_logo'] = UserImage::getQiniuImagePath($logo_image_path);
             $info['business_id'] = TokenService::tokenEncode($user_id);
