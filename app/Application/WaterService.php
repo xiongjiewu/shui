@@ -309,12 +309,12 @@ class WaterService
             if (!empty($my_result)) {
                 $user_financial->where('user_id', $user_id)->update(
                     [
-                        'water_count' => $my_result->water_count + $result->giving,
+                        'public_count' => $my_result->public_count + $result->giving,
                     ]
                 );
             } else {
                 $user_financial->user_id = $user_id;
-                $user_financial->water_count = $result->giving;
+                $user_financial->public_count = $result->giving;
                 $user_financial->save();
             }
 
@@ -337,12 +337,12 @@ class WaterService
                     if (!empty($be_guest_user)) {
                         $user_financial->where('user_id', $user_relationship_rt->user_id)->update(
                             [
-                                'water_count' => $be_guest_user->water_count + $result->giving * UserRelationship::getGuestRate(),
+                                'public_count' => $be_guest_user->public_count + $result->giving * UserRelationship::getGuestRate(),
                             ]
                         );
                     } else {
                         $user_financial->user_id = $user_relationship_rt->user_id;
-                        $user_financial->water_count = $result->giving * UserRelationship::getGuestRate();
+                        $user_financial->public_count = $result->giving * UserRelationship::getGuestRate();
                         $user_financial->save();
                     }
                     $get_show_water_log = new GetShopWaterLog();

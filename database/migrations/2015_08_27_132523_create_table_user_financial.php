@@ -14,9 +14,10 @@ class CreateTableUserFinancial extends Migration
     {
         Schema::create('user_financial', function ($table) {
             $table->integer('user_id')->unique()->comment('用户自增ID');
-            $table->string('water_count')->default('0')->comment('亲水值');
+            $table->string('water_count')->default('0')->comment('用户充值的亲水值');
             $table->string('price')->default('0')->comment('用户充值总金额一直累积');
             $table->string('send_water')->default('0')->comment('已发亲水量');
+            $table->string('public_count')->default('0')->comment('用户领取的公益值等于亲水值需要分开存');
             $table->string('giving')->default('0')->comment('如果用户是商户,商户设置的可以领取的亲水值');
             $table->timestamps();
         });
