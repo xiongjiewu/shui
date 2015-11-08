@@ -22,4 +22,18 @@ class QiniuController extends Controller
             'qiniuhost' => getenv('QINIU_HOST')
         ]);
     }
+
+    /**
+     * 下载二维码
+     * @param $string
+     * @return resource
+     */
+    public function downloadQrcode($string)
+    {
+        $path = getenv('QR_CODE_URL') . $string . '.png';
+        if (!file_exists($path)) {
+            $this->localChatQrcode($string, $path, true);
+        }
+        return Response::download($path, $string . '.png');
+    }
 }

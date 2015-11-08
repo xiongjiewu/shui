@@ -81,3 +81,5 @@ Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.che
 });
 //第三方类库
 Route::any('/qiniu/token', ['uses' => 'QiniuController@getToken']);
+//生成二维码并下载
+Route::get('/download/qrcode/{string}', ['uses' => 'QiniuController@downloadQrcode']);

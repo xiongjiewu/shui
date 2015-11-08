@@ -32,4 +32,18 @@ abstract class Controller extends BaseController
         }
         return false;
     }
+
+    /**
+     * 本地二维码生成函数
+     * @param $text
+     * @param $localFileName
+     * @param $errorCorrectionLevel
+     * @param $matrixPointSize
+     * @param $marginPadding
+     * @return PHPQRCode
+     */
+    public function localChatQrcode($text, $localFileName = false, $saveandprint = false, $errorCorrectionLevel = 'L', $matrixPointSize = 5, $marginPadding = 2)
+    {
+        return \PHPQRCode\QRcode::png($text, $localFileName, $errorCorrectionLevel, $matrixPointSize, $marginPadding, $saveandprint);
+    }
 }
