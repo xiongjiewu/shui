@@ -2,7 +2,7 @@
 
 @section('content')
     <form>
-        <div class="content content1">
+        <div class="content content1" style="display: none;">
             <div class="show-title"></div>
             <div class="phone-and-code">
                 <div class="input-group">
@@ -24,14 +24,14 @@
                 </div>
             </div>
         </div>
-        <div class="content content2">
-            <div class="title-show">
+        <div class="content content2" style="display: block;">
+            <div class="title-show" style="display: none">
                 已抢光
             </div>
-            <div class="qingshuizhi-show">
+            <div class="qingshuizhi-show" style="display: block">
                 100
             </div>
-            <div class="show-account">
+            <div class="show-account" style="display: block">
                 红包已放至账户<span class="account">13917510351</span>
                 <br>
                 登录APP即可使用

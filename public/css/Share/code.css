@@ -1,3 +1,7 @@
+body, .container {
+    height: 100%;
+}
+
 .container {
     padding: 0;
     margin: 0;
@@ -30,8 +34,7 @@ input:-ms-input-placeholder {
 .content {
     padding: 0;
     margin: 0;
-    width: 100%;
-    height: 100%;
+    min-height: 100%;
 }
 
 .content1 {
@@ -41,10 +44,9 @@ input:-ms-input-placeholder {
 }
 
 .phone-and-code {
-    position: absolute;
-    top: 36%;
-    left: 10%;
-    width: 80%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 85%;
 }
 
 .phone-and-code .input-group {
@@ -121,40 +123,35 @@ input:-ms-input-placeholder {
     background: url("/image/beijing_4.png");
     -moz-background-size: 100% 100%;
     background-size: 100% 100%;
+    min-height: 100%;
 }
 
 .title-show {
-    position: absolute;
-    width: 80%;
-    left: 10%;
+    width: 100%;
+    padding-left: 32%;
+    padding-right: 10%;
+    padding-top: 120%;
     height: 30px;
-    margin-top: 132%;
-    margin-left: 26%;
     color: #f4777c;
     font-size: 40px;
     font-weight: bolder;
-    z-index: 9999;
 }
 
 .qingshuizhi-show {
     display: none;
-    position: absolute;
-    margin-top: 110%;
+    margin-top: 92%;
     margin-left: 45%;
     width: 80%;
     height: 30px;
-    z-index: 100000;
     font-size: 30px;
 }
 
 .show-account {
     display: none;
-    position: absolute;
-    margin-top: 142%;
-    margin-left: 10%;
+    padding-top: 142%;
+    padding-left: 10%;
     width: 80%;
     height: 30px;
-    z-index: 100000;
     font-size: 25px;
     line-height: 40px;
     text-align: center;
