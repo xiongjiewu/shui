@@ -17,6 +17,25 @@ class UserController extends BaseController
         )]);
     }
 
+    public function update(Request $request)
+    {
+        $this->title = '用户编辑';
+        $this->file_js = 'Admin/user';
+        return $this->view('admin.user', ['choose_id' => 1, 'users' => (
+        (new UserService())->update($request)
+        )]);
+    }
+
+    public function show($type, Request $request)
+    {
+        $this->title = '用户编辑';
+        $this->file_js = 'Admin/user';
+        return $this->view('admin.user', ['choose_id' => 1, 'users' => (
+        (new UserService())->show($type, $request)
+        )]);
+    }
+
+
     public function statusChange(Request $request)
     {
         $type = $request->input('type', null);

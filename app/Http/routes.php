@@ -65,6 +65,13 @@ Route::post('admin/login', ['as' => 'admin::login::action', 'uses' => 'Admin\Log
 Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.check'], function () {
     Route::get('/', ['as' => 'home', 'uses' => 'Admin\AdminController@home']);
     Route::get('users', ['as' => 'users', 'uses' => 'Admin\UserController@index']);
+    //用户编辑
+    Route::get('users/update', ['as' => 'users', 'uses' => 'Admin\UserController@update']);
+    //用户或者商户详情页展示
+    Route::get('users/show/{id}', ['as' => 'users', 'uses' => 'Admin\UserController@show']);
+    //商户编辑
+    Route::get('business/update', ['as' => 'users', 'uses' => 'Admin\UserController@businessUpdate']);
+
     Route::get('logout', ['as' => 'logout', 'uses' => 'Admin\LoginController@logout']);
     Route::post('users/action/status/change', ['as' => 'user.status.change', 'uses' => 'Admin\UserController@statusChange']);
     Route::get('activity/add', ['as' => 'activity.add', 'uses' => 'Admin\ActivityController@add']);

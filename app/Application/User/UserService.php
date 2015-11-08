@@ -1,6 +1,7 @@
 <?php namespace App\Application\User;
 
 use App\Model\UserBase;
+use App\Model\UserCompanyExtend;
 use App\Model\UserFinancial;
 use App\Model\UserImage;
 use App\Model\Report;
@@ -355,23 +356,95 @@ class UserService
         ];
     }
 
+
     /**
-     * 获取用户列表
-     * @param int $page
-     * @param int $per_page
+     * 修改保存
+     * @param $request
+     */
+    public function update($request)
+    {
+
+    }
+
+    /**
+     * 展示列表 type-1用户 2-商户
+     * @param $type
+     * @param $requset
      * @return array
      */
-    public function getList($page = 1, $per_page = 10)
+    public function show($type, $requset)
     {
-        $users = UserBase::offset(($page - 1) * $per_page)
-            ->limit($per_page)
-            ->get();
-        if ($users->isEmpty()) {
+        $data = [];
+        $user_result = UserBase::where('user_id', $requset->get('user_id'))->first();
+        $data['user_cellphone'] = $user_result->user_cellphone;
+        $data['user_name'] = $user_result->user_name;
+        $data['invite_code'] = $user_result->invite_code;
+        $user_financial = UserFinancial::where('user_id', $requset->get('user_id'))->first();
+        $data['water_count'] = $user_financial->water_count;
+        $data['price'] = $user_financial->price;
+        $data['send_water'] = $user_financial->send_water;
+        $data['public_count'] = $user_financial->public_count;
+        $data['giving'] = $user_financial->giving;
+        switch ($type) {
+            case 1:
+                $user_image = UserImage::where('user_id', $requset->get('user_id'))->head()->first();
+                $data['image_url'] = $user_image->path();
+                $user_third_party = UserThirdParty::where('user_id', $requset->get('user_id'))->first();
+                $data['wei_xin'] = '';
+                $data['qq'] = '';
+                foreach ($user_third_party as $user_third_party_v) {
+                    if ($user_third_party_v->type == 1) {
+                        $data['wei_xin'] = $user_third_party_v->user_other_id;
+                    }else{
+                        $data['qq'] = $user_third_party_v->user_other_id;
+                    }
+                }
+                return $data;
+            case 2:
+                $user_image = UserImage::where('user_id', $requset->get('user_id'))->get();
+                $images = [];
+                if (!empty($user_image)) {
+                    foreach ($user_image as $user_image_val) {
+                        $images[$user_image_val->id] = $user_image_val->path();
+                    }
+                }
+                return $data;
+        }
+    }
+
+    /**
+     * 获取用户列表 TODO需要分页 把商户和用户列表页分开
+     * @param int $page
+     * @param int $per_page
+     * @param int $type 1-用户 2-商户
+     * @return array
+     */
+    public function getList($page = 1, $per_page = 10, $type = 1)
+    {
+        //type 1为用户 2为商户
+        $users = [];
+        switch ($type) {
+            case 1:
+                $users = UserBase::offset(($page - 1) * $per_page)
+                    ->user()->limit($per_page)
+                    ->get();
+                break;
+            case 2:
+                $users = UserBase::offset(($page - 1) * $per_page)
+                    ->business()->limit($per_page)
+                    ->get();
+                break;
+        }
+        if (!$users) {
             return [];
         }
 
         $user_list = [];
+        $user_ids = [];
         foreach ($users as $user) {
+
+            $user_ids[] = $user['user_id'];
+
             if ($user->type == UserBase::TYPE_ADMIN) {
                 $type_text = '管理员';
             } elseif ($user->type == UserBase::TYPE_BUSINESS) {
@@ -386,9 +459,58 @@ class UserService
                     'type_text' => $type_text,
                     'status_text' => $user->isOpen() ? '已激活' : '未激活',
                     'is_active' => $user->isOpen(),
+                    'image_url' => '',
+                    'water_count' => 0, //亲水值
+                    'send_water' => 0,  //发送的水值
+                    'public_count' => 0,    //公益值
+                    'giving' => 0,   //商户设置的可以被领取的值
+                    'user_address' => '',
+                    'user_desc' => '',
+                    'user_http' => '',
+                    'user_company_lat' => '',
+                    'user_company_lng' => '',
                 ]
             );
         }
+
+        //获得头像信息
+        $user_image_rt = UserImage::whereIn('user_id', $user_ids)->Head()->get();
+        foreach ($user_list as $user) {
+            foreach ($user_image_rt as $user_image_rt_v) {
+                if ($user['user_id'] == $user_image_rt_v->user_id) {
+                    $user['image_url'] = $user_image_rt_v->path();
+                }
+            }
+        }
+
+        //获得亲水值
+        $user_financial_rt = UserFinancial::whereIn('user_id', $user_ids)->get();
+        foreach ($user_list as $user) {
+            foreach ($user_financial_rt as $user_financial_rt_v) {
+                if ($user['user_id'] == $user_financial_rt_v->user_id) {
+                    $user['water_count'] = $user_financial_rt_v->water_count;
+                    $user['send_water'] = $user_financial_rt_v->send_water;
+                    $user['public_count'] = $user_financial_rt_v->public_count;
+                    $user['giving'] = $user_financial_rt_v->giving;
+                }
+            }
+        }
+
+        //获得公司信息
+        $user_company_extend_rt = UserCompanyExtend::whereIn('user_id', $user_ids)->get();
+        foreach ($user_list as $user) {
+            foreach ($user_company_extend_rt as $user_company_extend_rt_v) {
+                if ($user['user_id'] == $user_company_extend_rt_v->user_id) {
+                    $user['user_address'] = $user_company_extend_rt_v->user_address;
+                    $user['user_company_name'] = $user_company_extend_rt_v->user_company_name;
+                    $user['user_desc'] = $user_company_extend_rt_v->user_desc;
+                    $user['user_http'] = $user_company_extend_rt_v->user_http;
+                    $user['user_company_lat'] = $user_company_extend_rt_v->user_company_lat;
+                    $user['user_company_lng'] = $user_company_extend_rt_v->user_company_lng;
+                }
+            }
+        }
+
         return $user_list;
     }
 
