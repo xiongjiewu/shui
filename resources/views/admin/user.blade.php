@@ -66,8 +66,10 @@
             <tr class="user_edit">
                 <td>{{$user['user_id']}}</td>
                 <td class="user_cellphone">{{$user['user_cellphone']}}</td>
-                <td class="user_name">{{$user['user_name']}}</td>
-                <td class="image_url">{{$user['image_url']? '<img src="'.$user['image_url'].'"></img>':''}}</td>
+                <form id="edit_user_info" method="post" action="business/update/{{$user['user_id']}}" enctype="multipart/form-data">
+                    <td class="user_name">{{$user['user_name']}}</td>
+                    <td class="image_url">{{$user['image_url']? '<img src="'.$user['image_url'].'"></img>':''}}</td>
+                </form>
                 <td class="water_count">{{$user['water_count']}}</td>
                 <td class="send_water">{{$user['send_water']}}</td>
                 <td class="black_water">{{$user['black_water']}}</td>
@@ -77,7 +79,7 @@
             <tr>
                 <td colspan="9" style="text-align: center">
                     <a href="javascript:void(0);" type="edit_user" _u="{{$user['user_id']}}">编辑</a>
-                    <a href="javascript:void(0);" type="save_user" _u="{{$user['user_id']}}">保存</a>
+                    <a href="javascript:void(0);" type="save_user" _u="{{$user['user_id']}}" _t="{{$type}}">保存</a>
                     @if($user['is_active'])
                         <a type="status_action" href="javascript:void(0);" _u="{{$user['user_id']}}" val="0">禁用</a>
                     @else

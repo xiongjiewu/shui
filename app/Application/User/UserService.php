@@ -375,7 +375,8 @@ class UserService
      */
     public function show($type, $requset)
     {
-        return $this->formatUsers([UserBase::where('user_id', $requset->get('user_id'))->first()]);
+        $user = UserBase::find($requset->get('user_id'));
+        return $this->formatUsers($user ? [$user] : []);
         $data = [];
         $user_result = UserBase::where('user_id', $requset->get('user_id'))->first();
         $user_black_rt = UserBlackWater::whereIn('user_id', $requset->get('user_id'))->first();
@@ -452,9 +453,7 @@ class UserService
         $user_list = [];
         $user_ids = [];
         foreach ($users as $user) {
-
-            $user_ids[] = $user['user_id'];
-
+            $user_ids[] = $user->user_id;
             if ($user->type == UserBase::TYPE_ADMIN) {
                 $type_text = '管理员';
             } elseif ($user->type == UserBase::TYPE_BUSINESS) {
@@ -536,8 +535,7 @@ class UserService
 
     }
 
-    public
-    function updateStatus($user_id, $status)
+    public function updateStatus($user_id, $status)
     {
         return UserBase::where('user_id', $user_id)
             ->update(
@@ -552,8 +550,7 @@ class UserService
      * @param $params
      * @return array
      */
-    public
-    function otherRegister($params)
+    public function otherRegister($params)
     {
         if (!$params->get('open_id')) {
             return [
