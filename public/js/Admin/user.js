@@ -72,5 +72,6 @@ admin_user.prototype.init = function () {
         $('td.user_cellphone,td.user_name,td.image_url,td.water_count,td.send_water,td.black_water,td.user_desc').each(function () {
             $(this).html('<input type="text" value="' + $(this).html() + '" size="10">');
         });
+        $(this).hide();
     });
 };
