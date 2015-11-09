@@ -88,7 +88,7 @@
                     </td>
                     <td class="image_url">
                         @if($user['image_url'])
-                            <img src="{{$user['image_url']}}">
+                            <img  width="100px" height="100px" src="{{$user['image_url']}}">
                         @else
                         @endif
                         <input type="file" name="image" style="display: none">
