@@ -70,7 +70,7 @@ Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.che
     //用户或者商户详情页展示
     Route::get('users/show/{id}/{type}', ['as' => 'users.show', 'uses' => 'Admin\UserController@show']);
     //商户编辑
-    Route::put('business/update/{id}', ['as' => 'business.update', 'uses' => 'Admin\UserController@update']);
+    Route::post('business/update/{id}/{type}', ['as' => 'business.update', 'uses' => 'Admin\UserController@update']);
 
     Route::get('logout', ['as' => 'logout', 'uses' => 'Admin\LoginController@logout']);
     Route::post('users/action/status/change', ['as' => 'user.status.change', 'uses' => 'Admin\UserController@statusChange']);

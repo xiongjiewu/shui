@@ -66,9 +66,20 @@
             <tr class="user_edit">
                 <td>{{$user['user_id']}}</td>
                 <td class="user_cellphone">{{$user['user_cellphone']}}</td>
-                <form id="edit_user_info" method="post" action="business/update/{{$user['user_id']}}" enctype="multipart/form-data">
-                    <td class="user_name">{{$user['user_name']}}</td>
-                    <td class="image_url">{{$user['image_url']? '<img src="'.$user['image_url'].'"></img>':''}}</td>
+                <form id="edit_user_info" method="post" action="{{route('admin::business.update',['id' => $user['user_id'],'type' => $type])}}" enctype="multipart/form-data">
+                    <td class="user_name">
+                        <span>
+                            {{$user['user_name']}}
+                        </span>
+                        <input type="text" name="user_name" value="{{$user['user_name']}}" style="display: none">
+                    </td>
+                    <td class="image_url">
+                        @if($user['image_url'])
+                            <img src="{{$user['image_url']}}">
+                        @else
+                        @endif
+                        <input type="file" name="image" style="display: none">
+                    </td>
                 </form>
                 <td class="water_count">{{$user['water_count']}}</td>
                 <td class="send_water">{{$user['send_water']}}</td>

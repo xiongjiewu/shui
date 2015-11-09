@@ -483,8 +483,8 @@ class UserService
         }
 
         //获得头像信息
-        $user_image_rt = UserImage::whereIn('user_id', $user_ids)->Head()->get();
-        foreach ($user_list as $user) {
+        $user_image_rt = UserImage::whereIn('user_id', $user_ids)->head()->get();
+        foreach ($user_list as &$user) {
             foreach ($user_image_rt as $user_image_rt_v) {
                 if ($user['user_id'] == $user_image_rt_v->user_id) {
                     $user['image_url'] = $user_image_rt_v->path();
@@ -494,7 +494,7 @@ class UserService
 
         //获得亲水值
         $user_financial_rt = UserFinancial::whereIn('user_id', $user_ids)->get();
-        foreach ($user_list as $user) {
+        foreach ($user_list as &$user) {
             foreach ($user_financial_rt as $user_financial_rt_v) {
                 if ($user['user_id'] == $user_financial_rt_v->user_id) {
                     $user['water_count'] = $user_financial_rt_v->water_count;
@@ -507,7 +507,7 @@ class UserService
 
         //获得黑水值
         $user_black_rt = UserBlackWater::whereIn('user_id', $user_ids)->get();
-        foreach ($user_list as $user) {
+        foreach ($user_list as &$user) {
             foreach ($user_black_rt as $user_black_rt_v) {
                 if ($user['user_id'] == $user_black_rt_v->user_id) {
                     $user['black_water'] = $user_black_rt_v->send_water;
@@ -517,7 +517,7 @@ class UserService
 
         //获得公司信息
         $user_company_extend_rt = UserCompanyExtend::whereIn('user_id', $user_ids)->get();
-        foreach ($user_list as $user) {
+        foreach ($user_list as &$user) {
             foreach ($user_company_extend_rt as $user_company_extend_rt_v) {
                 if ($user['user_id'] == $user_company_extend_rt_v->user_id) {
                     $user['user_address'] = $user_company_extend_rt_v->user_address;

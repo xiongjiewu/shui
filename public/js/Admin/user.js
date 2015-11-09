@@ -43,10 +43,10 @@ admin_user.prototype.init = function () {
         $('#edit_user_info').submit();
     });
     $('a[type="edit_user"]').click(function () {
-        $('td.user_name').each(function () {
-            $(this).html('<input type="text" name="user_name" value="' + $(this).html() + '" size="10">');
-        });
-        $('td.image_url').html('<input type="file" name="image">');
+        $('td.user_name span').hide();
+        $('td.user_name input').show();
+        $('td.image_url img').hide();
+        $('td.image_url input').show();
         $(this).hide();
     });
 };
