@@ -27,7 +27,11 @@
                     <td>{{$user['user_id']}}</td>
                     <td>{{$user['user_cellphone']}}</td>
                     <td>{{$user['user_name']}}</td>
-                    <td>{{$user['image_url']? '<img src="'.$user['image_url'].'"></img>':''}}</td>
+                    <td>
+                        @if($user['image_url'])
+                            <img src="{{$user['image_url']}}">
+                        @endif
+                    </td>
                     <td>{{$user['water_count']}}</td>
                     <td>{{$user['send_water']}}</td>
                     <td>{{$user['black_water']}}</td>
