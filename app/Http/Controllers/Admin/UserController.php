@@ -30,7 +30,7 @@ class UserController extends BaseController
         $this->title = '用户编辑';
         $this->file_js = 'Admin/user';
         $users = (new UserService())->show($type, $request);
-        return $this->view('admin.user', ['choose_id' => 1, 'show' => 'edit', 'user' => array_shift($users)]);
+        return $this->view('admin.user', ['choose_id' => ($type == 1) ? 1 : 4, 'show' => 'edit', 'user' => array_shift($users)]);
     }
 
 

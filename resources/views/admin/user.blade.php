@@ -33,7 +33,7 @@
                     <td>{{$user['black_water']}}</td>
                     <td>{{$user['user_desc']}}</td>
                     <td>{{$user['status_text']}}</td>
-                    <td><a href="{{route('admin::users.show',['id' => 1,'user_id' => $user['user_id']])}}">详情</a></td>
+                    <td><a href="{{route('admin::users.show',['id' => $type,'user_id' => $user['user_id']])}}">详情</a></td>
                     <td>
                         @if($user['is_active'])
                             <a type="status_action" href="javascript:void(0);" _u="{{$user['user_id']}}" val="0">禁用</a>
