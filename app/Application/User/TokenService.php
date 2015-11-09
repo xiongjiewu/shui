@@ -27,8 +27,8 @@ class TokenService
         if (!is_numeric($data) && !is_string($data)) {
             $data = json_encode($data);
         }
-        $encrypted = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, md5(self::AES_PRIVATE_KEY), $data, MCRYPT_MODE_CBC, self::AES_IV);
-        return base64_encode($encrypted);
+        //$encrypted = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, md5(self::AES_PRIVATE_KEY), $data, MCRYPT_MODE_CBC, self::AES_IV);
+        return base64_encode($data);
     }
 
     /**
@@ -38,8 +38,8 @@ class TokenService
     public static function decode($data)
     {
         $encrypted = base64_decode($data);
-        $data = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, md5(self::AES_PRIVATE_KEY), $encrypted, MCRYPT_MODE_CBC, self::AES_IV), "\0");
-        $rt = json_decode($data, true);
+        //$data = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, md5(self::AES_PRIVATE_KEY), $encrypted, MCRYPT_MODE_CBC, self::AES_IV), "\0");
+        $rt = json_decode($encrypted, true);
         if (json_last_error() != JSON_ERROR_NONE) {
             $rt = $data;
         }

@@ -62,7 +62,7 @@ Route::any('/share/show/{code}.html', ['uses' => 'ShareController@shareShow']);
 //管理后台
 Route::get('admin/login', ['as' => 'admin::login', 'uses' => 'Admin\LoginController@login']);
 Route::post('admin/login', ['as' => 'admin::login::action', 'uses' => 'Admin\LoginController@loginAction']);
-Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.check'], function () {
+Route::group(['as' => 'admin::', 'prefix' => 'admin'], function () {
     Route::get('/', ['as' => 'home', 'uses' => 'Admin\AdminController@home']);
     Route::get('users/{type?}', ['as' => 'users', 'uses' => 'Admin\UserController@index']);
     Route::get('users/update', ['as' => 'users.update', 'uses' => 'Admin\UserController@update']);

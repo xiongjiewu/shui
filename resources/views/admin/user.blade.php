@@ -64,7 +64,7 @@
                 @if($type == 1)
                     <th>头像</th>
                 @else
-                    <th>log</th>
+                    <th>logo</th>
                     <th>营业执照</th>
                     <th>店铺实景1</th>
                     <th>店铺实景2</th>
@@ -84,8 +84,7 @@
                         <span>
                             {{$user['user_name']}}
                         </span>
-                        <input type="text" name="user_name" value="{{$user['user_name']}}" size="10"
-                               style="display: none">
+                        <input type="text" name="user_name" value="{{$user['user_name']}}" size="10" style="display: none">
                     </td>
                     <td class="image_url">
                         @if($user['image_url'])
@@ -121,15 +120,13 @@
                     <span>
                         {{$user['water_count']}}
                     </span>
-                        <input type="text" size="5" name="water_count" value="{{$user['water_count']}}"
-                               style="display: none;">
+                        <input type="text" size="5" name="water_count" value="{{$user['water_count']}}" style="display: none;">
                     </td>
                     <td class="send_water">
                     <span>
                         {{$user['send_water']}}
                     </span>
-                        <input type="text" size="5" name="send_water" value="{{$user['send_water']}}"
-                               style="display: none;">
+                        <input type="text" size="5" name="send_water" value="{{$user['send_water']}}" style="display: none;">
                     </td>
                     <td class="user_desc">
                     <span>
