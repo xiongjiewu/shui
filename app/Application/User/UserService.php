@@ -468,6 +468,9 @@ class UserService
                     'status_text' => $user->isOpen() ? '已激活' : '未激活',
                     'is_active' => $user->isOpen(),
                     'image_url' => '',
+                    'image_url_real1' => '',
+                    'image_url_real2' => '',
+                    'image_url_real3' => '',
                     'water_count' => 0, //亲水值
                     'black_water' => 0,//黑水值
                     'send_water' => 0,  //发送的水值
@@ -483,11 +486,17 @@ class UserService
         }
 
         //获得头像信息
-        $user_image_rt = UserImage::whereIn('user_id', $user_ids)->head()->get();
+        $user_image_rt = UserImage::whereIn('user_id', $user_ids)->get();
         foreach ($user_list as &$user) {
             foreach ($user_image_rt as $user_image_rt_v) {
-                if ($user['user_id'] == $user_image_rt_v->user_id) {
+                if ($user_image_rt_v->type == 1 && $user['user_id'] == $user_image_rt_v->user_id) {
                     $user['image_url'] = $user_image_rt_v->path();
+                } elseif ($user_image_rt_v->type == 2 && $user['user_id'] == $user_image_rt_v->user_id) {
+                    $user['image_url_real1'] = $user_image_rt_v->path();
+                } elseif (empty($user['image_url_real2']) && $user_image_rt_v->type == 3 && $user['user_id'] == $user_image_rt_v->user_id) {
+                    $user['image_url_real2'] = $user_image_rt_v->path();
+                } elseif ($user_image_rt_v->type == 3 && $user['user_id'] == $user_image_rt_v->user_id) {
+                    $user['image_url_real3'] = $user_image_rt_v->path();
                 }
             }
         }

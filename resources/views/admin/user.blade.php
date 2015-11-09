@@ -56,10 +56,16 @@
                 <th>ID</th>
                 <th>手机</th>
                 <th>昵称</th>
-                <th>头像</th>
+                @if($type == 1)
+                    <th>头像</th>
+                @else
+                    <th>log</th>
+                    <th>营业执照</th>
+                    <th>店铺实景1</th>
+                    <th>店铺实景2</th>
+                @endif
                 <th>清水值</th>
                 <th>护水值</th>
-                <th>黑水值</th>
                 <th>备注</th>
                 <th>状态</th>
             </tr>
@@ -71,7 +77,7 @@
                         <span>
                             {{$user['user_name']}}
                         </span>
-                        <input type="text" name="user_name" value="{{$user['user_name']}}" style="display: none">
+                        <input type="text" name="user_name" value="{{$user['user_name']}}" size="10" style="display: none">
                     </td>
                     <td class="image_url">
                         @if($user['image_url'])
@@ -80,16 +86,53 @@
                         @endif
                         <input type="file" name="image" style="display: none">
                     </td>
+                    @if($type == 2)
+                        <td class="image_url_real1">
+                            @if($user['image_url_real1'])
+                                <img src="{{$user['image_url_real1']}}">
+                            @else
+                            @endif
+                            <input type="file" name="image_url_real1" style="display: none">
+                        </td>
+                        <td class="image_url_real2">
+                            @if($user['image_url_real2'])
+                                <img src="{{$user['image_url_real2']}}">
+                            @else
+                            @endif
+                            <input type="file" name="image_url_real2" style="display: none">
+                        </td>
+                        <td class="image_url_real3">
+                            @if($user['image_url_real3'])
+                                <img src="{{$user['image_url_real3']}}">
+                            @else
+                            @endif
+                            <input type="file" name="image_url_real3" style="display: none">
+                        </td>
+                    @endif
+                    <td class="water_count">
+                    <span>
+                        {{$user['water_count']}}
+                    </span>
+                        <input type="text" size="5" name="water_count" value="{{$user['water_count']}}" style="display: none;">
+                    </td>
+                    <td class="send_water">
+                    <span>
+                        {{$user['send_water']}}
+                    </span>
+                        <input type="text" size="5" name="send_water" value="{{$user['send_water']}}" style="display: none;">
+                    </td>
+                    <td class="user_desc">
+                    <span>
+                        {{$user['user_desc']}}
+                    </span>
+                        <textarea name="user_desc" style="display: none;width: 50px;">{{$user['user_desc']}}</textarea>
+                    </td>
                 </form>
-                <td class="water_count">{{$user['water_count']}}</td>
-                <td class="send_water">{{$user['send_water']}}</td>
-                <td class="black_water">{{$user['black_water']}}</td>
-                <td class="user_desc">{{$user['user_desc']}}</td>
                 <td>{{$user['status_text']}}</td>
             </tr>
             <tr>
                 <td colspan="9" style="text-align: center">
-                    <a href="javascript:void(0);" type="edit_user" _u="{{$user['user_id']}}">编辑</a>
+                    <a href="javascript:void(0);" type="edit_user" _u="{{$user['user_id']}}" _t="{{$type}}">编辑</a>
                     <a href="javascript:void(0);" type="save_user" _u="{{$user['user_id']}}" _t="{{$type}}">保存</a>
                     @if($user['is_active'])
                         <a type="status_action" href="javascript:void(0);" _u="{{$user['user_id']}}" val="0">禁用</a>
