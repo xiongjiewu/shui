@@ -13,6 +13,7 @@ class CreateTableActivityImage extends Migration
     public function up()
     {
         Schema::create('activity_image', function ($table) {
+            $table->increments('id')->comment('自增ID');
             $table->integer('activity_id')->comment('活动ID');
             $table->string('image_url')->default('')->comment('图片地址');
             $table->tinyInteger('type')->default('1')->comment('1-静态图片 2-动态视频');

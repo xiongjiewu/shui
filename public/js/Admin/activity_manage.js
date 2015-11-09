@@ -4,7 +4,7 @@ var admin_activity_manage = function (url) {
 };
 admin_activity_manage.prototype.init = function () {
     var that = this;
-    $('td a').each(function () {
+    $('.status').each(function () {
         $(this).click(function () {
             if (confirm('确定吗？')) {
                 var id = $(this).attr('id');

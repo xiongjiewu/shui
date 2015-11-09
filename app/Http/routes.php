@@ -64,19 +64,17 @@ Route::get('admin/login', ['as' => 'admin::login', 'uses' => 'Admin\LoginControl
 Route::post('admin/login', ['as' => 'admin::login::action', 'uses' => 'Admin\LoginController@loginAction']);
 Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.check'], function () {
     Route::get('/', ['as' => 'home', 'uses' => 'Admin\AdminController@home']);
-    Route::get('users', ['as' => 'users', 'uses' => 'Admin\UserController@index']);
-    //用户编辑
+    Route::get('users/{type?}', ['as' => 'users', 'uses' => 'Admin\UserController@index']);
     Route::get('users/update', ['as' => 'users.update', 'uses' => 'Admin\UserController@update']);
-    //用户或者商户详情页展示
-    Route::get('users/show/{id}/{type}', ['as' => 'users.show', 'uses' => 'Admin\UserController@show']);
-    //商户编辑
-    Route::post('business/update/{id}/{type}', ['as' => 'business.update', 'uses' => 'Admin\UserController@update']);
-
+    Route::get('users/show/{id?}/{type?}', ['as' => 'users.show', 'uses' => 'Admin\UserController@show']);
+    Route::post('business/update/{id?}/{type?}', ['as' => 'business.update', 'uses' => 'Admin\UserController@update']);
     Route::get('logout', ['as' => 'logout', 'uses' => 'Admin\LoginController@logout']);
     Route::post('users/action/status/change', ['as' => 'user.status.change', 'uses' => 'Admin\UserController@statusChange']);
     Route::get('activity/add', ['as' => 'activity.add', 'uses' => 'Admin\ActivityController@add']);
     Route::post('activity/add', ['as' => 'activity.add.submit', 'uses' => 'Admin\ActivityController@addSubmit']);
     Route::get('activity/manage', ['as' => 'activity.manage', 'uses' => 'Admin\ActivityController@manage']);
+    Route::get('activity/edit/{id?}', ['as' => 'activity.edit', 'uses' => 'Admin\ActivityController@edit']);
+    Route::post('activity/edit/{id?}', ['as' => 'activity.edit.submit', 'uses' => 'Admin\ActivityController@editSubmit']);
     Route::post('activity/action/status/change', ['as' => 'activity.status.change', 'uses' => 'Admin\ActivityController@statusChange']);
 });
 //第三方类库

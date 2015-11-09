@@ -299,7 +299,8 @@ class ActivityService
 
     public function getList()
     {
-        $activities = Activity::all();
+        $activity = new Activity();
+        $activities = $activity->paginate(10);
         if ($activities->isEmpty()) {
             return [];
         }
@@ -311,7 +312,10 @@ class ActivityService
             $info['action_text'] = ($activity->status == 1) ? '关闭' : '打开';
             $result[] = $info;
         }
-        return $result;
+        return [
+            'list' => $result,
+            'obj' => $activities
+        ];
     }
 
     public function changeStatus($id, $status)

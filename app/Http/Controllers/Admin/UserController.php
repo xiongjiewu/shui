@@ -9,16 +9,13 @@ use Illuminate\Http\Request;
 
 class UserController extends BaseController
 {
-    public function index(Request $request)
+    public function index($type = 1)
     {
-        $type = $request->get('type', 1);
         $this->title = '用户管理';
         $this->file_js = 'Admin/user';
         return $this->view('admin.user',
             ['choose_id' => ($type == 1) ? 1 : 4, 'type' => $type, 'show' => 'index', 'users' => (
             (new UserService())->getList(
-                $request->input('page', 1),
-                $request->input('per_page', 1000000),
                 $type
             )
             )]);

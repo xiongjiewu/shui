@@ -419,29 +419,27 @@ class UserService
 
     /**
      * 获取用户列表 TODO需要分页 把商户和用户列表页分开
-     * @param int $page
-     * @param int $per_page
-     * @param int $type 1-用户 2-商户
+     * @param int $type
      * @return array
      */
-    public function getList($page = 1, $per_page = 10, $type = 1)
+    public function getList($type = 1)
     {
         //type 1为用户 2为商户
         $users = [];
+        $user_base = new UserBase();
         switch ($type) {
             case 1:
-                $users = UserBase::offset(($page - 1) * $per_page)
-                    ->user()->limit($per_page)
-                    ->get();
+                $users = $user_base->user()->paginate(10);
                 break;
             case 2:
-                $users = UserBase::offset(($page - 1) * $per_page)
-                    ->business()->limit($per_page)
-                    ->get();
+                $users = $user_base->business()->paginate(10);
                 break;
         }
 
-        return $this->formatUsers($users);
+        return [
+            'list' => $this->formatUsers($users),
+            'obj' => $users,
+        ];
     }
 
     protected function formatUsers($users)
@@ -513,6 +511,7 @@ class UserService
                 }
             }
         }
+
 
         //获得黑水值
         $user_black_rt = UserBlackWater::whereIn('user_id', $user_ids)->get();

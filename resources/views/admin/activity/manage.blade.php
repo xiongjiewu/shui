@@ -13,7 +13,7 @@
             <th width="70">操作</th>
         </tr>
         </thead>
-        @foreach($activities as $activity)
+        @foreach($activities['list'] as $activity)
             <tr>
                 <td>
                     {{$activity['activity_id']}}
@@ -37,13 +37,18 @@
                     {{$activity['status_text']}}
                 </td>
                 <td>
-                    <a href="javascript:void(0);" status="{{$activity['status']}}" id="{{$activity['activity_id']}}">
+                    <a class="status" href="javascript:void(0);" status="{{$activity['status']}}"
+                       id="{{$activity['activity_id']}}">
                         {{$activity['action_text']}}
+                    </a>
+                    <a href="{{route('admin::activity.edit',[$activity['activity_id']])}}">
+                        编辑
                     </a>
                 </td>
             </tr>
         @endforeach
     </table>
+    {!!$activities['obj']->render()!!}
     <script>
         new admin_activity_manage('{{route('admin::activity.status.change')}}');
     </script>

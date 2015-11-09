@@ -9,8 +9,8 @@
                 <th>昵称</th>
                 <th>头像</th>
                 <th>清水值</th>
-                <th>护水值</th>
-                <th>黑水值</th>
+                <th>用户邀请码</th>
+                <th>公益值</th>
                 <th>备注</th>
                 <th>状态</th>
                 <th>详情</th>
@@ -22,7 +22,7 @@
                 @endif
             </tr>
             </thead>
-            @foreach($users as $user)
+            @foreach($users['list'] as $user)
                 <tr>
                     <td>{{$user['user_id']}}</td>
                     <td>{{$user['user_cellphone']}}</td>
@@ -33,8 +33,8 @@
                         @endif
                     </td>
                     <td>{{$user['water_count']}}</td>
-                    <td>{{$user['send_water']}}</td>
-                    <td>{{$user['black_water']}}</td>
+                    <td>{{$user['invite_code']}}</td>
+                    <td>{{$user['public_count']}}</td>
                     <td>{{$user['user_desc']}}</td>
                     <td>{{$user['status_text']}}</td>
                     <td><a href="{{route('admin::users.show',['id' => $user['user_id'],'type' => $type])}}">详情</a></td>
@@ -52,6 +52,7 @@
                     @endif
                 </tr>
             @endforeach
+            <td>{!!$users['obj']->render()!!}</td>
         </table>
     @elseif($show == 'edit')
         <table class="table">
@@ -76,12 +77,15 @@
             <tr class="user_edit">
                 <td>{{$user['user_id']}}</td>
                 <td class="user_cellphone">{{$user['user_cellphone']}}</td>
-                <form id="edit_user_info" method="post" action="{{route('admin::business.update',['id' => $user['user_id'],'type' => $type])}}" enctype="multipart/form-data">
+                <form id="edit_user_info" method="post"
+                      action="{{route('admin::business.update',['id' => $user['user_id'],'type' => $type])}}"
+                      enctype="multipart/form-data">
                     <td class="user_name">
                         <span>
                             {{$user['user_name']}}
                         </span>
-                        <input type="text" name="user_name" value="{{$user['user_name']}}" size="10" style="display: none">
+                        <input type="text" name="user_name" value="{{$user['user_name']}}" size="10"
+                               style="display: none">
                     </td>
                     <td class="image_url">
                         @if($user['image_url'])
@@ -117,13 +121,15 @@
                     <span>
                         {{$user['water_count']}}
                     </span>
-                        <input type="text" size="5" name="water_count" value="{{$user['water_count']}}" style="display: none;">
+                        <input type="text" size="5" name="water_count" value="{{$user['water_count']}}"
+                               style="display: none;">
                     </td>
                     <td class="send_water">
                     <span>
                         {{$user['send_water']}}
                     </span>
-                        <input type="text" size="5" name="send_water" value="{{$user['send_water']}}" style="display: none;">
+                        <input type="text" size="5" name="send_water" value="{{$user['send_water']}}"
+                               style="display: none;">
                     </td>
                     <td class="user_desc">
                     <span>
