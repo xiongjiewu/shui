@@ -7,32 +7,30 @@ class UserController extends BaseController
 {
     public function index(Request $request)
     {
+        $type = $request->get('type', 1);
         $this->title = '用户管理';
         $this->file_js = 'Admin/user';
-        return $this->view('admin.user', ['choose_id' => 1, 'users' => (
-        (new UserService())->getList(
-            $request->input('page', 1),
-            $request->input('per_page', 1000000)
-        )
-        )]);
+        return $this->view('admin.user',
+            ['choose_id' => ($type == 1) ? 1 : 4, 'type' => $type, 'show' => 'index', 'users' => (
+            (new UserService())->getList(
+                $request->input('page', 1),
+                $request->input('per_page', 1000000),
+                $type
+            )
+            )]);
     }
 
-    public function update(Request $request)
+    public function update($user_id, Request $request)
     {
-        $this->title = '用户编辑';
-        $this->file_js = 'Admin/user';
-        return $this->view('admin.user', ['choose_id' => 1, 'users' => (
-        (new UserService())->update($request)
-        )]);
+        return response((new UserService())->update($user_id, $request));
     }
 
     public function show($type, Request $request)
     {
         $this->title = '用户编辑';
         $this->file_js = 'Admin/user';
-        return $this->view('admin.user', ['choose_id' => 1, 'users' => (
-        (new UserService())->show($type, $request)
-        )]);
+        $users = (new UserService())->show($type, $request);
+        return $this->view('admin.user', ['choose_id' => 1, 'show' => 'edit', 'user' => array_shift($users)]);
     }
 
 

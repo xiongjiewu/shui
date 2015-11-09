@@ -66,11 +66,11 @@ Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.che
     Route::get('/', ['as' => 'home', 'uses' => 'Admin\AdminController@home']);
     Route::get('users', ['as' => 'users', 'uses' => 'Admin\UserController@index']);
     //用户编辑
-    Route::get('users/update', ['as' => 'users', 'uses' => 'Admin\UserController@update']);
+    Route::get('users/update', ['as' => 'users.update', 'uses' => 'Admin\UserController@update']);
     //用户或者商户详情页展示
-    Route::get('users/show/{id}', ['as' => 'users', 'uses' => 'Admin\UserController@show']);
+    Route::get('users/show/{id}', ['as' => 'users.show', 'uses' => 'Admin\UserController@show']);
     //商户编辑
-    Route::get('business/update', ['as' => 'users', 'uses' => 'Admin\UserController@businessUpdate']);
+    Route::put('business/update/{id}', ['as' => 'business.update', 'uses' => 'Admin\UserController@update']);
 
     Route::get('logout', ['as' => 'logout', 'uses' => 'Admin\LoginController@logout']);
     Route::post('users/action/status/change', ['as' => 'user.status.change', 'uses' => 'Admin\UserController@statusChange']);

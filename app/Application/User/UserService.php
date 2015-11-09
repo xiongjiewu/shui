@@ -1,6 +1,7 @@
 <?php namespace App\Application\User;
 
 use App\Model\UserBase;
+use App\Model\UserBlackWater;
 use App\Model\UserCompanyExtend;
 use App\Model\UserFinancial;
 use App\Model\UserImage;
@@ -356,12 +357,12 @@ class UserService
         ];
     }
 
-
     /**
      * 修改保存
+     * @param $user_id
      * @param $request
      */
-    public function update($request)
+    public function update($user_id, $request)
     {
 
     }
@@ -374,28 +375,32 @@ class UserService
      */
     public function show($type, $requset)
     {
+        return $this->formatUsers([UserBase::where('user_id', $requset->get('user_id'))->first()]);
         $data = [];
         $user_result = UserBase::where('user_id', $requset->get('user_id'))->first();
+        $user_black_rt = UserBlackWater::whereIn('user_id', $requset->get('user_id'))->first();
+        $data['user_id'] = $requset->get('user_id');
         $data['user_cellphone'] = $user_result->user_cellphone;
         $data['user_name'] = $user_result->user_name;
         $data['invite_code'] = $user_result->invite_code;
         $user_financial = UserFinancial::where('user_id', $requset->get('user_id'))->first();
-        $data['water_count'] = $user_financial->water_count;
-        $data['price'] = $user_financial->price;
-        $data['send_water'] = $user_financial->send_water;
-        $data['public_count'] = $user_financial->public_count;
-        $data['giving'] = $user_financial->giving;
+        $data['water_count'] = $user_financial ? $user_financial->water_count : 0;
+        $data['black_water'] = $user_black_rt ? $user_black_rt->black_water : 0;
+        $data['price'] = $user_financial ? $user_financial->price : 0;
+        $data['send_water'] = $user_financial ? $user_financial->send_water : 0;
+        $data['public_count'] = $user_financial ? $user_financial->public_count : 0;
+        $data['giving'] = $user_financial ? $user_financial->giving : 0;
         switch ($type) {
             case 1:
                 $user_image = UserImage::where('user_id', $requset->get('user_id'))->head()->first();
-                $data['image_url'] = $user_image->path();
-                $user_third_party = UserThirdParty::where('user_id', $requset->get('user_id'))->first();
+                $data['image_url'] = $user_image ? $user_image->path() : '';
+                $user_third_party = UserThirdParty::where('user_id', $requset->get('user_id'))->get();
                 $data['wei_xin'] = '';
                 $data['qq'] = '';
                 foreach ($user_third_party as $user_third_party_v) {
                     if ($user_third_party_v->type == 1) {
                         $data['wei_xin'] = $user_third_party_v->user_other_id;
-                    }else{
+                    } else {
                         $data['qq'] = $user_third_party_v->user_other_id;
                     }
                 }
@@ -435,10 +440,15 @@ class UserService
                     ->get();
                 break;
         }
+
+        return $this->formatUsers($users);
+    }
+
+    protected function formatUsers($users)
+    {
         if (!$users) {
             return [];
         }
-
         $user_list = [];
         $user_ids = [];
         foreach ($users as $user) {
@@ -461,6 +471,7 @@ class UserService
                     'is_active' => $user->isOpen(),
                     'image_url' => '',
                     'water_count' => 0, //亲水值
+                    'black_water' => 0,//黑水值
                     'send_water' => 0,  //发送的水值
                     'public_count' => 0,    //公益值
                     'giving' => 0,   //商户设置的可以被领取的值
@@ -496,6 +507,16 @@ class UserService
             }
         }
 
+        //获得黑水值
+        $user_black_rt = UserBlackWater::whereIn('user_id', $user_ids)->get();
+        foreach ($user_list as $user) {
+            foreach ($user_black_rt as $user_black_rt_v) {
+                if ($user['user_id'] == $user_black_rt_v->user_id) {
+                    $user['black_water'] = $user_black_rt_v->send_water;
+                }
+            }
+        }
+
         //获得公司信息
         $user_company_extend_rt = UserCompanyExtend::whereIn('user_id', $user_ids)->get();
         foreach ($user_list as $user) {
@@ -512,9 +533,11 @@ class UserService
         }
 
         return $user_list;
+
     }
 
-    public function updateStatus($user_id, $status)
+    public
+    function updateStatus($user_id, $status)
     {
         return UserBase::where('user_id', $user_id)
             ->update(
@@ -529,7 +552,8 @@ class UserService
      * @param $params
      * @return array
      */
-    public function otherRegister($params)
+    public
+    function otherRegister($params)
     {
         if (!$params->get('open_id')) {
             return [
