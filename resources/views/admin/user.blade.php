@@ -29,7 +29,7 @@
                     <td>{{$user['user_name']}}</td>
                     <td>
                         @if($user['image_url'])
-                            <img src="{{$user['image_url']}}">
+                            <img width="100px" height="100px"  src="{{$user['image_url']}}">
                         @endif
                     </td>
                     <td>{{$user['water_count']}}</td>
@@ -96,21 +96,21 @@
                     @if($type == 2)
                         <td class="image_url_real1">
                             @if($user['image_url_real1'])
-                                <img src="{{$user['image_url_real1']}}">
+                                <img width="100px" height="100px" src="{{$user['image_url_real1']}}">
                             @else
                             @endif
                             <input type="file" name="image_url_real1" style="display: none">
                         </td>
                         <td class="image_url_real2">
                             @if($user['image_url_real2'])
-                                <img src="{{$user['image_url_real2']}}">
+                                <img width="100px" height="100px"  src="{{$user['image_url_real2']}}">
                             @else
                             @endif
                             <input type="file" name="image_url_real2" style="display: none">
                         </td>
                         <td class="image_url_real3">
                             @if($user['image_url_real3'])
-                                <img src="{{$user['image_url_real3']}}">
+                                <img width="100px" height="100px"  src="{{$user['image_url_real3']}}">
                             @else
                             @endif
                             <input type="file" name="image_url_real3" style="display: none">
