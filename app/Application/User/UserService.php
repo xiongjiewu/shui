@@ -370,21 +370,20 @@ class UserService
     /**
      * 展示列表 type-1用户 2-商户
      * @param $type
-     * @param $requset
      * @return array
      */
-    public function show($type, $requset)
+    public function show($type, $user_id)
     {
-        $user = UserBase::find($requset->get('user_id'));
+        $user = UserBase::find($user_id);
         return $this->formatUsers($user ? [$user] : []);
         $data = [];
-        $user_result = UserBase::where('user_id', $requset->get('user_id'))->first();
-        $user_black_rt = UserBlackWater::whereIn('user_id', $requset->get('user_id'))->first();
-        $data['user_id'] = $requset->get('user_id');
+        $user_result = UserBase::where('user_id', $user_id)->first();
+        $user_black_rt = UserBlackWater::whereIn('user_id', $user_id)->first();
+        $data['user_id'] = $user_id;
         $data['user_cellphone'] = $user_result->user_cellphone;
         $data['user_name'] = $user_result->user_name;
         $data['invite_code'] = $user_result->invite_code;
-        $user_financial = UserFinancial::where('user_id', $requset->get('user_id'))->first();
+        $user_financial = UserFinancial::where('user_id', $user_id)->first();
         $data['water_count'] = $user_financial ? $user_financial->water_count : 0;
         $data['black_water'] = $user_black_rt ? $user_black_rt->black_water : 0;
         $data['price'] = $user_financial ? $user_financial->price : 0;
@@ -393,9 +392,9 @@ class UserService
         $data['giving'] = $user_financial ? $user_financial->giving : 0;
         switch ($type) {
             case 1:
-                $user_image = UserImage::where('user_id', $requset->get('user_id'))->head()->first();
+                $user_image = UserImage::where('user_id', $user_id)->head()->first();
                 $data['image_url'] = $user_image ? $user_image->path() : '';
-                $user_third_party = UserThirdParty::where('user_id', $requset->get('user_id'))->get();
+                $user_third_party = UserThirdParty::where('user_id', $user_id)->get();
                 $data['wei_xin'] = '';
                 $data['qq'] = '';
                 foreach ($user_third_party as $user_third_party_v) {
@@ -407,7 +406,7 @@ class UserService
                 }
                 return $data;
             case 2:
-                $user_image = UserImage::where('user_id', $requset->get('user_id'))->get();
+                $user_image = UserImage::where('user_id', $user_id)->get();
                 $images = [];
                 if (!empty($user_image)) {
                     foreach ($user_image as $user_image_val) {

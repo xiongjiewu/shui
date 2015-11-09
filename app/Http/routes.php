@@ -68,7 +68,7 @@ Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.che
     //用户编辑
     Route::get('users/update', ['as' => 'users.update', 'uses' => 'Admin\UserController@update']);
     //用户或者商户详情页展示
-    Route::get('users/show/{id}', ['as' => 'users.show', 'uses' => 'Admin\UserController@show']);
+    Route::get('users/show/{id}/{type}', ['as' => 'users.show', 'uses' => 'Admin\UserController@show']);
     //商户编辑
     Route::put('business/update/{id}', ['as' => 'business.update', 'uses' => 'Admin\UserController@update']);
 
