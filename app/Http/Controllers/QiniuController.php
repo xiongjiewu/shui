@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Qiniu\Auth;
 use \Response;
 
@@ -35,5 +36,19 @@ class QiniuController extends Controller
             $this->localChatQrcode($string, $path, true);
         }
         return Response::download($path, $string . '.png');
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function alipaySure(Request $request)
+    {
+        /** @var $alipay */
+        $alipay = app('alipay.mobile');
+        $alipay->setOutTradeNo('order_id');
+        $alipay->setTotalFee('order_price');
+        $alipay->setSubject('goods_name');
+        $alipay->setBody('goods_description');
+        dd($alipay->getPayPara());
     }
 }

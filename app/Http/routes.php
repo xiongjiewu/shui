@@ -81,3 +81,6 @@ Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.che
 Route::any('/qiniu/token', ['uses' => 'QiniuController@getToken']);
 //生成二维码并下载
 Route::get('/download/qrcode/{string}', ['uses' => 'QiniuController@downloadQrcode']);
+//支付宝
+Route::any('/alipay/sure', ['uses' => 'QiniuController@alipaySure']);
+Route::any('/alipay/notify', ['uses' => 'QiniuController@alipayNotify']);
