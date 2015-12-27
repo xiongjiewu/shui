@@ -37,18 +37,4 @@ class QiniuController extends Controller
         }
         return Response::download($path, $string . '.png');
     }
-
-    /**
-     * @param Request $request
-     */
-    public function alipaySure(Request $request)
-    {
-        /** @var $alipay */
-        $alipay = app('alipay.mobile');
-        $alipay->setOutTradeNo('order_id');
-        $alipay->setTotalFee('order_price');
-        $alipay->setSubject('goods_name');
-        $alipay->setBody('goods_description');
-        dd($alipay->getPayPara());
-    }
 }
