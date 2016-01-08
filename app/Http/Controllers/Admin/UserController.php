@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Admin;
 
 use App\Application\User\UserService;
+use App\Application\OrderService;
 use App\Model\UserBase;
 use App\Model\UserCompanyExtend;
 use App\Model\UserFinancial;
@@ -223,5 +224,14 @@ class UserController extends BaseController
                 'msg' => '操作失败',
             ]
         );
+    }
+
+    public function orderList()
+    {
+        $this->title = '新增公益活动';
+        $this->file_js = 'Admin/activity_add';
+        $order_service = new OrderService();
+        $result = $order_service->getOrderList();
+        return $this->view('admin.orderList', ['choose_id' => 5, 'action' => '管理', 'list' => $result]);
     }
 }

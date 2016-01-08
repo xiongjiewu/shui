@@ -301,9 +301,6 @@ class ActivityService
     {
         $activity = new Activity();
         $activities = $activity->paginate(10);
-        if ($activities->isEmpty()) {
-            return [];
-        }
 
         $result = [];
         foreach ($activities as $activity) {

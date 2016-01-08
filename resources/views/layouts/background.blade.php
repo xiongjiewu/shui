@@ -12,6 +12,8 @@
         <li role="presentation" @if($choose_id == 4)class="active"@endif><a
                     href="{{route('admin::users',[2])}}">商家列表</a>
         </li>
+        <li role="presentation" @if($choose_id == 5)class="active"@endif><a href="{{route('admin::order.list')}}">用户充值流水</a>
+        </li>
     </ul>
     <div style="text-align: right">
         <a href="{{route('admin::logout')}}">退出</a>

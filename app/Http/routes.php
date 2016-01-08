@@ -76,6 +76,7 @@ Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.che
     Route::get('activity/edit/{id?}', ['as' => 'activity.edit', 'uses' => 'Admin\ActivityController@edit']);
     Route::post('activity/edit/{id?}', ['as' => 'activity.edit.submit', 'uses' => 'Admin\ActivityController@editSubmit']);
     Route::post('activity/action/status/change', ['as' => 'activity.status.change', 'uses' => 'Admin\ActivityController@statusChange']);
+    Route::get('order/list', ['as' => 'order.list', 'uses' => 'Admin\UserController@orderList']);
 });
 //第三方类库
 Route::any('/qiniu/token', ['uses' => 'QiniuController@getToken']);

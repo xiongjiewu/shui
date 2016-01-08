@@ -1,6 +1,7 @@
 <?php namespace App\Application;
 
 use App\Model\OrderLog;
+use App\Model\UserBase;
 use App\Model\UserFinancial;
 
 class OrderService
@@ -333,6 +334,41 @@ class OrderService
             'status' => true,
             'message' => '反馈成功!',
             'info' => $data,
+        ];
+    }
+
+    /**
+     * 充值流水
+     */
+    public function getOrderList()
+    {
+        /** @var \App\Model\OrderLog */
+        $order_log = new OrderLog();
+        $order = $order_log->orderBy('order_id', 'desc')->paginate(20);
+        $user_id = [];
+        foreach ($order as $v) {
+            $array = $v->toArray();
+            array_push($user_id, $array['user_id']);
+        }
+        $user_list = [];
+        if (!empty($user_id)) {
+            $user_result = UserBase::whereIn('user_id', $user_id)->get()->toArray();
+            if ($user_result) {
+                foreach ($user_result as $u) {
+                    $user_list[$u['user_id']] = $u['user_name'];
+                }
+            }
+        }
+        $list = [];
+        foreach ($order as &$o) {
+            $a = $o->toArray();
+            $a['name'] = isset($user_list[$a['user_id']]) ? $user_list[$a['user_id']] : '不存在的用户';
+            $list[] = $a;
+            unset($a);
+        }
+        return [
+            'list' => $list,
+            'obj' => $order,
         ];
     }
 }
