@@ -17,4 +17,36 @@ class OrderLog extends Model
     {
         return getenv('RATE');
     }
+
+    /**
+     * 充值title
+     * @param $key
+     * @return mixed
+     */
+    public static function getTitle($key)
+    {
+        $return = [
+            '0' => '用户充值',
+            '1' => '用户捐款',
+            '2' => '分享清水包',
+            '3' => '发送亲水包',
+        ];
+        return $return[$key];
+    }
+
+    /**
+     * 充值body
+     * @param $key
+     * @return mixed
+     */
+    public static function getDescribe($key)
+    {
+        $return = [
+            '0' => '用户充值',
+            '1' => '用户捐款',
+            '2' => '分享清水包',
+            '3' => '发送亲水包',
+        ];
+        return $return[$key];
+    }
 }

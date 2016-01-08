@@ -22,6 +22,15 @@ class OrderService
             ];
         }
 
+        $type = $params->get('type');
+        if (empty($type)) {
+            return [
+                'status' => false,
+                'message' => '类型不能为空!',
+                'info' => [],
+            ];
+        }
+
         /** @var \App\Model\OrderLog */
         $order_log = new OrderLog();
         $order_log->user_id = $user_id;
@@ -36,10 +45,15 @@ class OrderService
                 'info' => [],
             ];
         }
+        $order = [
+            'order_id' => $order_log->id,
+            'title' => OrderLog::getTitle($type),
+            'body' => OrderLog::getDescribe($type),
+        ];
         return [
             'status' => true,
             'message' => 'success',
-            'info' => ['order_id' => $order_log->id, 'order_info' => ''],
+            'info' => $order,
         ];
     }
 
