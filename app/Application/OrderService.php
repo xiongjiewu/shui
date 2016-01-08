@@ -24,7 +24,7 @@ class OrderService
         }
 
         $type = $params->get('type');
-        if (empty($type)) {
+        if ($type === null) {
             return [
                 'status' => false,
                 'message' => '类型不能为空!',
