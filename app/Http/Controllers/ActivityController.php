@@ -66,4 +66,84 @@ class ActivityController extends BaseController
         }
         return $this->fail($check['message']);
     }
+
+    /**
+     * 发布亲水圈视屏
+     * @param Request $request
+     * @return mixed
+     */
+    public function newCircle(Request $request)
+    {
+        $check = (new ActivityService())->newCircle($request, $this->user_id);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '发布成功！',
+                    'active_list' => [],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
+
+    /**
+     * 公益活动列表
+     * @param Request $request
+     * @return mixed
+     */
+    public function circleList(Request $request)
+    {
+        $check = (new ActivityService())->circleList($request, $this->user_id);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '发布成功！',
+                    'active_list' => [],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
+
+    /**
+     * 提交公益评论
+     * @param Request $request
+     * @return mixed
+     */
+    public function circleComment(Request $request)
+    {
+        $check = (new ActivityService())->circleComment($request, $this->user_id);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '发布成功！',
+                    'active_list' => [],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
+
+    /**
+     * 亲水圈详情
+     * @param Request $request
+     * @return mixed
+     */
+    public function circleDetail(Request $request)
+    {
+        $check = (new ActivityService())->circleDetail($request, $this->user_id);
+        if ($check['status']) {
+            return Response::json(
+                [
+                    'code' => 0,
+                    'message' => '反馈成功！',
+                    'active_list' => $check['info'],
+                ]
+            );
+        }
+        return $this->fail($check['message']);
+    }
 }

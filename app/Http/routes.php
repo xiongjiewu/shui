@@ -53,6 +53,10 @@ Route::any('/businessBankOrder', ['uses' => 'BusinessController@businessBankOrde
 Route::any('/businessBankSure', ['uses' => 'BusinessController@businessBankSure']);
 Route::any('/businessOutOrder', ['uses' => 'BusinessController@businessOutOrder']);
 Route::any('/businessOutSure', ['uses' => 'BusinessController@businessOutSure']);
+//公益圈
+Route::any('/newCircle', ['uses' => 'ActivityController@newCircle']);
+Route::any('/circleList', ['uses' => 'ActivityController@circleList']);
+
 //分享
 Route::any('/share', ['uses' => 'UserController@userShare']);
 Route::get('/get/{code}.html', ['uses' => 'ShareController@shareCode']);
