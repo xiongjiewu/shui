@@ -99,8 +99,8 @@ class ActivityController extends BaseController
             return Response::json(
                 [
                     'code' => 0,
-                    'message' => '发布成功！',
-                    'active_list' => [],
+                    'message' => '获取成功！',
+                    'active_list' => $check['info'],
                 ]
             );
         }

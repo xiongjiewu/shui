@@ -56,6 +56,8 @@ Route::any('/businessOutSure', ['uses' => 'BusinessController@businessOutSure'])
 //公益圈
 Route::any('/newCircle', ['uses' => 'ActivityController@newCircle']);
 Route::any('/circleList', ['uses' => 'ActivityController@circleList']);
+Route::any('/circleDetail', ['uses' => 'ActivityController@circleDetail']);
+Route::any('/circleComment', ['uses' => 'ActivityController@circleComment']);
 
 //分享
 Route::any('/share', ['uses' => 'UserController@userShare']);
