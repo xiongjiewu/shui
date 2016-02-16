@@ -11,8 +11,8 @@ class Activity extends Model
     const STATUS_OK = 1;
     const STATUS_NO = 2;
 
-    const _GONGYI = 1;      //来自公益
-    const _QINSHUIQUAN = 2; //来自亲水圈
+    const _GONGYI = 0;      //来自公益
+    const _QINSHUIQUAN = 1; //来自亲水圈
 
     public function scopeStatusOk($query)
     {
@@ -26,11 +26,11 @@ class Activity extends Model
 
     public function scopeGongyi($query)
     {
-        return $query->where('status', self::_GONGYI);
+        return $query->where('from', self::_GONGYI);
     }
 
     public function scopeQingshuiquan($query)
     {
-        return $query->where('status', self::_QINSHUIQUAN);
+        return $query->where('from', self::_QINSHUIQUAN);
     }
 }
