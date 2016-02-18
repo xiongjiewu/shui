@@ -545,7 +545,7 @@ class ActivityService
     public function getList()
     {
         $activity = new Activity();
-        $activities = $activity->paginate(10);
+        $activities = $activity->Gongyi()->paginate(10);
 
         $result = [];
         foreach ($activities as $activity) {
