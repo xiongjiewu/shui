@@ -71,8 +71,15 @@ class ActivityService
                 'info' => [],
             ];
         }
+        if (!$params->get('title')) {
+            return [
+                'status' => false,
+                'message' => '标题不能为空!',
+                'info' => [],
+            ];
+        }
         $activity = new Activity();
-        $activity->title = '';
+        $activity->title = $params->get('title');
         $activity->user_id = $user_id;
         $activity->desc = $params->get('content');
         $activity->from = Activity::_QINSHUIQUAN;
