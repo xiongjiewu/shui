@@ -21,14 +21,14 @@ class ActivityService
      */
     public function circleComment($params, $user_id)
     {
-        if ($params->get('activity_id')) {
+        if (!$params->get('activity_id')) {
             return [
                 'status' => false,
                 'message' => '活动ID不能为空!',
                 'info' => [],
             ];
         }
-        if ($params->get('comment')) {
+        if (!$params->get('comment')) {
             return [
                 'status' => false,
                 'message' => '评论内容不能为空!',
@@ -57,14 +57,14 @@ class ActivityService
      */
     public function newCircle($params, $user_id)
     {
-        if ($params->get('video_url')) {
+        if (!$params->get('video_url')) {
             return [
                 'status' => false,
                 'message' => '视屏编号不能为空!',
                 'info' => [],
             ];
         }
-        if ($params->get('content')) {
+        if (!$params->get('content')) {
             return [
                 'status' => false,
                 'message' => '内容不能为空!',
@@ -76,10 +76,9 @@ class ActivityService
         $activity->user_id = $user_id;
         $activity->desc = $params->get('content');
         $activity->from = Activity::_QINSHUIQUAN;
-        $activity = $activity->save();
-        if ($activity) {
+        if ($activity->save()) {
             $activity_image = new ActivityImage();
-            $activity_image->activity_id = $activity->id;
+            $activity_image->activity_id = $activity->activity_id;
             $activity_image->image_url = $params->get('video_url');
             $activity_image->type = ActivityImage::TYPE_IMAGE_IS_GIF;
             $activity_image->is_completion = ActivityImage::RELATIVE_PATH;
