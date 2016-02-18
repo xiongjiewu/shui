@@ -196,9 +196,10 @@ class ActivityService
         $count = $params->get('count') ?: 10;
         /** @var $activity \App\Model\Activity */
         $activity = new Activity();
-        $activity_result = $activity->StatusOk()->orderBy('created_at', 'desc')
+        $activity_result = $activity->StatusOk()->Gongyi()
+            ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $count)->take($count)->get()->toArray();
-        $activity_count = $activity->StatusOk()->count();
+        $activity_count = $activity->StatusOk()->Gongyi()->count();
         $next_page = ((($page - 1) * $count) >= $activity_count) ? $page : $page + 1;
         $pager = [
             'page' => $page,
