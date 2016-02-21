@@ -88,7 +88,7 @@ class ActivityService
             $activity_image->activity_id = $activity->activity_id;
             $activity_image->image_url = $params->get('video_url');
             $activity_image->type = ActivityImage::TYPE_IMAGE_IS_GIF;
-            $activity_image->is_completion = ActivityImage::RELATIVE_PATH;
+            $activity_image->is_completion = ActivityImage::COMPLETE_PATH;
             $activity_image->save();
             return [
                 'status' => true,
@@ -468,7 +468,7 @@ class ActivityService
                         'comment_name' => $user_list[$activity_comment_result_v_v->user_id]['name'],
                         'comment_image_url' => $user_list[$activity_comment_result_v_v->user_id]['image_url'],
                         'comment_date' => (String)$activity_comment_result_v_v->created_at,
-                        'comment_detail' => $activity_comment_result_v_v->comment,
+                        'comment_detail' => $activity_comment_result_v_v->content,
                     ];
                 }
             }
