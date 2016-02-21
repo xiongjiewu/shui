@@ -461,14 +461,13 @@ class ActivityService
                     'image_url' => isset($user_image_list[$user_base_result_v->user_id]) ? $user_image_list[$user_base_result_v->user_id] : ActivityImage::defaultImage(),
                 ];
             }
-
             foreach ($activity_comment_result as $activity_comment_result_v_v) {
                 if (isset($user_list[$activity_comment_result_v_v->user_id])) {
-                    $data['focus_count'][] = [
+                    $data['comment_list'][] = [
                         'comment_id' => $activity_comment_result_v_v->id,
                         'comment_name' => $user_list[$activity_comment_result_v_v->user_id]['name'],
                         'comment_image_url' => $user_list[$activity_comment_result_v_v->user_id]['image_url'],
-                        'comment_date' => $activity_comment_result_v_v->created_at,
+                        'comment_date' => (String)$activity_comment_result_v_v->created_at,
                         'comment_detail' => $activity_comment_result_v_v->comment,
                     ];
                 }
