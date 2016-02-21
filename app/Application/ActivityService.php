@@ -440,7 +440,7 @@ class ActivityService
         if (!empty($activity_comment_result)) {
             $user_ids = [];
             foreach ($activity_comment_result as $activity_comment_result_v) {
-                array_push($user_ids, $activity_comment_result_v->getUserId());
+                array_push($user_ids, $activity_comment_result_v->user_id);
             }
             $user_base = new UserBase();
             $user_base_result = $user_base->whereIn('user_id', $user_ids)->get();
