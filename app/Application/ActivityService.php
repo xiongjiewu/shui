@@ -428,7 +428,7 @@ class ActivityService
         }
         $activity_comment = new ActivityComment();
         $data['active_id'] = $params->get('circleID');
-        $data['video_url'] = ActivityImage::getImages($params->get('activeID'), ActivityImage::TYPE_IMAGE_IS_GIF);
+        $data['video_url'] = ActivityImage::getImages($params->get('circleID'), ActivityImage::TYPE_IMAGE_IS_GIF);
         $data['title'] = $activity_result->title;
         $data['content'] = $activity_result->desc;
         $data['create_time'] = (String)$activity_result->created_at;
