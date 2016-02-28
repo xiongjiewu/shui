@@ -16,7 +16,7 @@
                     {{$activity['active_id']}}
                 </td>
                 <td>
-                    <textarea disabled="disabled" cols="100" rows="4" style="BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; BORDER-RIGHT: 0px solid; BORDER-TOP: 0px solid;">{{$activity['content']}}</textarea>
+                    <textarea disabled="disabled" cols="20" rows="4" style="BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; BORDER-RIGHT: 0px solid; BORDER-TOP: 0px solid;">{{$activity['content']}}</textarea>
                 </td>
                 <td>
                     <embed src="{{$activity['image_url']}}" type="application/x-shockwave-flash"
