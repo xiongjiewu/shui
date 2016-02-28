@@ -79,6 +79,7 @@ Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => 'admin.che
     Route::get('activity/add', ['as' => 'activity.add', 'uses' => 'Admin\ActivityController@add']);
     Route::post('activity/add', ['as' => 'activity.add.submit', 'uses' => 'Admin\ActivityController@addSubmit']);
     Route::get('activity/manage', ['as' => 'activity.manage', 'uses' => 'Admin\ActivityController@manage']);
+    Route::get('water/manage', ['as' => 'water.manage', 'uses' => 'Admin\ActivityController@waterList']);
     Route::get('activity/edit/{id?}', ['as' => 'activity.edit', 'uses' => 'Admin\ActivityController@edit']);
     Route::post('activity/edit/{id?}', ['as' => 'activity.edit.submit', 'uses' => 'Admin\ActivityController@editSubmit']);
     Route::post('activity/action/status/change', ['as' => 'activity.status.change', 'uses' => 'Admin\ActivityController@statusChange']);

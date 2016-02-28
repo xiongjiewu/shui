@@ -14,6 +14,8 @@
         </li>
         <li role="presentation" @if($choose_id == 5)class="active"@endif><a href="{{route('admin::order.list')}}">用户充值流水</a>
         </li>
+        <li role="presentation" @if($choose_id == 6)class="active"@endif><a href="{{route('admin::water.manage')}}">亲水圈列表</a>
+        </li>
     </ul>
     <div style="text-align: right">
         <a href="{{route('admin::logout')}}">退出</a>

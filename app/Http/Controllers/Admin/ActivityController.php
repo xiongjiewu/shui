@@ -61,6 +61,13 @@ class ActivityController extends BaseController
         return $this->view('admin.activity.manage', ['choose_id' => 2, 'activities' => (new ActivityService())->getList()]);
     }
 
+    public function waterList()
+    {
+        $this->title = '亲水圈活动管理';
+        $this->file_js = 'Admin/activity_manage';
+        return $this->view('admin.activity.water', ['choose_id' => 6, 'activities' => (new ActivityService())->getWaterList()]);
+    }
+
     public function addSubmit(Request $request)
     {
         $title = $request->input('title');

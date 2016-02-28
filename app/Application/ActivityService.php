@@ -574,4 +574,43 @@ class ActivityService
         }
         return false;
     }
+
+    public function getWaterList()
+    {
+        /** @var $activity \App\Model\Activity */
+        $activity = new Activity();
+        $activity_result = $activity->StatusOk()->Qingshuiquan()->orderBy('created_at', 'desc')
+            ->paginate(10);
+        $list = [];
+        $activity_id_list = [];
+        foreach ($activity_result->toArray()['data'] as $activity_result_v) {
+            array_push($activity_id_list, $activity_result_v['activity_id']);
+            $list[] = [
+                'active_id' => $activity_result_v['activity_id'],
+                'content' => $activity_result_v['desc'],
+                'create_time' => $activity_result_v['created_at'],
+                'support' => $activity_result_v['focus_count'],
+                'image_url' => ActivityImage::defaultImage(),
+            ];
+        }
+        //获得关注信息
+        //获得图片
+        $activity_image_result = ActivityImage::whereIn('activity_id', $activity_id_list)->GIF()
+            ->get();
+        $activity_image_info = [];
+        if (!empty($activity_image_result)) {
+            foreach ($activity_image_result as $activity_image_result_v) {
+                $activity_image_info[$activity_image_result_v->activity_id] = $activity_image_result_v->path();
+            }
+        }
+        foreach ($list as &$v) {
+            if (isset($activity_image_info[$v['active_id']])) {
+                $v['image_url'] = $activity_image_info[$v['active_id']];
+            }
+        }
+        return [
+            'list' => $list,
+            'obj' => $activity_result
+        ];
+    }
 }
