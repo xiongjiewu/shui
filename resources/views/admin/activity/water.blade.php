@@ -16,10 +16,12 @@
                     {{$activity['active_id']}}
                 </td>
                 <td>
-                    {{$activity['content']}}
+                    <textarea>{{$activity['content']}}</textarea>
                 </td>
                 <td>
-                    <embed src="{{$activity['image_url']}}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="250" height="100" loop="true" autostart="true"></embed>
+                    <embed src="{{$activity['image_url']}}" type="application/x-shockwave-flash"
+                           allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="250" height="100"
+                           loop="true" autostart="true"></embed>
                 </td>
                 <td>
                     {{$activity['support']}}
