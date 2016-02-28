@@ -22,10 +22,12 @@
                     {{$activity['title']}}
                 </td>
                 <td>
-                    <textarea disabled="disabled" cols="20" rows="4" style="BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; BORDER-RIGHT: 0px solid; BORDER-TOP: 0px solid;">{{$activity['desc']}}</textarea>
+                    <textarea disabled="disabled" cols="30" rows="5"
+                              style="border-bottom: 0px solid; border-left: 0px solid; border-right: 0px solid; border-top: 0px solid;">{{$activity['desc']}}</textarea>
                 </td>
                 <td>
-                    <textarea disabled="disabled" cols="20" rows="4" style="BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; BORDER-RIGHT: 0px solid; BORDER-TOP: 0px solid;">{{$activity['statement']}}</textarea>
+                    <textarea disabled="disabled" cols="30" rows="5"
+                              style="border-bottom: 0px solid; border-left: 0px solid; border-right: 0px solid; border-top: 0px solid;">{{$activity['statement']}}</textarea>
                 </td>
                 <td>
                     {{$activity['url']}}
