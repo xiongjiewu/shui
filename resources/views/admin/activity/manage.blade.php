@@ -22,10 +22,10 @@
                     {{$activity['title']}}
                 </td>
                 <td>
-                    <textarea>{{$activity['desc']}}</textarea>
+                    <textarea disabled="disabled">{{$activity['desc']}}</textarea>
                 </td>
                 <td>
-                    <textarea>{{$activity['statement']}}</textarea>
+                    <textarea disabled="disabled">{{$activity['statement']}}</textarea>
                 </td>
                 <td>
                     {{$activity['url']}}
