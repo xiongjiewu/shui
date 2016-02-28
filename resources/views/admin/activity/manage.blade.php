@@ -25,7 +25,7 @@
                     <textarea>{{$activity['desc']}}</textarea>
                 </td>
                 <td>
-                    {{$activity['statement']}}
+                    <textarea>{{$activity['statement']}}</textarea>
                 </td>
                 <td>
                     {{$activity['url']}}
