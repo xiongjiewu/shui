@@ -82,6 +82,7 @@ class ActivityService
         $activity->title = $params->get('title');
         $activity->user_id = $user_id;
         $activity->desc = $params->get('content');
+        $activity->address = $params->get('address') ?: '';
         $activity->from = Activity::_QINSHUIQUAN;
         if ($activity->save()) {
             $activity_image = new ActivityImage();
@@ -230,6 +231,7 @@ class ActivityService
                 'active_id' => $activity_result_v['activity_id'],
                 'title' => $activity_result_v['title'],
                 'content' => $activity_result_v['desc'],
+                'address' => $activity_result_v['address'],
                 'create_time' => $activity_result_v['created_at'],
                 'is_focus' => UserFocus::IS_ACTIVE_FALSE,
                 'support' => $activity_result_v['focus_count'],
@@ -309,6 +311,7 @@ class ActivityService
                 'active_id' => $activity_result_v['activity_id'],
                 'title' => $activity_result_v['title'],
                 'content' => $activity_result_v['desc'],
+                'address' => $activity_result_v['address'],
                 'create_time' => $activity_result_v['created_at'],
                 'is_focus' => UserFocus::IS_ACTIVE_FALSE,
                 'support' => $activity_result_v['focus_count'],
@@ -379,6 +382,7 @@ class ActivityService
         $data['active_id'] = $params->get('activeID');
         $data['title'] = $activity_result->title;
         $data['content'] = $activity_result->desc;
+        $data['address'] = $activity_result->address;
         $data['create_time'] = (String)$activity_result->created_at;
         $data['is_focus'] = UserFocus::userIsFocus($params->get('activeID'), $user_id);
         $data['support'] = $activity_result->focus_count;
@@ -431,6 +435,7 @@ class ActivityService
         $data['video_url'] = ActivityImage::getImages($params->get('circleID'), ActivityImage::TYPE_IMAGE_IS_GIF);
         $data['title'] = $activity_result->title;
         $data['content'] = $activity_result->desc;
+        $data['address'] = $activity_result->address;
         $data['create_time'] = (String)$activity_result->created_at;
         $data['is_focus'] = UserFocus::userIsFocus($params->get('circleID'), $user_id);
         $data['support_count'] = $activity_result->focus_count;
