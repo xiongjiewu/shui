@@ -340,20 +340,20 @@ class ActivityService
             }
         }
         //获得图片
-        $activity_image_result = ActivityImage::whereIn('activity_id', $activity_id_list)->GIF()
+        $activity_video_result = ActivityImage::whereIn('activity_id', $activity_id_list)->GIF()
             ->get();
-        $activity_image_info = [];
-        if (!empty($activity_image_result)) {
-            foreach ($activity_image_result as $activity_image_result_v) {
-                $activity_image_info[$activity_image_result_v->activity_id] = $activity_image_result_v->path();
+        $activity_video_info = [];
+        if (!empty($activity_video_result)) {
+            foreach ($activity_video_result as $activity_video_result_v) {
+                $activity_video_info[$activity_video_result_v->activity_id] = $activity_video_result_v->path();
             }
         }
         foreach ($list as &$v) {
             if (in_array($v['active_id'], $activity_id_is_true)) {
                 $v['is_focus'] = UserFocus::IS_ACTIVE_TRUE;
             }
-            if (isset($activity_image_info[$v['active_id']])) {
-                $v['image_url'] = $activity_image_info[$v['active_id']];
+            if (isset($activity_video_info[$v['active_id']])) {
+                $v['video_url'] = $activity_video_info[$v['active_id']];
             }
         }
 
